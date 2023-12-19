@@ -1,97 +1,54 @@
 // Import necessary components and styles
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import Colors from "@/constants/Colors";
-
-
-// Define your categories array
-const categories = [
-  {
-    name: "Tiny homes",
-    icon: "home",
-  },
-  {
-    name: "Cabins",
-    icon: "house-siding",
-  },
-  {
-    name: "Trending",
-    icon: "local-fire-department",
-  },
-  {
-    name: "Play",
-    icon: "videogame-asset",
-  },
-  {
-    name: "City",
-    icon: "",
-  },
-];
+import CustomButton from "@/components/global/ui/Button";
 
 // Create your ExploreHeader component
 const ExploreHeader = () => {
-  const data = [
-    {
-      key: 1,
-      value: 30,
-      svg: { fill: "red" },
-    },
-    {
-      key: 2,
-      value: 70,
-      svg: { fill: "transparent" },
-    },
-  ];
   return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        {/* Doughnut Pie Chart */}
-        <View style={styles.chartContainer}>
-          {/* <PieChart style={{ height: 200 }} data={data} /> */}
+    <View className="w-full mt-5 flex flex-col justify-center items-center ">
+      <View className="w-[340px] h-52 bg-black rounded-3xl flex justify-center items-center ">
+        <View className="rounded-full border-[13px] border-white w-32 h-32 flex justify-center items-center ">
+          <Text className="text-white text-2xl font-medium">20%</Text>
+          <Text className="text-white text-xs font-medium">Free Spaces</Text>
         </View>
-
-        {/* Bottom Row with Total Space, Booked, and Open Space */}
-        <View style={styles.bottomRow}>
-          <Text style={styles.label}>Total Space: 100</Text>
-          <Text style={styles.label}>Booked: 30</Text>
-          <Text style={styles.label}>Open Space: 70</Text>
+        <View className="flex flex-row space-x-4 justify-between items-center mt-3">
+          <View className="flex flex-col justify-center items-center">
+            <Text className="text-white text-sm">Total Space</Text>
+            <View className="flex flex-row space-x-2 items-center pt-1">
+              <View className="w-4 h-4 rounded-full bg-primary"></View>
+              <Text className="text-white font-bold text-sm ">50</Text>
+            </View>
+          </View>
+          <View className="flex flex-col justify-center items-center">
+            <Text className="text-white text-sm ">Booked Space</Text>
+            <View className="flex flex-row space-x-2 items-center pt-1">
+              <View className="w-4 h-4 rounded-full bg-secondary"></View>
+              <Text className="text-white text-sm font-bold">30</Text>
+            </View>
+          </View>
+          <View className="flex flex-col justify-center items-center">
+            <Text className="text-white text-sm">Request Space</Text>
+            <View className="flex flex-row space-x-2 items-center pt-1">
+              <View className="w-4 h-4 rounded-full bg-tertiary"></View>
+              <Text className="text-white">50</Text>
+            </View>
+          </View>
         </View>
       </View>
+     
+      <View className="flex flex-row justify-between py-2">
+        <CustomButton
+          text="Create New Spaces"
+          size={320}
+          bg={Colors.akcent}
+          onPress={() => Alert.alert("Reject")}
+        />
+      </View>
+     
     </View>
   );
 };
-
-// Define your styles
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#7E0808",
-    flex: 1,
-  },
-  card: {
-    backgroundColor: 'black',
-    color: 'white',
-    borderRadius: 18,
-    padding: 15,
-    margin: 10,
-    height: 120,
-  },
-  chartContainer: {
-    alignItems: 'center',
-  },
-  bottomRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
-  label: {
-    color: 'white',
-  },
-});
-
 // Export your component
 export default ExploreHeader;
