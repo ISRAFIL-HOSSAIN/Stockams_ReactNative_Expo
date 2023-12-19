@@ -1,11 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import CommonLayout from '@/components/layout/CommonLayout'
 
 const Page = () => {
   return (
-    <View className='mt-20'>
-      <Text>Profile Info </Text>
-    </View>
+    <CommonLayout>
+      <View>
+         <Text>Profile Info </Text>
+      </View>
+
+    </CommonLayout>
   )
 }
 
