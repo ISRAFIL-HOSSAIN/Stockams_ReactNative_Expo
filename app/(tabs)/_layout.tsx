@@ -38,7 +38,7 @@ const Layout = () => {
           ),
           headerRight: () => (
             <>
-              <Link href="/modal" asChild>
+              {/* <Link href="/modal" asChild>
                 <Pressable>
                   {({ pressed }) => (
                     <FontAwesome
@@ -49,8 +49,8 @@ const Layout = () => {
                     />
                   )}
                 </Pressable>
-              </Link>
-              <Link href="/modal" asChild>
+              </Link> */}
+              {/* <Link href="/modal" asChild>
                 <Pressable>
                   {({ pressed }) => (
                     <FontAwesome
@@ -61,7 +61,7 @@ const Layout = () => {
                     />
                   )}
                 </Pressable>
-              </Link>
+              </Link> */}
             </>
           ),
         }}

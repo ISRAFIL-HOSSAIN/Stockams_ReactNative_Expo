@@ -91,7 +91,11 @@ function RootLayoutNav() {
           
         }}
       />
+
+      {/* models  */}
       <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+      
+      {/* Login Route  */}
       <Stack.Screen
         name="(modals)/login"
         options={{
@@ -107,6 +111,14 @@ function RootLayoutNav() {
           ),
         }}
       />
+      {/* profile  */}
+      <Stack.Screen name="(modals)/profileInfo" options={{ headerTitle: "" }} />
+      <Stack.Screen name="(modals)/changePassword" options={{ headerTitle: "" }} />
+      <Stack.Screen name="(modals)/managePayment" options={{ headerTitle: "" }} />
+
+
+
+
       <Stack.Screen name="listing/[id]" options={{ headerTitle: "" }} />
       <Stack.Screen
         name="(modals)/booking"
@@ -120,6 +132,8 @@ function RootLayoutNav() {
           ),
         }}
       />
+
+      
     </Stack>
   );
 }

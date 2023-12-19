@@ -18,6 +18,7 @@ const Page = () => {
       {/* <Link href={'/(modals)/login'}>Login</Link>
       <Link href={'/(modals)/booking'}>Booking</Link>
       <Link href={'/listing/120'}>Listing details</Link> */}
+      
       <ScrollView className="">
         <View style={styles.container}>
           <View className=" shadow-lg shadow-gray-600  rounded-xl w-full bg-white flex justify-center flex-col p-4">

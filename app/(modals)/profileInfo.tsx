@@ -3,8 +3,8 @@ import React from 'react'
 
 const Page = () => {
   return (
-    <View>
-      <Text>Page</Text>
+    <View className='mt-20'>
+      <Text>Profile Info </Text>
     </View>
   )
 }
