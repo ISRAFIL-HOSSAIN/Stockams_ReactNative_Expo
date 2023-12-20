@@ -101,6 +101,7 @@ const Layout = () => {
           tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
             <Octicons name="person" size={18} color={color} />
+        
           ),
         }}
       />

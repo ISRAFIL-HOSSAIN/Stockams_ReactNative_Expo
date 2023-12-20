@@ -6,8 +6,10 @@ const CommonLayout = ({ children }: { children: any }) => {
 };
 const styles = StyleSheet.create({
   container: {
-    width: Dimensions.get("window").width * 0.97,
+    height:"100%",
+    width: Dimensions.get("window").width * 1,
     //height:Dimensions.get('window').height,
+   backgroundColor:"white",
     padding: 5,
     marginTop: 40,
   },
