@@ -18,7 +18,7 @@ const RentalsHeader = ({tab,setTab}:{tab:any,setTab:any}) => {
             <View
               className={` ${
                 tab === "all" ? "bg-tertiary" : "bg-white"
-              } border-l border-t border-b rounded-l-md p-1 py-2 border-gray-300 `}
+              } border-l border-t border-b rounded-l-md px-2 py-3 border-gray-300 `}
             >
               <Text>All Spaces</Text>
             </View>
@@ -31,7 +31,7 @@ const RentalsHeader = ({tab,setTab}:{tab:any,setTab:any}) => {
             <View
               className={` ${
                 tab === "booked" ? "bg-tertiary" : "bg-white"
-              } border-r border-t border-b rounded-r-md p-1 py-2 border-gray-300 `}
+              } border-r border-t border-b rounded-r-md px-2 py-3 border-gray-300 `}
             >
               <Text>Booked Spaces</Text>
             </View>
