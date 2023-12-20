@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, Alert } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import CustomButton from "./ui/Button";
 import Colors from "@/constants/Colors";
@@ -14,7 +14,7 @@ const StoreCard = ({ data }: any) => {
         />
       </View>
       <View className="w-32 h-[37px] p-2 right-5 top-8 absolute bg-white rounded-lg justify-between flex flex-row items-center ">
-        <FontAwesome name="star-o" size={20} color="orange" />
+        <AntDesign name="staro" size={18} color="orange" />
         <Text className="text-md font-medium">4.8</Text>
         <Text className="text-[10px] text-gray-400">345 reviews</Text>
       </View>
