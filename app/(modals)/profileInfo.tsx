@@ -1,15 +1,18 @@
-import { StyleSheet, Text, View, Image, BackHandler } from "react-native";
+import { StyleSheet, Text, View, Image, BackHandler, Alert } from "react-native";
 import React from "react";
 import CommonLayout from "@/components/layout/CommonLayout";
 import { ScrollView } from "react-native-gesture-handler";
 import BackHeader from "@/components/global/header/BackHeader";
 import { Stack } from "expo-router";
+import CustomInput from "@/components/global/ui/CommonInput";
+import CustomButton from "@/components/global/ui/Button";
+import Colors from "@/constants/Colors";
 
 const Page = () => {
   return (
     <CommonLayout>
-      <BackHeader Headertext="Back" />
-      <View className="flex-col h-[528px] m-3 shadow-lg shadow-gray-400 bg-white rounded-xl ">
+      <BackHeader Headertext="Back to" />
+      <View className="flex-col h-[550px] m-3 shadow-lg shadow-gray-400 bg-white rounded-xl ">
         <View className="p-3 mt-1 ml-2 mb-2">
           <Text className=" text-[18px] font-medium">Personal Information</Text>
         </View>
@@ -24,6 +27,15 @@ const Page = () => {
               source={require("../../assets/images/profile_edit.png")}
             />
           </View>
+        </View>
+        <View>
+        <CustomInput type="text" label="Name" PlaceHolder="Israfil Hossain"/>
+        <CustomInput type="email" label="Email" PlaceHolder="example@gmail.com"/>
+        <CustomInput type="text" label="Address" PlaceHolder="USA"/>
+        </View>
+        <View className="flex flex-row justify-between py-2 mx-3 my-4 ">
+          <CustomButton  text="Reject" size={140} bg={Colors.white} onPress={() => Alert.alert('Reject')}/>
+          <CustomButton bg={Colors.primary} size={140} text="Save Changes" onPress={()=> Alert.alert('Button clicked')}/>
         </View>
       </View>
     </CommonLayout>
