@@ -22,7 +22,7 @@ const Page = () => {
       {/* <Link href={'/(modals)/login'}>Login</Link>
       <Link href={'/(modals)/booking'}>Booking</Link>
       <Link href={'/listing/120'}>Listing details</Link> */}
-      <CommonLoader />
+      {/* <CommonLoader /> */}
       <ScrollView className="">
         <View style={styles.container}>
           <View className="justify-center items-center  ">

@@ -1,18 +1,24 @@
-import { StyleSheet, Text, View,Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image } from "react-native";
+import React from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useRouter } from "expo-router";
 
-const BackHeader: React.FC<any> =({ Headertext }) => {
+const BackHeader: React.FC<any> = ({ Headertext }) => {
+  const router = useRouter();
   return (
-    <View className='flex-row items-center space-x-2 bg-white'>
-    <Image
-      className="w-[30px] h-[30px]"
-      source={require("../../../assets/images/back.png")}
-    />
-     <Text className='font-semibold text-[14px]'>{Headertext}</Text>
-  </View>
-  )
-}
+    <View className="flex-row items-center space-x-2 bg-white ml-2 ">
+      <TouchableOpacity onPress={() => router.back()}>
+        <Ionicons
+          name="ios-arrow-back-circle-outline"
+          size={26}
+          color="#808080"
+        />
+      </TouchableOpacity>
 
-export default BackHeader
+      <Text className="font-semibold  text-[14px]">{Headertext}</Text>
+    </View>
+  );
+};
 
-const styles = StyleSheet.create({})
+export default BackHeader;

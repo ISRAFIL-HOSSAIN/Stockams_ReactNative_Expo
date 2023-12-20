@@ -5,6 +5,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 import Colors from "@/constants/Colors";
 import CustomButton from "@/components/global/ui/Button";
+import HorizontalProgress from "@/components/global/progress/HorizontalProgress";
 const BookedCard = ({ data }: any) => {
   return (
     <View className="w-[342px] h-[350px] shadow-lg shadow-gray-400 bg-white border-primary border  rounded-xl mt-5 relative flex justify-center items-center">
@@ -91,6 +92,9 @@ const BookedCard = ({ data }: any) => {
             <Text className="text-slate-800 text-[14px] font-bold">
               12 Mar 2023
             </Text>
+          </View>
+          <View>
+            <HorizontalProgress  />
           </View>
         </View>
       </View>
