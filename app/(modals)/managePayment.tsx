@@ -6,7 +6,7 @@ import BackHeader from '@/components/global/header/BackHeader';
 const Page = () => {
   return (
     <CommonLayout>
-      <BackHeader Headertext="Back" />
+      <BackHeader Headertext="Back to Profile" />
     </CommonLayout>
   )
 }

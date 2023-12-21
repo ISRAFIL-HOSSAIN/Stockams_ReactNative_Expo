@@ -1,81 +1,151 @@
-import React, { FC, useState } from 'react';
-import { View, TextInput, Picker, DatePickerAndroid, CheckBox, PickerProps, TextInputProps } from 'react-native';
+import React, { useState } from 'react';
+import { 
+  StyleSheet, 
+  View, 
+  TextInput, 
+  Text, 
+  // CheckBox, 
+  // Picker 
 
-interface CommonInputProps extends TextInputProps, PickerProps {
-  type: 'text' | 'dropdown' | 'checkbox' | 'datepicker' | 'number';
-  options?: { label: string; value: string }[];
+} from 'react-native';
+
+interface CustomInputProps {
+  type: 'text' | 'email' | 'password' | 'checkbox' | 'dropdown';
+  label: string;
+  options?: string[]; // optional for select/dropdown
+  checked?: boolean; // optional for checkbox
+  selectedOption?: string; // optional for dropdown
+  PlaceHolder:string;
+  onChangeText?: (text: string) => void; // optional
+  onValueChange?: (value: string) => void; // optional
 }
 
-const CommonInput: FC<CommonInputProps> = ({ type, options, ...props }) => {
-  if (type === 'text') {
-    return (
-      <View>
-        <TextInput {...props} />
-      </View>
-    );
-  } else if (type === 'dropdown') {
-    return (
-      <View>
-        <Picker {...props}>
-          {options?.map((option, index) => (
-            <Picker.Item key={index} label={option.label} value={option.value} />
-          ))}
-        </Picker>
-      </View>
-    );
-  } else if (type === 'checkbox') {
-    return (
-      <View>
-        <CheckBox {...props} />
-      </View>
-    );
-  } else if (type === 'datepicker') {
-    // You may need to handle date picker logic based on your platform (iOS/Android)
-    // For simplicity, this example uses DatePickerAndroid for Android
-    const [selectedDate, setSelectedDate] = useState(new Date());
+const CustomInput: React.FC<CustomInputProps> = ({
+  type,
+  label,
+  options,
+  checked,
+  selectedOption,
+  onChangeText,
+  onValueChange,
+  PlaceHolder,
+  
+}) => {
+  const [value, setValue] = useState('');
 
-    const showDatePicker = async () => {
-      try {
-        const { action, year, month, day } = await DatePickerAndroid.open({
-          date: selectedDate,
-        });
+  const handleChange = (text: string) => {
+    setValue(text);
+    onChangeText?.(text);
+  };
 
-        if (action !== DatePickerAndroid.dismissedAction) {
-          const selected = new Date(year, month, day);
-          setSelectedDate(selected);
-          props.onDateChange && props.onDateChange(selected);
-        }
-      } catch ({ code, message }) {
-        console.warn('Cannot open date picker', message);
-      }
-    };
+  const handleOptionChange = (value: string) => {
+    setValue(value);
+    onValueChange?.(value);
+  };
 
-    return (
-      <View>
-        <TextInput
-          {...props}
-          onFocus={showDatePicker}
-          value={selectedDate.toDateString()} // You can format the date as needed
-          editable={false}
-        />
-      </View>
-    );
-  } else if (type === 'number') {
-    return (
-      <View>
-        <TextInput {...props} keyboardType="numeric" />
-      </View>
-    );
+  switch (type) {
+    case 'text':
+      return (
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>{label}</Text>
+          <TextInput
+            style={styles.input}
+            value={value}
+            onChangeText={handleChange}
+            placeholder={PlaceHolder}
+          />
+        </View>
+      );
+    case 'email':
+      return (
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>{label}</Text>
+          <TextInput
+            style={styles.input}
+            value={value}
+            onChangeText={handleChange}
+            keyboardType="email-address"
+            placeholder={PlaceHolder}
+          />
+        </View>
+      );
+    case 'password':
+      return (
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>{label}</Text>
+          <TextInput
+            style={styles.input}
+            value={value}
+            onChangeText={handleChange}
+            secureTextEntry
+            placeholder={PlaceHolder}
+          />
+        </View>
+      );
+    // case 'checkbox':
+    //   return (
+    //     <View>
+    //       <Text style={styles.label}>{label}</Text>
+    //       <CheckBox
+    //         style={styles.checkbox}
+    //         value={checked}
+    //         onValueChange={onValueChange}
+              //  placeholder={PlaceHolder}
+    //       />
+    //     </View>
+    //   );
+    // case 'dropdown':
+    //   return (
+    //     <View style={styles.inputContainer}>
+    //       <Text style={styles.label}>{label}</Text>
+    //       <Picker
+    //         selectedValue={selectedOption}
+    //         onValueChange={handleOptionChange}
+    //         style={styles.dropdown}
+    //       >
+    //         {options &&
+    //           options.map((option) => (
+    //             <Picker.Item key={option} label={option} value={option} />
+    //           ))}
+    //       </Picker>
+    //     </View>
+    //   );
+    default:
+      return null;
   }
-
-  // Handle other types or provide a default
-  return (
-    <View>
-      <TextInput {...props} />
-    </View>
-  );
 };
 
+const styles = StyleSheet.create({
+  inputContainer: {
+  },
+  label: {
+    fontSize: 13,
+    color: '#2D2D2A',
+    marginLeft:10,
+    marginTop:10,
+    fontWeight:'500'
+  },
+  input: {
+    padding: 8,
+    borderRadius: 12,
+    backgroundColor: '#E7E9E2',
+    marginLeft:10,
+    marginRight:10,
+    marginTop:5,
 
+  },
+  textInputInput: {
+    // Custom styles for text/email input
+  },
+  passwordInput: {
+    // Custom styles for password input
+  },
+  checkbox: {
+    marginLeft: 10,
+  },
+  dropdown: {
+    width: '80%',
+  },
+});
 
-export default CommonInput;
+export default CustomInput;
