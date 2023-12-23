@@ -119,7 +119,10 @@ function RootLayoutNav() {
       {/* profile  */}
       <Stack.Screen name="(modals)/profileInfo" options={{ headerTitle: "" }} />
       <Stack.Screen name="(modals)/changePassword" options={{ headerTitle: "" }} />
+      <Stack.Screen name="(modals)/favouritePage" options={{ headerTitle: "" }} />
       <Stack.Screen name="(modals)/managePayment" options={{ headerTitle: "" }} />
+      <Stack.Screen name="(modals)/termsAndConditions" options={{ headerTitle: "" }} />
+      <Stack.Screen name="(modals)/privacyPolicy" options={{ headerTitle: "" }} />
 
 
 

@@ -7,13 +7,14 @@ interface CustomButtonProps extends TouchableOpacityProps {
   bg?: string;
   size: number;
   text: string;
+  height?:number;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ bg, size, text, onPress, ...otherProps }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ bg, size,height, text, onPress, ...otherProps }) => {
   const buttonStyle: StyleProp<ViewStyle> = {
     backgroundColor: bg,
     width: size,
-    height: 40,
+    height: height ? height : 40,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: Colors.primary,
