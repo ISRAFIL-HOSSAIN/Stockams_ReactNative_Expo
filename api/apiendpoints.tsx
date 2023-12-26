@@ -1,4 +1,4 @@
-export const API ={
+export const APIENDPOINTS ={
     // Authentication 
     SignUp : '/Auth/Signup', //post 
     Login : '/Auth/SignIn', //post 

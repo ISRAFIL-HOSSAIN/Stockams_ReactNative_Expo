@@ -11,10 +11,10 @@ export const API = axios.create({
     }
 })
 
-export const FAPI = axios.create({
-    baseURL : baseUrl.information, 
-    headers:{
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${("token")}`,
-    }
-})
+// export const FAPI = axios.create({
+//     baseURL : baseUrl.information, 
+//     headers:{
+//         'Content-Type': 'multipart/form-data',
+//         Authorization: `Bearer ${("token")}`,
+//     }
+// })

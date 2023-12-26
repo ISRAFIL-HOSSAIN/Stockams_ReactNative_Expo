@@ -1,3 +1,4 @@
+import { Picker } from '@react-native-picker/picker';
 import React, { useState } from 'react';
 import { 
   StyleSheet, 
@@ -8,6 +9,8 @@ import {
   // Picker 
 
 } from 'react-native';
+
+
 
 interface CustomInputProps {
   type: 'text' | 'email' | 'password' | 'checkbox' | 'dropdown';
@@ -94,22 +97,22 @@ const CustomInput: React.FC<CustomInputProps> = ({
     //       />
     //     </View>
     //   );
-    // case 'dropdown':
-    //   return (
-    //     <View style={styles.inputContainer}>
-    //       <Text style={styles.label}>{label}</Text>
-    //       <Picker
-    //         selectedValue={selectedOption}
-    //         onValueChange={handleOptionChange}
-    //         style={styles.dropdown}
-    //       >
-    //         {options &&
-    //           options.map((option) => (
-    //             <Picker.Item key={option} label={option} value={option} />
-    //           ))}
-    //       </Picker>
-    //     </View>
-    //   );
+    case 'dropdown':
+      return (
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>{label}</Text>
+          <Picker
+            selectedValue={selectedOption}
+            onValueChange={handleOptionChange}
+            style={styles.dropdown}
+          >
+            {options &&
+              options.map((option) => (
+                <Picker.Item key={option} label={option} value={option} />
+              ))}
+          </Picker>
+        </View>
+      );
     default:
       return null;
   }
@@ -117,9 +120,12 @@ const CustomInput: React.FC<CustomInputProps> = ({
 
 const styles = StyleSheet.create({
   inputContainer: {
+    padding:5,
+    width:"100%",
+
   },
   label: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#2D2D2A',
     marginLeft:10,
     marginTop:10,
@@ -144,7 +150,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   dropdown: {
-    width: '80%',
+    backgroundColor: '#E7E9E2',
+    borderRadius: 20,
+    marginLeft:10,
+    marginRight:10,
+    marginTop:5,
+
   },
 });
 

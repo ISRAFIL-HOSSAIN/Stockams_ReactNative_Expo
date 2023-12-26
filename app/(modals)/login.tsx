@@ -1,11 +1,13 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import CommonLayout from '@/components/layout/CommonLayout'
 
 const Page = () => {
   return (
-    <View>
-      <Text>Page</Text>
-    </View>
+    <CommonLayout>
+      <View></View>
+
+    </CommonLayout>
   )
 }
 
