@@ -115,7 +115,8 @@ function RootLayoutNav() {
       <Stack.Screen name="(modals)/managePayment" options={{ headerTitle: "" }} />
       <Stack.Screen name="(modals)/termsAndConditions" options={{ headerTitle: "" }} />
       <Stack.Screen name="(modals)/privacyPolicy" options={{ headerTitle: "" }} />
-
+      <Stack.Screen name="(modals)/logIn" options={{ headerTitle: "" }} />
+      <Stack.Screen name="(modals)/signUp" options={{ headerTitle: "" }} />
 
 
 
