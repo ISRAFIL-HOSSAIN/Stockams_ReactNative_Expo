@@ -1,3 +1,4 @@
+import React from 'react';
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack, useRouter } from "expo-router";
@@ -7,6 +8,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { Ionicons } from "@expo/vector-icons";
 import MainHeader from "@/components/global/header/MainHeader";
+import AuthUserProvider from '@/context/AuthUserProvider';
+import { QueryClientProvider } from '@tanstack/react-query';
+import APIQueryClient from '@/api/APIQueryClient';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -61,6 +65,8 @@ function RootLayoutNav() {
   // const { isLoaded, isSignedIn } = useAuth();
 
   return (
+    <QueryClientProvider client={APIQueryClient}>
+    <AuthUserProvider>
     <Stack
       screenOptions={{
         header: () => <MainHeader />,
@@ -129,5 +135,7 @@ function RootLayoutNav() {
 
       
     </Stack>
+    </AuthUserProvider>
+    </QueryClientProvider>
   );
 }
