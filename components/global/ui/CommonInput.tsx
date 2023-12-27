@@ -3,14 +3,13 @@ import {
   StyleSheet, 
   View, 
   TextInput, 
-  Text, 
-  // CheckBox, 
+  Text,  
   // Picker 
 
 } from 'react-native';
 
 interface CustomInputProps {
-  type: 'text' | 'email' | 'password' | 'checkbox' | 'dropdown';
+  type: 'text' | 'email' | 'password' | 'checkbox' | 'dropdown'| 'number';
   label: string;
   options?: string[]; // optional for select/dropdown
   checked?: boolean; // optional for checkbox
@@ -56,6 +55,19 @@ const CustomInput: React.FC<CustomInputProps> = ({
           />
         </View>
       );
+      case 'number':
+        return (
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>{label}</Text>
+            <TextInput
+              style={styles.input}
+              value={value}
+              onChangeText={handleChange}
+              placeholder={PlaceHolder}
+              keyboardType='numeric'
+            />
+          </View>
+        );
     case 'email':
       return (
         <View style={styles.inputContainer}>
@@ -90,7 +102,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
     //         style={styles.checkbox}
     //         value={checked}
     //         onValueChange={onValueChange}
-              //  placeholder={PlaceHolder}
+    //            placeholder={PlaceHolder}
     //       />
     //     </View>
     //   );
