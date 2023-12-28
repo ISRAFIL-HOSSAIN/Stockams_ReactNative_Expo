@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack, useRouter } from "expo-router";
@@ -8,9 +8,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { Ionicons } from "@expo/vector-icons";
 import MainHeader from "@/components/global/header/MainHeader";
-import AuthUserProvider from '@/context/AuthUserProvider';
-import { QueryClientProvider } from '@tanstack/react-query';
-import APIQueryClient from '@/api/APIQueryClient';
+import AuthUserProvider from "@/context/AuthUserProvider";
+import { QueryClientProvider } from "@tanstack/react-query";
+import APIQueryClient from "@/api/APIQueryClient";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -66,77 +66,86 @@ function RootLayoutNav() {
 
   return (
     <QueryClientProvider client={APIQueryClient}>
-    <AuthUserProvider>
-    <Stack
-      screenOptions={{
-        header: () => <MainHeader />,
-      }}
-    >
-      <Stack.Screen 
-        name="index" 
-        options={{title: 'Login'}} 
-      />
-      
-      <Stack.Screen
-        name="(tabs)"
-        options={{}}
-      />
+      <AuthUserProvider>
+        <Stack
+          screenOptions={{
+            header: () => <MainHeader />,
+          }}
+        >
+          <Stack.Screen name="index" options={{ title: "Login" }} />
 
-      {/* models  */}
-      <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      
-      
-      
-      {/* Login Route  */}
-      <Stack.Screen
-        name="(modals)/login"
-        options={{
-          presentation: "modal",
-          title: "Log in or Signup",
-          headerTitleStyle: {
-            fontFamily: "mon-sb",
-          },
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Ionicons name="close-outline" size={24} color="black" />
-            </TouchableOpacity>
-          ),
-        }}
-      />
+          <Stack.Screen name="(tabs)" options={{}} />
 
-      {/* admin  */}
-        {/* create new space  */}
-        <Stack.Screen name="(admin)/createNewspace" options={{ headerTitle: "" }} />
+          {/* models  */}
+          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
 
-      {/* profile  */}
-      <Stack.Screen name="(modals)/profileInfo" options={{ headerTitle: "" }} />
-      <Stack.Screen name="(modals)/changePassword" options={{ headerTitle: "" }} />
-      <Stack.Screen name="(modals)/favouritePage" options={{ headerTitle: "" }} />
-      <Stack.Screen name="(modals)/managePayment" options={{ headerTitle: "" }} />
-      <Stack.Screen name="(modals)/termsAndConditions" options={{ headerTitle: "" }} />
-      <Stack.Screen name="(modals)/privacyPolicy" options={{ headerTitle: "" }} />
-      <Stack.Screen name="(modals)/logIn" options={{ headerTitle: "" }} />
-      <Stack.Screen name="(modals)/signUp" options={{ headerTitle: "" }} />
+          {/* Login Route  */}
+          <Stack.Screen
+            name="(modals)/login"
+            options={{
+              presentation: "modal",
+              title: "Log in or Signup",
+              headerTitleStyle: {
+                fontFamily: "mon-sb",
+              },
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => router.back()}>
+                  <Ionicons name="close-outline" size={24} color="black" />
+                </TouchableOpacity>
+              ),
+            }}
+          />
 
+          {/* admin  */}
+          {/* create new space  */}
+          <Stack.Screen
+            name="(admin)/createNewspace"
+            options={{ headerTitle: "" }}
+          />
 
+          {/* profile  */}
+          <Stack.Screen
+            name="(modals)/profileInfo"
+            options={{ headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="(modals)/changePassword"
+            options={{ headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="(modals)/favouritePage"
+            options={{ headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="(modals)/managePayment"
+            options={{ headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="(modals)/termsAndConditions"
+            options={{ headerTitle: "" }}
+          />
+          <Stack.Screen
+            name="(modals)/privacyPolicy"
+            options={{ headerTitle: "" }}
+          />
+          <Stack.Screen name="(modals)/logIn" options={{ headerTitle: "" }} />
+          <Stack.Screen name="(modals)/signUp" options={{ headerTitle: "" }} />
 
-      <Stack.Screen name="listing/[id]" options={{ headerTitle: "" }} />
-      <Stack.Screen
-        name="(modals)/booking"
-        options={{
-          presentation: "transparentModal",
-          animation: "fade",
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Ionicons name="close-outline" size={24} color="black" />
-            </TouchableOpacity>
-          ),
-        }}
-      />
-
-      
-    </Stack>
-    </AuthUserProvider>
+          <Stack.Screen name="listing/[id]" options={{ headerTitle: "" }} />
+          <Stack.Screen
+            name="(modals)/booking"
+            options={{
+              presentation: "transparentModal",
+              animation: "fade",
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => router.back()}>
+                  <Ionicons name="close-outline" size={24} color="black" />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+        </Stack>
+      </AuthUserProvider>
     </QueryClientProvider>
   );
 }

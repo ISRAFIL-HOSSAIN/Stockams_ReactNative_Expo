@@ -29,9 +29,9 @@ const Page = () => {
           </View>
         </View>
         <View>
-        <CustomInput type="text" label="Name" PlaceHolder="Israfil Hossain"/>
-        <CustomInput type="email" label="Email" PlaceHolder="example@gmail.com"/>
-        <CustomInput type="text" label="Address" PlaceHolder="USA"/>
+        <CustomInput  label="Name" placeholder="Israfil Hossain"/>
+        <CustomInput  label="Email" placeholder="example@gmail.com"/>
+        <CustomInput  label="Address" placeholder="USA"/>
         </View>
         <View className="flex flex-row justify-between py-2 mx-3 my-4 ">
           <CustomButton  text="Reject" size={140} bg={Colors.white} onPress={() => Alert.alert('Reject')}/>
