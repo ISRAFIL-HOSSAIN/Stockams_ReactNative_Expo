@@ -1,162 +1,138 @@
-import React, { useState } from 'react';
-import { 
-  StyleSheet, 
-  View, 
-  TextInput, 
-  Text,  
-  // Picker 
-
-} from 'react-native';
-
+import React, { forwardRef, ForwardedRef } from "react";
+import {
+  TextInput as RNTextInput,
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import { Entypo as Icon } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
+import { Ionicons } from "@expo/vector-icons";
 interface CustomInputProps {
-  type: 'text' | 'email' | 'password' | 'checkbox' | 'dropdown'| 'number';
+  passwordIcon?: any;
+  icon?: any;
+  name?: string;
   label: string;
+  defaultValue?: string | boolean;
   options?: string[]; // optional for select/dropdown
-  checked?: boolean; // optional for checkbox
-  selectedOption?: string; // optional for dropdown
-  PlaceHolder:string;
+  PlaceHolder?: string;
+  rules?: any;
+  placeholder: string;
+  autoCapitalize?: any;
+  autoCompleteType?: any;
+  keyboardType?: any;
+  keyboardAppearance?: any;
+  returnKeyType?: any;
+  returnKeyLabel?: any;
+  secureTextEntry?: boolean;
+  touched?: boolean;
+  error?: any;
+  onBlur?: any;
+  value?: any;
   onChangeText?: (text: string) => void; // optional
-  onValueChange?: (value: string) => void; // optional
+  togglePasswordVisibility?: () => void;
+  ref?: any;
 }
 
-const CustomInput: React.FC<CustomInputProps> = ({
-  type,
-  label,
-  options,
-  checked,
-  selectedOption,
-  onChangeText,
-  onValueChange,
-  PlaceHolder,
-  
-}) => {
-  const [value, setValue] = useState('');
+const CustomInput: React.ForwardRefRenderFunction<
+  HTMLInputElement,
+  CustomInputProps
+> = (
+  {
+    label,
+    icon,
+    name,
+    rules,
+    defaultValue,
+    options,
+    onChangeText,
+    PlaceHolder,
+    touched,
+    error,
+    value,
+    togglePasswordVisibility,
+    ...inputProps
+  },
+  ref: ForwardedRef<HTMLInputElement>
+) => {
+  const validationColor = !touched ? "#223e4b" : error ? "#FF5A5F" : "#223e4b";
 
-  const handleChange = (text: string) => {
-    setValue(text);
+  const handleChangeText = (text: string) => {
     onChangeText?.(text);
   };
-
-  const handleOptionChange = (value: string) => {
-    setValue(value);
-    onValueChange?.(value);
-  };
-
-  switch (type) {
-    case 'text':
-      return (
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>{label}</Text>
-          <TextInput
-            style={styles.input}
+  return (
+    <View style={styles.inputContainer}>
+      {label && <Text style={styles.label}>{label}</Text>}
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          height: 48,
+          borderRadius: 8,
+          borderColor: validationColor,
+          borderWidth: StyleSheet.hairlineWidth,
+          padding: 8,
+          marginTop: 8,
+          marginBottom: 8,
+        }}
+      >
+        <View style={{ padding: 8 }}>
+          <Icon name={icon} color={validationColor} size={16} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <RNTextInput
+            underlineColorAndroid="transparent"
+            placeholderTextColor="rgba(34, 62, 75, 0.7)"
+            ref={ref}
             value={value}
-            onChangeText={handleChange}
-            placeholder={PlaceHolder}
+            onChangeText={handleChangeText}
+            {...inputProps}
           />
         </View>
-      );
-      case 'number':
-        return (
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>{label}</Text>
-            <TextInput
-              style={styles.input}
-              value={value}
-              onChangeText={handleChange}
-              placeholder={PlaceHolder}
-              keyboardType='numeric'
-            />
-          </View>
-        );
-    case 'email':
-      return (
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>{label}</Text>
-          <TextInput
-            style={styles.input}
-            value={value}
-            onChangeText={handleChange}
-            keyboardType="email-address"
-            placeholder={PlaceHolder}
-          />
-        </View>
-      );
-    case 'password':
-      return (
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>{label}</Text>
-          <TextInput
-            style={styles.input}
-            value={value}
-            onChangeText={handleChange}
-            secureTextEntry
-            placeholder={PlaceHolder}
-          />
-        </View>
-      );
-    // case 'checkbox':
-    //   return (
-    //     <View>
-    //       <Text style={styles.label}>{label}</Text>
-    //       <CheckBox
-    //         style={styles.checkbox}
-    //         value={checked}
-    //         onValueChange={onValueChange}
-    //            placeholder={PlaceHolder}
-    //       />
-    //     </View>
-    //   );
-    // case 'dropdown':
-    //   return (
-    //     <View style={styles.inputContainer}>
-    //       <Text style={styles.label}>{label}</Text>
-    //       <Picker
-    //         selectedValue={selectedOption}
-    //         onValueChange={handleOptionChange}
-    //         style={styles.dropdown}
-    //       >
-    //         {options &&
-    //           options.map((option) => (
-    //             <Picker.Item key={option} label={option} value={option} />
-    //           ))}
-    //       </Picker>
-    //     </View>
-    //   );
-    default:
-      return null;
-  }
+        {inputProps.passwordIcon && (
+          <TouchableOpacity onPress={togglePasswordVisibility}>
+            <Ionicons name={inputProps.secureTextEntry ? "eye-off" : "eye"} color={validationColor} size={20} />
+          </TouchableOpacity>
+        )}
+      </View>
+      {touched && error && (
+        <Text style={{ color: "red", marginLeft: 10 }}>{error}</Text>
+      )}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
   inputContainer: {
+    padding: 5,
+    width: "100%",
   },
   label: {
-    fontSize: 13,
-    color: '#2D2D2A',
-    marginLeft:10,
-    marginTop:10,
-    fontWeight:'500'
+    fontSize: 14,
+    color: "#2D2D2A",
+    marginLeft: 10,
+    marginTop: 5,
+    fontWeight: "500",
   },
   input: {
     padding: 8,
     borderRadius: 12,
-    backgroundColor: '#E7E9E2',
-    marginLeft:10,
-    marginRight:10,
-    marginTop:5,
-
-  },
-  textInputInput: {
-    // Custom styles for text/email input
-  },
-  passwordInput: {
-    // Custom styles for password input
-  },
-  checkbox: {
+    backgroundColor: "#E7E9E2",
     marginLeft: 10,
+    marginRight: 10,
+    marginTop: 5,
+  },
+  inputError: {
+    borderColor: "red", // Set border color to red for error state
+    borderWidth: 1,
   },
   dropdown: {
-    width: '80%',
+    backgroundColor: "#E7E9E2",
+    borderRadius: 20,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 5,
   },
 });
 

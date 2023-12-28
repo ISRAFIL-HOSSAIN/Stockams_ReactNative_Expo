@@ -5,10 +5,10 @@ import { FontAwesome } from "@expo/vector-icons";
 
 import Colors from "@/constants/Colors";
 import CustomButton from "@/components/global/ui/Button";
-import HorizontalProgress from "@/components/global/progress/HorizontalProgress";
+// import HorizontalProgress from "@/components/global/progress/HorizontalProgress";
 const BookedCard = ({ data }: any) => {
   return (
-    <View className="w-[342px] h-[350px] shadow-lg shadow-gray-400 bg-white border-primary border  rounded-xl mt-5 relative flex justify-center items-center">
+    <View className="w-[342px] h-[400px] shadow-lg shadow-gray-400 bg-white border-primary border  rounded-xl mt-5 relative flex justify-center items-center">
       <View className="w-[94%] h-44 absolute top-4 items-center justify-center flex bg-white rounded-2xl shadow ">
         <Image
           className="w-full h-full  absolute rounded-2xl"
@@ -93,9 +93,13 @@ const BookedCard = ({ data }: any) => {
               12 Mar 2023
             </Text>
           </View>
-          <View>
-            <HorizontalProgress  />
-          </View>
+        </View>
+        <View className="mt-4 w-full">
+          {/* <HorizontalProgress /> */}
+        </View>
+        <View className="flex flex-row justify-between px-2 mt-2">
+          <Text className="text-sm font-[600] text-gray-400">Time Left</Text>
+          <Text className="text-sm font-[600] text-gray-400">45 days</Text>
         </View>
       </View>
     </View>

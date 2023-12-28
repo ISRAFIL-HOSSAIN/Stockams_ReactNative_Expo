@@ -9,7 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 const Layout = () => {
   return (
     <Tabs
-  
+      initialRouteName="index"
       screenOptions={{
         tabBarActiveTintColor: Colors.primary,
         
