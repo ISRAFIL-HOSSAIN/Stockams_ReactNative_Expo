@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useMutation } from "@tanstack/react-query";
-import CustomInput from "@/components/global/ui/CommonInput";
+import CustomInput from "@/components/global/common/CommonInput";
 import CustomButton from "@/components/global/ui/Button";
 import Colors from "@/constants/Colors";
 import { looper, logo, google, facebook, apple } from "@/assets/images";
@@ -16,7 +16,9 @@ import { signinValidationSchema } from "@/components/global/auth/validation/sign
 import APICONFIG from "@/api/API";
 import { Formik, useFormik } from "formik";
 import { Alert } from "react-native";
-// import CommonToast from "@/components/global/common/Toast";
+import { Link } from "expo-router";
+
+import { useToast } from "react-native-toast-notifications";
 type FormValues = {
   email: string;
   password: string;
@@ -25,8 +27,11 @@ type FormValues = {
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);
+  const toast = useToast();
+  const showToast = () => {
+    toast.show("This is some something 👋", {
+      type: "success",
+    });
   };
 
   return (
@@ -40,7 +45,8 @@ const Login: React.FC = () => {
           initialValues={{ email: "", password: "" }}
           onSubmit={(values) => {
             console.log("Values", values);
-            // CommonToast({type:"success", message:"Succeeded"})
+            showToast();
+
             Alert.alert(`Email: ${values.email}, Password: ${values.password}`);
           }}
           validationSchema={signinValidationSchema}
@@ -55,6 +61,7 @@ const Login: React.FC = () => {
           }) => (
             <View style={styles.formContainer}>
               <Text style={styles.loginWithText}>LOGIN WITH</Text>
+              
 
               <CustomInput
                 icon="mail"
@@ -71,6 +78,7 @@ const Login: React.FC = () => {
                 touched={touched.email}
                 onChangeText={handleChange("email")}
                 value={values.email}
+                type="text"
               />
 
               <CustomInput
@@ -89,7 +97,8 @@ const Login: React.FC = () => {
                 onChangeText={handleChange("password")}
                 value={values.password}
                 passwordIcon={true}
-                togglePasswordVisibility ={togglePasswordVisibility}
+                setShowPassword={setShowPassword}
+                type="text"
               />
 
               <View style={styles.buttonContainer}>
@@ -115,10 +124,12 @@ const Login: React.FC = () => {
                   </TouchableOpacity>
                 </View>
                 <View style={styles.createAccountContainer}>
-                  <Text style={styles.noAccountText}>
-                    Don’t have an account
+                  <Text style={styles.noAccountText} className="pr-5">
+                    {`Don’t have an account`}
                   </Text>
-                  <Text style={styles.createAccountText}>CREATE ACCOUNT</Text>
+                  <Link href={"/(modals)/signup"}>
+                    <Text style={styles.createAccountText}>CREATE ACCOUNT</Text>
+                  </Link>
                 </View>
               </View>
             </View>

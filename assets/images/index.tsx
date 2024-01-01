@@ -7,6 +7,8 @@ import logo from './logo.png';
 import facebook from './facebook.png';
 import google from './google.png';
 import apple from './iphone.png'
+import space_owner from './space-owner.png'; 
+import renter from './rental.png';
 
 export {
     back,
@@ -18,5 +20,7 @@ export {
     facebook,
     google,
     apple,
+    space_owner, 
+    renter,
 
 }
