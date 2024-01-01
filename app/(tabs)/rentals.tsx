@@ -13,7 +13,7 @@ import RentalsHeader from "@/components/admin/header/RentalsHeader";
 import StoreCard from "@/components/global/Card";
 import EditStoreCard from "@/components/admin/components/EditStoreCard";
 import BookedCard from "@/components/admin/components/BookedCard";
-import { CommonLoader } from "@/components/global/progress";
+
 import CustomButton from "@/components/global/ui/Button";
 import Colors from "@/constants/Colors";
 import { router } from "expo-router";

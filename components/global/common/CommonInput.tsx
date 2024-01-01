@@ -1,4 +1,8 @@
-import React, { forwardRef, ForwardedRef } from "react";
+
+// TextInput, Datepicker, email, password. ... 
+
+import React, {  ForwardedRef, useState } from "react";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import {
   TextInput as RNTextInput,
   View,
@@ -6,11 +10,11 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { Entypo as Icon } from "@expo/vector-icons";
-import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
+
 interface CustomInputProps {
   passwordIcon?: any;
+  setShowPassword?:any;
   icon?: any;
   name?: string;
   label: string;
@@ -30,13 +34,17 @@ interface CustomInputProps {
   error?: any;
   onBlur?: any;
   value?: any;
+  type?: string;
+  mode?: "date" | "time";
+  date?:any; 
+  setDate?:any;
   onChangeText?: (text: string) => void; // optional
   togglePasswordVisibility?: () => void;
   ref?: any;
 }
 
 const CustomInput: React.ForwardRefRenderFunction<
-  HTMLInputElement,
+  RNTextInput,
   CustomInputProps
 > = (
   {
@@ -51,16 +59,35 @@ const CustomInput: React.ForwardRefRenderFunction<
     touched,
     error,
     value,
-    togglePasswordVisibility,
+    type,
+    date, 
+    setDate,
+    mode = "date",
     ...inputProps
   },
-  ref: ForwardedRef<HTMLInputElement>
+  ref: ForwardedRef<RNTextInput>
 ) => {
   const validationColor = !touched ? "#223e4b" : error ? "#FF5A5F" : "#223e4b";
+
+  const [show, setShow] = useState(false);
 
   const handleChangeText = (text: string) => {
     onChangeText?.(text);
   };
+  const onChange = (event:any, selectedDate:any) => {
+    setShow(false);
+    const currentDate = selectedDate.toLocaleDateString('en-GB');
+    onChangeText?.(currentDate);
+    console.log("Date: ", currentDate);
+  };
+
+  const showDatePicker =()=>{
+    setShow(true);
+  }
+  const togglePasswordVisibility = () => {
+    inputProps.setShowPassword((prevState:any) => !prevState);
+  };
+
   return (
     <View style={styles.inputContainer}>
       {label && <Text style={styles.label}>{label}</Text>}
@@ -73,26 +100,57 @@ const CustomInput: React.ForwardRefRenderFunction<
           borderColor: validationColor,
           borderWidth: StyleSheet.hairlineWidth,
           padding: 8,
-          marginTop: 8,
-          marginBottom: 8,
+          marginTop: 5,
+          marginBottom: 5,
         }}
       >
         <View style={{ padding: 8 }}>
-          <Icon name={icon} color={validationColor} size={16} />
+          <Ionicons name={icon} color={validationColor} size={16} />
         </View>
         <View style={{ flex: 1 }}>
-          <RNTextInput
-            underlineColorAndroid="transparent"
-            placeholderTextColor="rgba(34, 62, 75, 0.7)"
-            ref={ref}
-            value={value}
-            onChangeText={handleChangeText}
-            {...inputProps}
-          />
+          {type === "text" && (
+            <RNTextInput
+              underlineColorAndroid="transparent"
+              placeholderTextColor="rgba(34, 62, 75, 0.7)"
+              ref={ref}
+              value={value}
+              onChangeText={handleChangeText}
+              {...inputProps}
+            />
+          )}
+          {type === "date" && (
+            <View className="flex flex-row justify-between ">
+              <RNTextInput
+                underlineColorAndroid="transparent"
+                placeholderTextColor="rgba(34, 62, 75, 0.7)"
+                ref={ref}
+                value={value}
+                onChangeText={handleChangeText}
+                
+                {...inputProps}
+              />
+              {show && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  mode={mode}
+                  onChange={onChange}
+                  value={new Date()}
+                  is24Hour={true}
+                />
+              )}
+              <TouchableOpacity onPress={showDatePicker}>
+                <Ionicons name="calendar" color={validationColor} size={23} />
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
         {inputProps.passwordIcon && (
           <TouchableOpacity onPress={togglePasswordVisibility}>
-            <Ionicons name={inputProps.secureTextEntry ? "eye-off" : "eye"} color={validationColor} size={20} />
+            <Ionicons
+              name={inputProps.secureTextEntry ? "eye-off" : "eye"}
+              color={validationColor}
+              size={20}
+            />
           </TouchableOpacity>
         )}
       </View>
