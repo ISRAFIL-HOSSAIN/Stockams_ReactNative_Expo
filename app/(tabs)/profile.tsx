@@ -75,6 +75,12 @@ const profile = () => {
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
+        <Link href={"/(modals)/spaceOverview"}>
+          <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
+            <Text className="text-[16px] font-medium">Space Overview</Text>
+            <Image className="w-[22px] h-[22px] ml-2" source={next} />
+          </View>
+        </Link>
       </View>
     </ScrollView>
   );
