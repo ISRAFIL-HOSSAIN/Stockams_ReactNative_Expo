@@ -134,7 +134,10 @@ function RootLayoutNav() {
               name="(modals)/spaceOverview"
               options={{ headerTitle: "" }}
             />
-
+            <Stack.Screen
+              name="(modals)/chatPage"
+              options={{ headerTitle: "" }}
+            />
             <Stack.Screen name="listing/[id]" options={{ headerTitle: "" }} />
             <Stack.Screen
               name="(modals)/booking"

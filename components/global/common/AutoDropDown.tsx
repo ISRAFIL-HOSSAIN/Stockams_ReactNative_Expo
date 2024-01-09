@@ -81,7 +81,7 @@ const CustomDropDown: React.FC<CustomDropDownProps> = ({ title, data }) => {
           />
           <ScrollView>
             <FlatList
-              scrollEnabled={false}
+              scrollEnabled={true}
               contentContainerStyle={{ flexGrow: 1 }}
               data={filteredData}
               renderItem={({ item, index }) => {

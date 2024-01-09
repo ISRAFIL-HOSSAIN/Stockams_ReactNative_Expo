@@ -80,7 +80,7 @@ const Layout = () => {
         options={{
           tabBarLabel: "",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="add-circle-sharp" size={60} color={Colors.primary} 
+            <Ionicons name="add-circle-sharp" size={50} color={Colors.primary} 
               style={{position: "absolute",bottom:0}}
             />
           ),
