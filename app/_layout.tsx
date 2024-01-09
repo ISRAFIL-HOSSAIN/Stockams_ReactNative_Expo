@@ -130,12 +130,14 @@ function RootLayoutNav() {
               name="(modals)/privacyPolicy"
               options={{ headerTitle: "" }}
             />
-            <Stack.Screen name="(modals)/logIn" options={{ headerTitle: "" }} />
             <Stack.Screen
-              name="(modals)/signUp"
+              name="(modals)/spaceOverview"
               options={{ headerTitle: "" }}
             />
-
+            <Stack.Screen
+              name="(modals)/chatPage"
+              options={{ headerTitle: "" }}
+            />
             <Stack.Screen name="listing/[id]" options={{ headerTitle: "" }} />
             <Stack.Screen
               name="(modals)/booking"

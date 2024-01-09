@@ -2,9 +2,9 @@ import { View, Text, Alert } from 'react-native'
 import React from 'react'
 import CommonLayout from '@/components/layout/CommonLayout';
 import BackHeader from '@/components/global/header/BackHeader';
-import CustomInput from '@/components/global/common/CommonInput';
 import Colors from '@/constants/Colors';
 import CustomButton from '@/components/global/ui/Button';
+import CustomInput from '@/components/global/common/CommonInput';
 
 const Page = () => {
   return (
@@ -16,9 +16,9 @@ const Page = () => {
         </View>
         
         <View>
-        <CustomInput type="password" label="Old Password" PlaceHolder=""/>
-        <CustomInput type="password" label="New Password" PlaceHolder=""/>
-        <CustomInput type="password" label="Retype Password" PlaceHolder=""/>
+        <CustomInput type="password" label="Old Password" PlaceHolder="Old Password"/>
+        <CustomInput type="password" label="New Password" PlaceHolder="New Password"/>
+        <CustomInput type="password" label="Retype Password" PlaceHolder="Retype Password"/>
         </View>
         <View className="flex flex-row justify-between py-2 mx-3 my-4 ">
           <CustomButton text="Reset" size={140} bg={Colors.white} onPress={() => Alert.alert('Reset')}/>

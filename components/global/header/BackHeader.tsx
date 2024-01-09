@@ -7,8 +7,8 @@ import { useRouter } from "expo-router";
 const BackHeader: React.FC<any> = ({ Headertext }) => {
   const router = useRouter();
   return (
-    <View className="flex-row items-center space-x-2 bg-white ml-2 ">
-      <TouchableOpacity onPress={() => router.back()}>
+    <View className="flex flex-row items-center space-x-2 bg-white  ">
+      <TouchableOpacity className="ml-2" onPress={() => router.back()}>
         <Ionicons
           name="ios-arrow-back-circle-outline"
           size={26}
