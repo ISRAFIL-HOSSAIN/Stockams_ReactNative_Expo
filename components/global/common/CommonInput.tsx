@@ -17,7 +17,7 @@ interface CustomInputProps {
   setShowPassword?:any;
   icon?: any;
   name?: string;
-  label: string;
+  label?: string;
   defaultValue?: string | boolean;
   options?: string[]; // optional for select/dropdown
   PlaceHolder?: string;

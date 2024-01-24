@@ -5,9 +5,11 @@ import { View, Text, TouchableOpacity, TextInput, FlatList, ScrollView } from 'r
 interface CustomDropDownProps {
   title: string;
   data: { title: string }[];
+  height?: number;
+  marginTop?: number;
 }
 
-const CustomDropDown: React.FC<CustomDropDownProps> = ({ title, data }) => {
+const CustomDropDown: React.FC<CustomDropDownProps> = ({ title, data, height,marginTop }) => {
   const [search, setSearch] = useState('');
   const [clicked, setClicked] = useState(false);
   const [filteredData, setFilteredData] =useState<{ title: string }[]>(data);
@@ -29,11 +31,11 @@ const CustomDropDown: React.FC<CustomDropDownProps> = ({ title, data }) => {
       <TouchableOpacity
         style={{
           width: '100%',
-          height: 50,
+          height: height ? height : 50,
           borderRadius: 15,
           backgroundColor: '#E7E9E2',
           alignSelf: 'center',
-          marginTop: 10,
+          marginTop: marginTop ? marginTop :10,
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -79,7 +81,7 @@ const CustomDropDown: React.FC<CustomDropDownProps> = ({ title, data }) => {
               paddingLeft: 20,
             }}
           />
-          <ScrollView>
+          <View>
             <FlatList
               scrollEnabled={true}
               contentContainerStyle={{ flexGrow: 1 }}
@@ -106,7 +108,7 @@ const CustomDropDown: React.FC<CustomDropDownProps> = ({ title, data }) => {
                 );
               }}
             />
-          </ScrollView>
+          </View>
         </View>
       ) : null}
     </View>
