@@ -20,6 +20,7 @@ interface CustomButtonProps extends TouchableOpacityProps {
   borderWidth?: number;
   icon?: any;
   showIcon?: boolean;
+  padding?:number;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -31,6 +32,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   onPress,
   icon,
   showIcon,
+  padding,
   ...otherProps
 }) => {
   const buttonStyle: StyleProp<ViewStyle> = {
@@ -40,7 +42,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     borderRadius: 10,
     borderWidth: borderWidth ? borderWidth : 1,
     borderColor: Colors.primary,
-    padding: 5,
+    padding: padding? padding :5,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
