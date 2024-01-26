@@ -4,6 +4,7 @@ import CustomButton from "@/components/global/ui/Button";
 import CommonLayout from "@/components/layout/CommonLayout";
 import Colors from "@/constants/Colors";
 import { features } from "@/utils/features";
+import { useRouter } from "expo-router";
 import {
   AntDesign,
   Feather,
@@ -12,7 +13,8 @@ import {
   MaterialCommunityIcons,
   Octicons,
 } from "@expo/vector-icons";
-import React, { useState } from "react";
+import { useRoute } from "@react-navigation/native";
+import React, { Children, useRef, useState } from "react";
 import { Alert } from "react-native";
 import {
   View,
@@ -22,28 +24,38 @@ import {
   StyleSheet,
   Text,
 } from "react-native";
+import CommonModal from "./commonModal";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
-const ImageGallery: React.FC = () => {
+interface CommonModalProps {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const spaceOverview: React.FC = () => {
   const [activeImage, setActiveImage] = useState(0);
-  
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(true);
+
+  const handlePresentModal = () => {};
+
   const options = [
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    { title: 'item1'},
-    
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
+    { title: "item1" },
   ];
 
   const images: string[] = [
@@ -56,17 +68,79 @@ const ImageGallery: React.FC = () => {
     "https://i0.wp.com/picjumbo.com/wp-content/uploads/wooden-path-in-tropical-rain-forest-free-photo.jpg?w=2210&quality=70",
     "https://i0.wp.com/picjumbo.com/wp-content/uploads/red-heart-tree-free-photo.jpg?w=2210&quality=70",
   ];
+  const subChildren = (
+    <View className="h-full w-full p-4 flex flex-col items-center justify-normal">
+      <View className="">
+        <Text className="text-[20px] font-bold">
+          From $111/month Including Tax
+        </Text>
+        <Text className="text-[14px] self-center">
+          Monthly rate including Insurance.
+        </Text>
+      </View>
+      <View className="h-[45px] w-full bg-[#B3FAFF] rounded-xl items-center justify-center mt-4">
+        <Text className="text-[15px] font-bold self-center">
+          7 Self0-Storage boxes.
+        </Text>
+      </View>
+      <View className="h-auto w-full flex flex-col justify-center items-center mt-4">
+        <View className="flex flex-row w-full items-center justify-between">
+            <View className="w-[48%] rounded-xl ">
+              <Text className="text-[13px]">Start Date</Text>
+              <CustomDropDown
+                title="2 Months"
+                data={options}
+                height={38}
+                marginTop={2}
+              />
+          </View>
+          <View className=" w-[48%] rounded-xl">
+            <View className="flex flex-col">
+              <Text className="text-[13px]">Rental Duration</Text>
+              <CustomDropDown
+                title="2 Months"
+                data={options}
+                height={38}
+                marginTop={2}
+              />
+            </View>
+          </View>
+        </View>
+        <View className="mt-5 self-center">
+          <CustomButton
+            text="Book Now"
+            size={350}
+            height={45}
+            padding={0}
+            bg={Colors.primary}
+            onPress={() => {}}
+          />
+        </View>
+        <TouchableOpacity className="h-[45px] w-full mt-5 border-[1px] border-primary rounded-xl flex flex-row justify-center items-center space-x-2">
+          <Text>Call Now</Text>
+          <Ionicons name="call-outline" size={17} color="black" />
+          <Text>(989) 6654 6665</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 
   const handleImageClick = (index: number) => {
     setActiveImage(index);
   };
 
   return (
-    <CommonLayout>
+    <CommonModal
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      subChildren={subChildren}
+    >
       <BackHeader Headertext="Back to Home" />
-      <ScrollView 
-      showsVerticalScrollIndicator={false}
-      nestedScrollEnabled={true}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        nestedScrollEnabled={true}
+        style={[{ backgroundColor: isOpen ? "transfarent" : "white" }]}
+      >
         <View style={styles.container}>
           {/* For Banner and Image Section  */}
           <View>
@@ -74,7 +148,7 @@ const ImageGallery: React.FC = () => {
               source={{ uri: images[activeImage] }}
               style={styles.banner}
             />
-            <View className="w-[100px] h-[37px] px-2 left-5 top-5 absolute bg-tertiary rounded-xl justify-around flex flex-row items-center">
+            <TouchableOpacity className="w-[100px] h-[37px] px-2 left-5 top-5 absolute bg-tertiary rounded-xl justify-around flex flex-row items-center">
               <Ionicons
                 name="person-circle-sharp"
                 size={24}
@@ -82,12 +156,12 @@ const ImageGallery: React.FC = () => {
                 className="items-center"
               />
               <Text className="text-sm font-medium ">Certified</Text>
-            </View>
-            <View className="w-32 h-[37px] p-2 right-5 top-5 absolute bg-white rounded-lg justify-between flex flex-row items-center">
+            </TouchableOpacity>
+            <TouchableOpacity className="w-32 h-[37px] p-2 right-5 top-5 absolute bg-white rounded-lg justify-between flex flex-row items-center">
               <AntDesign name="staro" size={18} color="orange" />
               <Text className="text-md font-medium">4.8</Text>
               <Text className="text-[10px] text-gray-400">345 reviews</Text>
-            </View>
+            </TouchableOpacity>
 
             <ScrollView
               horizontal
@@ -274,19 +348,22 @@ const ImageGallery: React.FC = () => {
           <View className="m-4">
             <Text className="text-[15px] font-normal">Select Space</Text>
             <View className="w-full mb-4">
-            <CustomDropDown title='8.5m2 111$ month including tax $75' data={options}/>
+              <CustomDropDown
+                title="8.5m2 111$ month including tax $75"
+                data={options}
+              />
             </View>
             <CustomButton
               text="Book Now"
               size={345}
               height={45}
               bg={Colors.primary}
-              onPress={() => Alert.alert("Book Now")}
+              onPress={() => {}}
             />
           </View>
         </View>
       </ScrollView>
-    </CommonLayout>
+    </CommonModal>
   );
 };
 
@@ -325,7 +402,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
     fontWeight: "bold",
-  },   
+  },
 });
 
-export default ImageGallery;
+export default spaceOverview;

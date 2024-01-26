@@ -138,17 +138,21 @@ function RootLayoutNav() {
               name="(modals)/chatPage"
               options={{ headerTitle: "" }}
             />
+            <Stack.Screen
+              name="(modals)/commonModal"
+              options={{
+                presentation: "transparentModal",
+                animation: "slide_from_bottom",
+                header: () => null, 
+              }}
+            />
+
             <Stack.Screen name="listing/[id]" options={{ headerTitle: "" }} />
             <Stack.Screen
               name="(modals)/booking"
               options={{
                 presentation: "transparentModal",
                 animation: "fade",
-                headerLeft: () => (
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="close-outline" size={24} color="black" />
-                  </TouchableOpacity>
-                ),
               }}
             />
           </Stack>
