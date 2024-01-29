@@ -5,62 +5,41 @@ interface AuthTokens {
   refreshToken?: string;
 }
 
-// Get access token from AsyncStorage
-export const getAccessToken = async (): Promise<string | null> => {
+const getToken = async (tokenType: string): Promise<string | null> => {
   try {
-    const data = await AsyncStorage.getItem('__auth_tokens');
-    const state: AuthTokens = JSON.parse(data || '{}');
-    return state.accessToken || null;
+    const data = await AsyncStorage.getItem(tokenType);
+    return data || null;
   } catch (error) {
-    console.error('Error getting access token:', error);
+    console.error(`Error getting ${tokenType} token:`, error);
     return null;
   }
 };
 
-// Set access token to AsyncStorage
-export const setAccessToken = async (accessToken: string): Promise<void> => {
+const setToken = async (tokenType: string, token: string): Promise<void> => {
   try {
-    if (accessToken) {
-      const data = await AsyncStorage.getItem('__auth_tokens');
-      const state: AuthTokens = JSON.parse(data || '{}');
-      const newState: AuthTokens = { ...state, accessToken };
-      await AsyncStorage.setItem('__auth_tokens', JSON.stringify(newState));
+    if (token) {
+      await AsyncStorage.setItem(tokenType, token);
     }
   } catch (error) {
-    console.error('Error setting access token:', error);
+    console.error(`Error setting ${tokenType} token:`, error);
   }
 };
 
-// Get refresh token from AsyncStorage
-export const getRefreshToken = async (): Promise<string | null> => {
-  try {
-    const data = await AsyncStorage.getItem('__auth_tokens');
-    const state: AuthTokens = JSON.parse(data || '{}');
-    return state.refreshToken || null;
-  } catch (error) {
-    console.error('Error getting refresh token:', error);
-    return null;
-  }
-};
+export const getAccessToken = async (): Promise<string | null> =>
+  getToken('accessToken');
 
-// Set refresh token to AsyncStorage
-export const setRefreshToken = async (refreshToken: string): Promise<void> => {
-  try {
-    if (refreshToken) {
-      const data = await AsyncStorage.getItem('__auth_tokens');
-      const state: AuthTokens = JSON.parse(data || '{}');
-      const newState: AuthTokens = { ...state, refreshToken };
-      await AsyncStorage.setItem('__auth_tokens', JSON.stringify(newState));
-    }
-  } catch (error) {
-    console.error('Error setting refresh token:', error);
-  }
-};
+export const setAccessToken = async (accessToken: string): Promise<void> =>
+  setToken('accessToken', accessToken);
 
-// Remove access token and refresh token from AsyncStorage
+export const getRefreshToken = async (): Promise<string | null> =>
+  getToken('refreshToken');
+
+export const setRefreshToken = async (refreshToken: string): Promise<void> =>
+  setToken('refreshToken', refreshToken);
+
 export const removeTokens = async (): Promise<void> => {
   try {
-    await AsyncStorage.setItem('__auth_tokens', JSON.stringify({}));
+    await AsyncStorage.multiRemove(['accessToken', 'refreshToken']);
   } catch (error) {
     console.error('Error removing tokens:', error);
   }

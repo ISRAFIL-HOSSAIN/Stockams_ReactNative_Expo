@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import SearchBar from "../../components/global/common/SearchBar";
+
 import { Text, View, FlatList, Image } from "react-native";
 import { favourite, next } from "@/assets/images";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Link, useRouter } from "expo-router";
 import massagePage from "./massagePage";
+import SearchBar from "@/components/global/common/SearchBar";
+
 // ... other imports
 
 const MyComponent: React.FC = () => {

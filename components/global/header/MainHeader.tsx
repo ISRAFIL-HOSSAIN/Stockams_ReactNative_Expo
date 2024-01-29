@@ -1,40 +1,65 @@
 // Import necessary components and styles
 import { View, Text } from "react-native";
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Colors from "@/constants/Colors";
 import { StatusBar } from "expo-status-bar";
+import { useAuthUserContext } from "@/context/AuthUserProvider";
+import { removeTokens } from "@/utils/localStorageUtils";
+
 
 // Create your ExploreHeader component
 const MainHeader = () => {
+  const { userFound } = useAuthUserContext();
+  const router = useRouter();
+  
+  const handleUserLogout = () => {
+    // removeTokens();
+    router.replace("/(modals)/login")
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar style="dark" />
       <View style={styles.container}>
         <View style={styles.actionRow}>
-          <Link href="/(modals)/booking">Booking</Link>
+          <Link href="/">
+            <Text className="font-[800] font-mono-b text-lg text-black">
+              StockAms
+            </Text>
+          </Link>
           <View style={styles.rightHeader}>
-            <View style={[styles.Btn,{marginRight:10}]}>
+            <View style={[styles.Btn, { marginRight: 10 }]}>
               <TouchableOpacity>
                 <Ionicons name="language-outline" size={20} />
-                {/* <Text style={styles.filterText}>Filter</Text> */}
               </TouchableOpacity>
             </View>
-            <View style={[styles.Btn,{marginRight:10}]}>
-              <TouchableOpacity >
-                <Ionicons name="notifications-outline" size={20} />
-                {/* <Text style={styles.filterText}>Filter</Text> */}
-              </TouchableOpacity>
-            </View>
+            {userFound && (
+              <View style={[styles.Btn, { marginRight: 10 }]}>
+                <TouchableOpacity>
+                  <View className="relative ">
+                    <Ionicons name="notifications-outline" size={20} />
+                    <View className="w-3 h-3 bg-red-500 rounded-full absolute top-0 right-0 "></View>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+
             <View style={styles.Btn}>
-              <TouchableOpacity>
-                <Ionicons name="person" size={20} />
-                {/* <Text style={styles.filterText}>Filter</Text> */}
-              </TouchableOpacity>
+              {userFound ? (
+                <TouchableOpacity>
+                  <Ionicons name="person" size={20} />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity onPress={()=> handleUserLogout()}>
+                  {/* <Link href="/(modals)/login"> */}
+                    <AntDesign name="login" size={20} color="black" />
+                  {/* </Link> */}
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </View>
@@ -49,9 +74,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     backgroundColor: "#ffffff",
-    height: 40,
+    height: 42,
     paddingTop: 10,
-    
+    paddingBottom: 5,
   },
   rightHeader: {
     flexDirection: "row",
