@@ -9,7 +9,8 @@ import google from './google.png';
 import apple from './iphone.png'
 import space_owner from './space-owner.png'; 
 import renter from './rental.png';
-import favourite from './favourite.jpg'
+import favourite from './favourite.jpg';
+import Loader from './Loader.gif';
 
 export {
     back,
@@ -24,6 +25,7 @@ export {
     space_owner, 
     renter,
     favourite,
+    Loader,
     
 
 }

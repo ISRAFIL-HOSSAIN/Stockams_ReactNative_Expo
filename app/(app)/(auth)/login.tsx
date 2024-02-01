@@ -11,44 +11,97 @@ import { useMutation } from "@tanstack/react-query";
 import CustomInput from "@/components/global/common/CommonInput";
 import CustomButton from "@/components/global/ui/Button";
 import Colors from "@/constants/Colors";
-import { looper, logo, google, facebook, apple } from "@/assets/images";
+import {
+  looper,
+  logo,
+  google,
+  apple,
+  renter,
+  space_owner,
+} from "@/assets/images";
 import { signinValidationSchema } from "@/components/global/auth/validation/signinValidationSchema";
-import APICONFIG from "@/api/API";
 import { Formik, useFormik } from "formik";
 import { Alert } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter,  } from "expo-router";
 
 import { useToast } from "react-native-toast-notifications";
-type FormValues = {
-  email: string;
-  password: string;
-};
+import { API } from "@/api/endpoints";
+
+import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken } from "@/utils/localStorageUtils";
+import adminAPI from "@/api/adminAPI";
+import CommonProgress from "../(modals)/commonLoader";
+
+
+interface SignInPayload {
+  email: string | undefined;
+  password: string | undefined;
+  role: string | undefined;
+}
 
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [tab, setTab] = useState("RENTER");
+  const router = useRouter(); 
 
   const toast = useToast();
-  const showToast = () => {
-    toast.show("This is some something 👋", {
-      type: "success",
-    });
-  };
+
+  const { mutateAsync: signInMutation, isLoading: isSigninLoading } =
+    useMutation((payload) => adminAPI.post(API.Login, payload));
+
+
+    const handleSubmit = async (
+      values: any,
+      { setSubmitting, setErrors }: { setSubmitting: any; setErrors: any }
+    ) => {
+      try{
+        setSubmitting(true);
+        const response = await signInMutation({...values,role:tab});
+        if(response?.data?.data){
+          // console.log("Data===>", response?.data?.data);
+          await setAccessToken(response.data.data?.accessToken);
+          await setRefreshToken(response.data.data?.refreshToken);
+          toast.show("Signin Successfully ! 👋",{type: "success",})
+          router.replace("/(app)/(tabs)")
+        }
+        setSubmitting(false);
+       
+       
+      } 
+      catch(err){
+        toast.show("Something went wrong 👋", {
+          type: "danger",
+        });
+        setSubmitting(false);
+      }
+      
+  
+      
+    };
+
+   
+
+    
 
   return (
     <View style={styles.container}>
+      {
+        isSigninLoading && <CommonProgress />
+      }
       <View style={styles.backgroundImageContainer}>
         <Image source={looper} style={styles.backgroundImage} />
       </View>
-      <Image source={logo} style={styles.logo} />
+      <View className="flex justify-center items-center mt-16 w-full">
+        <Image
+          source={logo}
+          className="w-60 h-20 object-contain"
+          style={styles.logo}
+        />
+      </View>
+      {/* <Image source={logo} style={} /> */}
       <ScrollView style={styles.scrollView}>
         <Formik
-          initialValues={{ email: "", password: "" }}
-          onSubmit={(values) => {
-            console.log("Values", values);
-            showToast();
-
-            Alert.alert(`Email: ${values.email}, Password: ${values.password}`);
-          }}
+          initialValues={{ email: "", password: "", role: "RENTER" }}
+          onSubmit={handleSubmit}
           validationSchema={signinValidationSchema}
         >
           {({
@@ -61,7 +114,26 @@ const Login: React.FC = () => {
           }) => (
             <View style={styles.formContainer}>
               <Text style={styles.loginWithText}>LOGIN WITH</Text>
-              
+              <View className="flex flex-row justify-between pt-4 pb-3">
+                <CustomButton
+                  bg={tab === "RENTER" ? Colors.akcent : Colors.gray2}
+                  size={140}
+                  text="Renter"
+                  height={45}
+                  icon={renter}
+                  showIcon={true}
+                  onPress={() => setTab("RENTER")}
+                />
+                <CustomButton
+                  bg={tab === "OWNER" ? Colors.akcent : Colors.gray2}
+                  size={150}
+                  text="Space Owner"
+                  height={45}
+                  icon={space_owner}
+                  showIcon={true}
+                  onPress={() => setTab("OWNER")}
+                />
+              </View>
 
               <CustomInput
                 icon="mail"
@@ -127,7 +199,7 @@ const Login: React.FC = () => {
                   <Text style={styles.noAccountText} className="pr-5">
                     {`Don’t have an account`}
                   </Text>
-                  <Link href={"/(modals)/signup"}>
+                  <Link href={"/signup"}>
                     <Text style={styles.createAccountText}>CREATE ACCOUNT</Text>
                   </Link>
                 </View>
@@ -154,8 +226,9 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   logo: {
-    marginTop: 60,
-    alignSelf: "center",
+    marginTop: 5,
+    alignItems: "center",
+    resizeMode: "contain",
   },
   scrollView: {
     backgroundColor: "white",

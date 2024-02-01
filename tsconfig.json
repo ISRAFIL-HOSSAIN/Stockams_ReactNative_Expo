@@ -1,17 +1,23 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noEmit":true,
     "strict": true,
     "baseUrl":".", 
     "paths": {
       "@/*":["./*"]
     },
-    "jsx": "react",
+    "jsx": "preserve",
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "**/*.jsx",
+    "**/*.js",
     ".expo/types/**/*.ts",
+    ".expo/types/**/*.js",
     "expo-env.d.ts",
     "assets.d.ts",
   ]

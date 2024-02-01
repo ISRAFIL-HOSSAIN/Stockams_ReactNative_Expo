@@ -41,6 +41,7 @@ interface CustomInputProps {
   onChangeText?: (text: string) => void; // optional
   togglePasswordVisibility?: () => void;
   ref?: any;
+  handleChangeText?: any;
 }
 
 const CustomInput: React.ForwardRefRenderFunction<
@@ -141,6 +142,11 @@ const CustomInput: React.ForwardRefRenderFunction<
               <TouchableOpacity onPress={showDatePicker}>
                 <Ionicons name="calendar" color={validationColor} size={23} />
               </TouchableOpacity>
+            </View>
+          )}
+          { type === "dropdown" && (
+            <View >
+              
             </View>
           )}
         </View>

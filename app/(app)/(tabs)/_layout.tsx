@@ -5,9 +5,12 @@ import Colors from "@/constants/Colors";
 import { FontAwesome, Octicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import { useAuthUserContext } from "@/context/AuthUserProvider";
 
 const Layout = () => {
+  const { userFound, userLoading } = useAuthUserContext();
   return (
+    <>
     <Tabs
       initialRouteName="index"
       screenOptions={{
@@ -75,6 +78,7 @@ const Layout = () => {
           ),
         }}
       />
+      
       <Tabs.Screen
         name="addspace"
         options={{
@@ -101,11 +105,11 @@ const Layout = () => {
           tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
             <Octicons name="person" size={18} color={color} />
-        
           ),
         }}
       />
     </Tabs>
+    </>
   );
 };
 
