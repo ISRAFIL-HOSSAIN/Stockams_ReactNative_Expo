@@ -32,24 +32,26 @@ const StoreCard = ({ data }: any) => {
           <View className="w-[60%]">
             <Text className="text-[15px] font-bold">Diamond field storage</Text>
           </View>
-          <View className="h-[22px] flex flex-row w-[40%] absolute right-0">
+          {/* <View className="h-[22px] flex flex-row w-[40%] absolute right-0">
             <Image
-              className="w-[22px] h-[22px] left-[36px] rounded-full border-gray-700 border"
+              className="w-[24px] h-[24px] rounded-full border-gray-700 border"
               source={{ uri: "https://via.placeholder.com/22x22" }}
+              width={30} 
+              height={30}
             />
             <Image
-              className="w-[22px] h-[22px] rounded-full border-white left-[28px]"
+              className="w-[22px] h-[22px] rounded-full border-white "
               source={{ uri: "https://via.placeholder.com/22x22" }}
             />
              <Image
-              className="w-[22px] h-[22px] rounded-full border-white left-[20px]"
+              className="w-[22px] h-[22px] rounded-full border-white "
               source={{ uri: "https://via.placeholder.com/22x22" }}
             />
             <Image
-              className="w-[22px] h-[22px] rounded-full border-white left-[16px]"
+              className="w-[22px] h-[22px] rounded-full border-white "
               source={{ uri: "https://via.placeholder.com/22x22" }}
             />
-          </View>
+          </View> */}
         </View>
         <View className="">
           <Text className="text-gray-600 py-2"> Chodkiewicza Karola 111, Chorzow 41-506</Text>

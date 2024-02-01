@@ -15,37 +15,40 @@ import {
   looper,
   logo,
   google,
+  facebook,
   apple,
-  renter,
   space_owner,
+  renter,
 } from "@/assets/images";
-import { signinValidationSchema } from "@/components/global/auth/validation/signinValidationSchema";
+
 import { Formik, useFormik } from "formik";
 import { Alert } from "react-native";
-import { Link, useRouter,  } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
+import { signupValidationSchema } from "@/components/global/auth/validation/signupValidationSchema";
 import { useToast } from "react-native-toast-notifications";
-import { API } from "@/api/endpoints";
-import { useCreate } from "@/hooks";
-import { setAccessToken, setRefreshToken } from "@/utils/localStorageUtils";
 import adminAPI from "@/api/adminAPI";
-import CommonProgress from "./commonLoader";
+import { API } from "@/api/endpoints";
+import { setAccessToken, setRefreshToken } from "@/utils/localStorageUtils";
 
-interface SignInPayload {
-  email: string | undefined;
-  password: string | undefined;
-  role: string | undefined;
-}
+type FormValues = {
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  dob: string;
+  terms: boolean;
+};
 
-const Login: React.FC = () => {
+const Signup: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [tab, setTab] = useState("RENTER");
-  const router = useRouter(); 
+  const router = useRouter();
 
   const toast = useToast();
 
-  const { mutateAsync: signInMutation, isLoading: isSigninLoading } =
-    useMutation((payload) => adminAPI.post(API.Login, payload));
+  const { mutateAsync: signUpMutation, isLoading: isSigninLoading } =
+    useMutation((payload) => adminAPI.post(API.SignUp, payload));
 
 
     const handleSubmit = async (
@@ -54,13 +57,11 @@ const Login: React.FC = () => {
     ) => {
       try{
         setSubmitting(true);
-        const response = await signInMutation({...values,role:tab});
+        const response = await signUpMutation({...values,role:tab});
         if(response?.data?.data){
           // console.log("Data===>", response?.data?.data);
-          setAccessToken(response.data.data?.accessToken);
-          setRefreshToken(response.data.data?.refreshToken);
-          toast.show("Signin Successfully ! 👋",{type: "success",})
-          router.replace("/(tabs)")
+          toast.show("Signup Successfully ! 👋",{type: "success",})
+          router.replace("/login")
         }
         setSubmitting(false);
        
@@ -70,35 +71,35 @@ const Login: React.FC = () => {
           type: "danger",
         });
         setSubmitting(false);
+        setErrors(err);
       }
       
   
       
     };
 
-    
-
   return (
     <View style={styles.container}>
-      {
-        isSigninLoading && <CommonProgress />
-      }
       <View style={styles.backgroundImageContainer}>
         <Image source={looper} style={styles.backgroundImage} />
       </View>
-      <View className="flex justify-center items-center mt-16 w-full">
-        <Image
-          source={logo}
-          className="w-60 h-20 object-contain"
-          style={styles.logo}
-        />
+      <View className="w-full h-20 flex justify-center items-center">
+        <Image source={logo} className="w-60 h-20" style={styles.logo} />
       </View>
-      {/* <Image source={logo} style={} /> */}
+     
       <ScrollView style={styles.scrollView}>
         <Formik
-          initialValues={{ email: "", password: "", role: "RENTER" }}
+          initialValues={{
+            email: "",
+            password: "",
+            fullName: "",
+            phoneNumber: "",
+            dateOfBirth: "",
+            address:"",
+            countryCode:"",
+          }}
           onSubmit={handleSubmit}
-          validationSchema={signinValidationSchema}
+          validationSchema={signupValidationSchema}
         >
           {({
             handleChange,
@@ -109,7 +110,7 @@ const Login: React.FC = () => {
             touched,
           }) => (
             <View style={styles.formContainer}>
-              <Text style={styles.loginWithText}>LOGIN WITH</Text>
+              <Text style={styles.loginWithText}>CREATE ACCOUNT WITH </Text>
               <View className="flex flex-row justify-between pt-4 pb-3">
                 <CustomButton
                   bg={tab === "RENTER" ? Colors.akcent : Colors.gray2}
@@ -130,6 +131,53 @@ const Login: React.FC = () => {
                   onPress={() => setTab("OWNER")}
                 />
               </View>
+
+              <CustomInput
+                icon="person-circle-sharp"
+                placeholder="Enter your Full Name"
+                autoCapitalize="none"
+                keyboardAppearance="dark"
+                returnKeyType="next"
+                returnKeyLabel="next"
+                label="Full Name"
+                onBlur={handleBlur("fullName")}
+                error={errors.fullName}
+                touched={touched.fullName}
+                onChangeText={handleChange("fullName")}
+                value={values.fullName}
+                type="text"
+              />
+              <CustomInput
+                icon="ios-call-sharp"
+                placeholder="Enter your Phone Number"
+                autoCapitalize="none"
+                keyboardAppearance="dark"
+                keyboardType="numeric"
+                returnKeyType="next"
+                returnKeyLabel="next"
+                label="Phone"
+                onBlur={handleBlur("phoneNumber")}
+                error={errors.phoneNumber}
+                touched={touched.phoneNumber}
+                onChangeText={handleChange("phoneNumber")}
+                value={values.phoneNumber}
+                type="text"
+              />
+              <CustomInput
+                icon="md-calendar"
+                placeholder="Enter your Date of Birth"
+                autoCapitalize="none"
+                keyboardAppearance="dark"
+                returnKeyType="next"
+                returnKeyLabel="next"
+                label="DOB"
+                onBlur={handleBlur("dateOfBirth")}
+                error={errors.dateOfBirth}
+                touched={touched.dateOfBirth}
+                onChangeText={handleChange("dateOfBirth")}
+                value={values.dateOfBirth}
+                type="date"
+              />
 
               <CustomInput
                 icon="mail"
@@ -173,7 +221,7 @@ const Login: React.FC = () => {
                 <CustomButton
                   bg={Colors.primary}
                   size={300}
-                  text="Login"
+                  text="Create Account"
                   height={45}
                   onPress={() => handleSubmit()}
                 />
@@ -191,12 +239,12 @@ const Login: React.FC = () => {
                     <Image source={apple} alt="apple" />
                   </TouchableOpacity>
                 </View>
-                <View style={styles.createAccountContainer}>
-                  <Text style={styles.noAccountText} className="pr-5">
-                    {`Don’t have an account`}
+                <View style={styles.createAccountContainer} className="mb-10">
+                  <Text style={styles.noAccountText} className="pr-3 ">
+                    {"Already have an account"}
                   </Text>
-                  <Link href={"/signup"}>
-                    <Text style={styles.createAccountText}>CREATE ACCOUNT</Text>
+                  <Link href={"/(app)/(auth)/signup"}>
+                    <Text style={styles.createAccountText}>Login Here</Text>
                   </Link>
                 </View>
               </View>
@@ -222,14 +270,14 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   logo: {
-    marginTop: 5,
+    marginTop: 70,
     alignItems: "center",
-    resizeMode: "contain",
+    resizeMode:"contain",
   },
   scrollView: {
     backgroundColor: "white",
     padding: 10,
-    marginTop: 100,
+    marginTop: 60,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     shadowColor: "#000",
@@ -286,4 +334,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Signup;

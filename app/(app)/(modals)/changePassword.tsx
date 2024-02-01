@@ -2,9 +2,9 @@ import { View, Text, Alert } from 'react-native'
 import React from 'react'
 import CommonLayout from '@/components/layout/CommonLayout';
 import BackHeader from '@/components/global/header/BackHeader';
-import Colors from '@/constants/Colors';
-import CustomButton from '@/components/global/ui/Button';
 import CustomInput from '@/components/global/common/CommonInput';
+import CustomButton from '@/components/global/ui/Button';
+import Colors from '@/constants/Colors';
 
 const Page = () => {
   return (

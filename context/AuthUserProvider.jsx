@@ -5,7 +5,7 @@ const AuthUserContext = createContext();
 
 const AuthUserProvider = ({ children }) => {
   const {
-    data: { userData } = {},
+    data:{data:userData = {}} = {},
     isLoading: userLoading,
     refetch: userRefetch,
   } = useQuery({
@@ -20,6 +20,8 @@ const AuthUserProvider = ({ children }) => {
     // methods
     userRefetch,
   };
+
+  
 
   return (
     <AuthUserContext.Provider value={userContextValues}>

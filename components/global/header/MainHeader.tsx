@@ -19,7 +19,7 @@ const MainHeader = () => {
   
   const handleUserLogout = () => {
     // removeTokens();
-    router.replace("/(modals)/login")
+    router.replace("/(auth)/login")
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>

@@ -11,10 +11,11 @@ const defaultQueryFn = async ({ queryKey, signal }) => {
 const adminQueryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: false,
-      refetchOnMount: true,
-      refetchOnWindowFocus: ON_PRODUCTION,
-      refetchOnReconnect: ON_PRODUCTION,
+      refetchOnWindowFocus: false,
+      refetchOnmount: false,
+      refetchOnReconnect: false,
+      retry: 1,
+      staleTime: 5 * 1000,
       queryFn: defaultQueryFn,
     },
   },

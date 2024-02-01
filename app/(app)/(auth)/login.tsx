@@ -15,40 +15,38 @@ import {
   looper,
   logo,
   google,
-  facebook,
   apple,
-  space_owner,
   renter,
+  space_owner,
 } from "@/assets/images";
-
+import { signinValidationSchema } from "@/components/global/auth/validation/signinValidationSchema";
 import { Formik, useFormik } from "formik";
 import { Alert } from "react-native";
-import { Link, useRouter } from "expo-router";
+import { Link, useRouter,  } from "expo-router";
 
-import { signupValidationSchema } from "@/components/global/auth/validation/signupValidationSchema";
 import { useToast } from "react-native-toast-notifications";
-import adminAPI from "@/api/adminAPI";
 import { API } from "@/api/endpoints";
-import { setAccessToken, setRefreshToken } from "@/utils/localStorageUtils";
 
-type FormValues = {
-  email: string;
-  password: string;
-  name: string;
-  phone: string;
-  dob: string;
-  terms: boolean;
-};
+import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken } from "@/utils/localStorageUtils";
+import adminAPI from "@/api/adminAPI";
+import CommonProgress from "../(modals)/commonLoader";
 
-const Signup: React.FC = () => {
+
+interface SignInPayload {
+  email: string | undefined;
+  password: string | undefined;
+  role: string | undefined;
+}
+
+const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [tab, setTab] = useState("RENTER");
-  const router = useRouter();
+  const router = useRouter(); 
 
   const toast = useToast();
 
-  const { mutateAsync: signUpMutation, isLoading: isSigninLoading } =
-    useMutation((payload) => adminAPI.post(API.SignUp, payload));
+  const { mutateAsync: signInMutation, isLoading: isSigninLoading } =
+    useMutation((payload) => adminAPI.post(API.Login, payload));
 
 
     const handleSubmit = async (
@@ -57,13 +55,16 @@ const Signup: React.FC = () => {
     ) => {
       try{
         setSubmitting(true);
-        const response = await signUpMutation({...values,role:tab});
+        const response = await signInMutation({...values,role:tab});
         if(response?.data?.data){
           // console.log("Data===>", response?.data?.data);
-          toast.show("Signup Successfully ! 👋",{type: "success",})
-          router.replace("/login")
+          await setAccessToken(response.data.data?.accessToken);
+          await setRefreshToken(response.data.data?.refreshToken);
+          toast.show("Signin Successfully ! 👋",{type: "success",})
+          router.replace("/(app)/(tabs)")
         }
         setSubmitting(false);
+       
        
       } 
       catch(err){
@@ -71,35 +72,37 @@ const Signup: React.FC = () => {
           type: "danger",
         });
         setSubmitting(false);
-        setErrors(err);
       }
       
   
       
     };
 
+   
+
+    
+
   return (
     <View style={styles.container}>
+      {
+        isSigninLoading && <CommonProgress />
+      }
       <View style={styles.backgroundImageContainer}>
         <Image source={looper} style={styles.backgroundImage} />
       </View>
-      <View className="w-full h-20 flex justify-center items-center">
-        <Image source={logo} className="w-60 h-20" style={styles.logo} />
+      <View className="flex justify-center items-center mt-16 w-full">
+        <Image
+          source={logo}
+          className="w-60 h-20 object-contain"
+          style={styles.logo}
+        />
       </View>
-     
+      {/* <Image source={logo} style={} /> */}
       <ScrollView style={styles.scrollView}>
         <Formik
-          initialValues={{
-            email: "",
-            password: "",
-            fullName: "",
-            phoneNumber: "",
-            dateOfBirth: "",
-            address:"",
-            countryCode:"",
-          }}
+          initialValues={{ email: "", password: "", role: "RENTER" }}
           onSubmit={handleSubmit}
-          validationSchema={signupValidationSchema}
+          validationSchema={signinValidationSchema}
         >
           {({
             handleChange,
@@ -110,7 +113,7 @@ const Signup: React.FC = () => {
             touched,
           }) => (
             <View style={styles.formContainer}>
-              <Text style={styles.loginWithText}>CREATE ACCOUNT WITH </Text>
+              <Text style={styles.loginWithText}>LOGIN WITH</Text>
               <View className="flex flex-row justify-between pt-4 pb-3">
                 <CustomButton
                   bg={tab === "RENTER" ? Colors.akcent : Colors.gray2}
@@ -131,53 +134,6 @@ const Signup: React.FC = () => {
                   onPress={() => setTab("OWNER")}
                 />
               </View>
-
-              <CustomInput
-                icon="person-circle-sharp"
-                placeholder="Enter your Full Name"
-                autoCapitalize="none"
-                keyboardAppearance="dark"
-                returnKeyType="next"
-                returnKeyLabel="next"
-                label="Full Name"
-                onBlur={handleBlur("fullName")}
-                error={errors.fullName}
-                touched={touched.fullName}
-                onChangeText={handleChange("fullName")}
-                value={values.fullName}
-                type="text"
-              />
-              <CustomInput
-                icon="ios-call-sharp"
-                placeholder="Enter your Phone Number"
-                autoCapitalize="none"
-                keyboardAppearance="dark"
-                keyboardType="numeric"
-                returnKeyType="next"
-                returnKeyLabel="next"
-                label="Phone"
-                onBlur={handleBlur("phoneNumber")}
-                error={errors.phoneNumber}
-                touched={touched.phoneNumber}
-                onChangeText={handleChange("phoneNumber")}
-                value={values.phoneNumber}
-                type="text"
-              />
-              <CustomInput
-                icon="md-calendar"
-                placeholder="Enter your Date of Birth"
-                autoCapitalize="none"
-                keyboardAppearance="dark"
-                returnKeyType="next"
-                returnKeyLabel="next"
-                label="DOB"
-                onBlur={handleBlur("dateOfBirth")}
-                error={errors.dateOfBirth}
-                touched={touched.dateOfBirth}
-                onChangeText={handleChange("dateOfBirth")}
-                value={values.dateOfBirth}
-                type="date"
-              />
 
               <CustomInput
                 icon="mail"
@@ -221,7 +177,7 @@ const Signup: React.FC = () => {
                 <CustomButton
                   bg={Colors.primary}
                   size={300}
-                  text="Create Account"
+                  text="Login"
                   height={45}
                   onPress={() => handleSubmit()}
                 />
@@ -239,12 +195,12 @@ const Signup: React.FC = () => {
                     <Image source={apple} alt="apple" />
                   </TouchableOpacity>
                 </View>
-                <View style={styles.createAccountContainer} className="mb-10">
-                  <Text style={styles.noAccountText} className="pr-3 ">
-                    {"Already have an account"}
+                <View style={styles.createAccountContainer}>
+                  <Text style={styles.noAccountText} className="pr-5">
+                    {`Don’t have an account`}
                   </Text>
-                  <Link href={"/(modals)/login"}>
-                    <Text style={styles.createAccountText}>Login Here</Text>
+                  <Link href={"/signup"}>
+                    <Text style={styles.createAccountText}>CREATE ACCOUNT</Text>
                   </Link>
                 </View>
               </View>
@@ -270,14 +226,14 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   logo: {
-    marginTop: 70,
+    marginTop: 5,
     alignItems: "center",
-    resizeMode:"contain",
+    resizeMode: "contain",
   },
   scrollView: {
     backgroundColor: "white",
     padding: 10,
-    marginTop: 60,
+    marginTop: 100,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     shadowColor: "#000",
@@ -334,4 +290,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Signup;
+export default Login;

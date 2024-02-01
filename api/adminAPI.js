@@ -9,7 +9,8 @@ import adminQueryClient from "./adminQueryClient";
 
 const ADMIN_BASE_URL = "https://space-rental-api.vercel.app";
 
-// console.log("Access token", getAccessToken());
+
+
 // export const ADMIN_BASE_URL =
 //   import.meta.env.VITE_ADMIN_BASE_URL ?? PROD_ADMIN_BASE_URL;
 
@@ -30,21 +31,20 @@ const processRequestQueue = (accessToken) => {
   }
 };
 
-adminAPI.interceptors.request.use((config) => {
-  config.headers.Authorization = "Bearer " + getAccessToken();
+adminAPI.interceptors.request.use(async (config) => {
+  config.headers.Authorization = "Bearer " + await getAccessToken();
+  console.log(config.headers.Authorization);
   return config;
 });
 
-adminAPI.interceptors.response.use(undefined, (error) => {
+adminAPI.interceptors.response.use(undefined, async (error) => {
   const originalRequest = error?.config;
-  const refreshToken = getRefreshToken();
-  // console.log("Refresh token: " + refreshToken);
+  const refreshToken = await getRefreshToken();
 
   if (
     error?.response?.status === 401 &&
     !originalRequest?._retry &&
     !!refreshToken
-    
   ) {
     originalRequest._retry = true;
 
@@ -55,13 +55,13 @@ adminAPI.interceptors.response.use(undefined, (error) => {
         .post(`${ADMIN_BASE_URL}/api/Authentication/TokenRefresh`, {
           refreshToken,
         })
-        .then(({ data = {} }) => {
-          setAccessToken(data?.data?.accessToken);
-          processRequestQueue(data?.data?.accessToken);
+        .then(async ({ data = {} }) => {
+          await setAccessToken(data?.data?.accessToken);
+          await processRequestQueue(data?.data?.accessToken);
         })
-        .catch(() => {
-          removeTokens();
-          processRequestQueue(false);
+        .catch(async () => {
+          await removeTokens();
+          await processRequestQueue(false);
           adminQueryClient.resetQueries();
         })
         .finally(() => {
