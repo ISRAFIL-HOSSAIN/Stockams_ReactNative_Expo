@@ -20,37 +20,37 @@ const profile = () => {
             onPress={() => Alert.alert("Button clicked")}
           />
         </View>
-        <Link href={"/(modals)/profileInfo"}>
+        <Link href={"/(app)/(modals)/profileInfo"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Profile Information</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(modals)/changePassword"}>
+        <Link href={"/(app)/(modals)/changePassword"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Change Password</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(modals)/favouritePage"}>
+        <Link href={"/(app)/(modals)/favouritePage"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Favourite</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(modals)/managePayment"}>
+        <Link href={"/(app)/(modals)/managePayment"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Manage Payment</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(modals)/termsAndConditions"}>
+        <Link href={"/(app)/(modals)/termsAndConditions"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Terms And Condition</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(modals)/privacyPolicy"}>
+        <Link href={"/(app)/(modals)/privacyPolicy"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Privacy Policy</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
@@ -63,26 +63,26 @@ const profile = () => {
             <AntDesign name="logout" size={20} color={Colors.primary} />
           </View>
         </Link>
-        <Link href={"/(modals)/login"}>
+        <Link href={"/(app)/(auth)"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Login</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(modals)/signup"}>
+        <Link href={"/(app)/(auth)/signup"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Sign Up</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(modals)/spaceOverview"}>
+        <Link href={"/(app)/(modals)/spaceOverview"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Space Overview</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
 
-        <Link href={"/(modals)/chatPage"}>
+        <Link href={"/(app)/(modals)/chatPage"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Chat Page</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />

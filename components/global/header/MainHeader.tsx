@@ -17,12 +17,13 @@ const MainHeader = () => {
   const { userFound } = useAuthUserContext();
   const router = useRouter();
   
-  const handleUserLogout = () => {
-    // removeTokens();
-    router.replace("/(auth)/login")
+  const handleUserLogout = async () => {
+    console.log("Logout")
+    await removeTokens();
+    router.replace("/(main)/(auth)/login")
   };
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 0 }}>
       <StatusBar style="dark" />
       <View style={styles.container}>
         <View style={styles.actionRow}>
@@ -50,8 +51,8 @@ const MainHeader = () => {
 
             <View style={styles.Btn}>
               {userFound ? (
-                <TouchableOpacity>
-                  <Ionicons name="person" size={20} />
+                <TouchableOpacity onPress={()=> handleUserLogout()}>
+                  <Ionicons name="log-in-outline" size={20} />
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity onPress={()=> handleUserLogout()}>

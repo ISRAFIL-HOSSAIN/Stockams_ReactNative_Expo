@@ -21,7 +21,7 @@ import { router } from "expo-router";
 const Page = () => {
   const [tab, setTab] = useState("all");
   const addnewSpace = () => {
-    router.push("/(admin)/createNewspace");
+    router.push("/createNewspace");
   };
   return (
     <View style={{}}>

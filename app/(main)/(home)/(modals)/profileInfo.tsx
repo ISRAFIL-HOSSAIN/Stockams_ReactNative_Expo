@@ -20,11 +20,11 @@ const Page = () => {
           <View className="w-[92%] h-44 items-center justify-center bg-white rounded-3xl shadow">
             <Image
               className="w-full h-full  absolute rounded-3xl"
-              source={require("../../../assets/images/profile.png")}
+              source={require("../../../../assets/images/profile.png")}
             />
             <Image
               className="w-[35px] h-[35px]"
-              source={require("../../../assets/images/profile_edit.png")}
+              source={require("../../../../assets/images/profile_edit.png")}
             />
           </View>
         </View>
