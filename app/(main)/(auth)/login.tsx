@@ -22,71 +22,64 @@ import {
 import { signinValidationSchema } from "@/components/global/auth/validation/signinValidationSchema";
 import { Formik, useFormik } from "formik";
 import { Alert } from "react-native";
-import { Link, useRouter,  } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
 import { useToast } from "react-native-toast-notifications";
 import { API } from "@/api/endpoints";
 
-import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken } from "@/utils/localStorageUtils";
+import { setAccessToken, setRefreshToken } from "@/utils/localStorageUtils";
 import adminAPI from "@/api/adminAPI";
-import CommonProgress from "../(modals)/commonLoader";
+import CommonProgress from "../(home)/(modals)/commonLoader";
+import { useAuthUserContext } from "@/context/AuthUserProvider";
 
-
-interface SignInPayload {
-  email: string | undefined;
-  password: string | undefined;
-  role: string | undefined;
-}
-
-const Login: React.FC = () => {
+const Page: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [tab, setTab] = useState("RENTER");
-  const router = useRouter(); 
+  const router = useRouter();
+  const { userRole } = useAuthUserContext();
 
   const toast = useToast();
 
   const { mutateAsync: signInMutation, isLoading: isSigninLoading } =
     useMutation((payload) => adminAPI.post(API.Login, payload));
 
+  const handleSubmit = async (
+    values: any,
+    { setSubmitting, setErrors }: { setSubmitting: any; setErrors: any }
+  ) => {
+    try {
+      setSubmitting(true);
+      const response = await signInMutation({ ...values, role: tab });
 
-    const handleSubmit = async (
-      values: any,
-      { setSubmitting, setErrors }: { setSubmitting: any; setErrors: any }
-    ) => {
-      try{
-        setSubmitting(true);
-        const response = await signInMutation({...values,role:tab});
-        if(response?.data?.data){
-          // console.log("Data===>", response?.data?.data);
-          await setAccessToken(response.data.data?.accessToken);
-          await setRefreshToken(response.data.data?.refreshToken);
-          toast.show("Signin Successfully ! 👋",{type: "success",})
-          router.replace("/(app)/(tabs)")
-        }
-        setSubmitting(false);
-       
-       
-      } 
-      catch(err){
+      if (response?.data?.data) {
+        console.log("Data===>", response?.data?.data);
+        await setAccessToken(response.data.data?.accessToken);
+        await setRefreshToken(response.data.data?.refreshToken);
+      }
+      if (userRole && userRole === "RENTER") {
+        router.replace("/(main)/(home)/(rental)/(tabs)");
+        toast.show("Signin Successfully ! 👋", { type: "success" });
+      } else if (userRole && userRole === "OWNER") {
+        router.replace("/(main)/(home)/(owner)/(tabs)");
+        toast.show("Signin Successfully ! 👋", { type: "success" });
+      } else {
         toast.show("Something went wrong 👋", {
           type: "danger",
         });
-        setSubmitting(false);
       }
-      
-  
-      
-    };
 
-   
-
-    
+      setSubmitting(false);
+    } catch (err) {
+      toast.show("Something went wrong 👋", {
+        type: "danger",
+      });
+      setSubmitting(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
-      {
-        isSigninLoading && <CommonProgress />
-      }
+      {isSigninLoading && <CommonProgress />}
       <View style={styles.backgroundImageContainer}>
         <Image source={looper} style={styles.backgroundImage} />
       </View>
@@ -290,4 +283,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Page;

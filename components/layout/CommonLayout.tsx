@@ -9,9 +9,8 @@ const styles = StyleSheet.create({
     height:"100%",
     width: Dimensions.get("window").width * 1,
     //height:Dimensions.get('window').height,
-   backgroundColor:"white",
+   backgroundColor:"red",
     padding: 5,
-    marginTop: 40,
   },
 });
 export default CommonLayout;

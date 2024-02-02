@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 const AuthUserContext = createContext();
 
 const AuthUserProvider = ({ children }) => {
+  const [userRole,setUserRole] = useState(""); 
   const {
     data:{data:userData = {}} = {},
     isLoading: userLoading,
@@ -12,6 +13,15 @@ const AuthUserProvider = ({ children }) => {
     queryKey: ["/api/Authentication/GetLoggedInUser"],
   });
 
+  
+
+  React.useEffect(() => {
+    if (!userLoading && !!userData) {
+      setUserRole(userData?.role);
+    }
+  }, [userData]);
+  
+
   const userContextValues = {
     // states
     userData,
@@ -19,6 +29,7 @@ const AuthUserProvider = ({ children }) => {
     userFound: Boolean(!userLoading && !!userData?.email),
     // methods
     userRefetch,
+    userRole
   };
 
   
