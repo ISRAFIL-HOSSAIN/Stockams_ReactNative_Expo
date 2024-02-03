@@ -3,14 +3,25 @@ import { useAuthUserContext } from "@/context/AuthUserProvider";
 import { Redirect, Stack, SplashScreen, router } from "expo-router";
 import MainHeader from "@/components/global/header/MainHeader";
 
+// SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
-  const { userFound,userLoading } = useAuthUserContext();
+  const { userFound,userLoading, } = useAuthUserContext();
 
   useEffect(() => {
-    if (!userFound) {
-      <Redirect href="/(main)/(auth)/login" />;
+    if (!userLoading) {
+      SplashScreen.hideAsync();
     }
-  }, [userFound, userLoading]);
+  }, [userLoading]);
+
+  if (!userFound && userLoading) {
+    return null;
+  }
+
+  if(!userFound && !userLoading)
+  {
+    <Redirect href="/(main)/(auth)/login" />;
+  }
 
   return (
     <>
@@ -21,6 +32,18 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const { userRole } = useAuthUserContext();
+
+  useEffect(()=>{
+    if (userRole && userRole === "RENTER") {
+      router.replace("/(main)/(home)/(rental)/(tabs)");
+    } else if (userRole && userRole === "OWNER") {
+      router.replace("/(main)/(home)/(owner)/(tabs)");
+    } else {
+      router.replace("/(main)/(auth)/login");    
+    }
+  },[userRole]);
+
   return (
     <>
       <Stack

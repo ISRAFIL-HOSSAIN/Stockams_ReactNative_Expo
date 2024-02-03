@@ -62,6 +62,7 @@ export const setRefreshToken = async (token: string): Promise<void> => {
   }
 };
 
+
 export const getRefreshToken = async (): Promise<string> => {
   try {
     const jsonValue = await AsyncStorage.getItem("refreshToken");
@@ -77,9 +78,36 @@ export const getRefreshToken = async (): Promise<string> => {
   }
 };
 
+export const setUserRole = async (role: string): Promise<void> => {
+  try { 
+    await AsyncStorage.setItem("userRole", role);
+  } catch (error) {
+    console.error({ error });
+    const errorResponse: ErrorResponse = {
+      message: "Error setting User Role",
+    };
+
+    throw errorResponse;
+  }
+};
+export const getUserRole = async (): Promise<string> => {
+  try {
+    const jsonValue = await AsyncStorage.getItem("userRole");
+    return jsonValue ?? "";
+  } catch (error) {
+    // Handle the error and return an ErrorResponse
+    const errorResponse: ErrorResponse = {
+      message: "Error retrieving access token",
+      // Include additional properties based on your error handling needs
+    };
+
+    throw errorResponse;
+  }
+};
+
 export const removeTokens = async (): Promise<void> => {
   try {
-    await AsyncStorage.multiRemove(["accessToken", "refreshToken"]);
+    await AsyncStorage.multiRemove(["accessToken", "refreshToken","userRole"]);
   } catch (error) {
     console.error("Error removing tokens:", error);
   }

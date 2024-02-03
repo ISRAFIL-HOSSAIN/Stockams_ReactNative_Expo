@@ -4,12 +4,11 @@ import { Text, View, FlatList, Image } from "react-native";
 import { favourite, next } from "@/assets/images";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { Link, useRouter } from "expo-router";
-import massagePage from "./massagePage";
+
 import SearchBar from "@/components/global/common/SearchBar";
 
-// ... other imports
 
-const MyComponent: React.FC = () => {
+const ChatView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<SearchResultItem[]>([]);
   const router = useRouter();
@@ -45,8 +44,6 @@ const MyComponent: React.FC = () => {
     lastMassage: string;
     description: string;
     image: string;
-
-    // Add other properties as needed
   }
 
   //   useEffect(() => {
@@ -70,10 +67,8 @@ const MyComponent: React.FC = () => {
   const handleSearch = (newQuery: string) => {
     setSearchQuery(newQuery);
   };
-  // ... rest of your component logic
 
   return (
-    // ... other components
     <View className="w-full h-full bg-white">
       <View className="mt-[70px]">
         <SearchBar onSearch={handleSearch} text="Search for a store" />
@@ -113,4 +108,4 @@ const MyComponent: React.FC = () => {
   );
 };
 
-export default MyComponent;
+export default ChatView;

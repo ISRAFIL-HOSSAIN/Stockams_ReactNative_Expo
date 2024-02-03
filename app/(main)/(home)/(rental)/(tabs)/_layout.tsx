@@ -51,6 +51,7 @@ const TabsLayout = () => {
             tabBarIcon: ({ color, size }) => (
               <MaterialIcons name="message" size={24} color={color} />
             ),
+            header: () => null,
           }}
         />
         <Tabs.Screen
