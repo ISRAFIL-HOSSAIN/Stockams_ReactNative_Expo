@@ -1,9 +1,8 @@
 import { Feather, Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import React, { Component, useEffect, useState } from "react";
 import { useNavigation, useRouter, useLocalSearchParams } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
-import * as ImageManipulator from 'expo-image-manipulator';
+import * as ImageManipulator from "expo-image-manipulator";
 import {
   View,
   Text,
@@ -22,6 +21,8 @@ interface Message {
   id: number;
   text: string;
   image: any;
+  originalWidth: any;
+  originalHeight: any;
 }
 interface SelectedImage {
   uri: string;
@@ -60,52 +61,56 @@ const SingleMessageView = () => {
     }
   };
 
-const sendMessage = async () => {
-  if (!text && !image) {
-    // Don't send an empty message
-    return;
-  }
-
-  let originalWidth = 0;
-  let originalHeight = 0;
-
-  if (image) {
-    // If an image is selected, get its original dimensions
-    try {
-      const { width, height } = await getImageDimensions(image);
-      originalWidth = width;
-      originalHeight = height;
-    } catch (error) {
-      console.error('Error getting image dimensions:', error);
-      // Handle the error as needed
+  const sendMessage = async () => {
+    if (!text && !image) {
+      // Don't send an empty message
+      return;
     }
-  }
 
-  // Create a new message object
-  const newMessage: Message = {
-    id: messages.length + 1,
-    text,
-    image,
-    originalWidth,
-    originalHeight,
+    let originalWidth = 0;
+    let originalHeight = 0;
+
+    if (image) {
+      // If an image is selected, get its original dimensions
+      try {
+        const { width, height } = await getImageDimensions(image);
+        originalWidth = width;
+        originalHeight = height;
+      } catch (error) {
+        console.error("Error getting image dimensions:", error);
+        // Handle the error as needed
+      }
+    }
+
+    // Create a new message object
+    const newMessage: Message = {
+      id: messages.length + 1,
+      text,
+      image,
+      originalWidth,
+      originalHeight,
+    };
+
+    // Update the messages state using the functional form
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+    // Reset text and image after sending
+    setText("");
+    setImage(null);
   };
 
-  // Update the messages state using the functional form
-  setMessages((prevMessages) => [...prevMessages, newMessage]);
+  const getImageDimensions = async (imageUri: string) => {
+    const { width, height } = await ImageManipulator.manipulateAsync(
+      imageUri,
+      [],
+      {
+        // You can adjust the format as needed
+        base64: false, // Set to true if you also want the base64 representation
+      }
+    );
 
-  // Reset text and image after sending
-  setText("");
-  setImage(null);
-};
-
-const getImageDimensions = async (imageUri: string) => {
-  const { width, height } = await ImageManipulator.manipulateAsync(imageUri, [], { // You can adjust the format as needed
-    base64: false, // Set to true if you also want the base64 representation
-  });
-
-  return { width, height };
-};
-
+    return { width, height };
+  };
 
   const handleImageClick = (imageUri: string) => {
     setSelectedImage(imageUri);
@@ -129,11 +134,8 @@ const getImageDimensions = async (imageUri: string) => {
 
   return (
     <View className="w-full h-full bg-white">
-      <View className="flex flex-row justify-start items-center mt-[60px] self-center rounded-xl bg-[#ffffff] w-[360px] h-[50px] shadow-xl shadow-slate-500">
-        <TouchableOpacity
-          className="ml-2 "
-          onPress={() => router.push("/chatPage")}
-        >
+      <View className="flex flex-row justify-start items-center mt-[10px] self-center rounded-xl bg-[#ffffff] w-[360px] h-[50px] shadow-xl shadow-slate-500">
+        <TouchableOpacity className="ml-2 " onPress={() => router.back()}>
           <Ionicons
             name="ios-arrow-back-circle-outline"
             size={30}
@@ -165,7 +167,8 @@ const getImageDimensions = async (imageUri: string) => {
           }}
         >
           <View style={styles.modalContainer}>
-            <TouchableOpacity className="self-end "
+            <TouchableOpacity
+              className="self-end "
               onPress={() => {
                 setModalVisible(false);
                 setSelectedImage(null);
