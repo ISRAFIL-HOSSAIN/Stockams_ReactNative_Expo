@@ -7,7 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CustomInput from "@/components/global/common/CommonInput";
 import CustomButton from "@/components/global/ui/Button";
 import Colors from "@/constants/Colors";
@@ -27,7 +27,12 @@ import { Link, useRouter } from "expo-router";
 import { useToast } from "react-native-toast-notifications";
 import { API } from "@/api/endpoints";
 
-import { setAccessToken, setRefreshToken } from "@/utils/localStorageUtils";
+import {
+  getUserRole,
+  setAccessToken,
+  setRefreshToken,
+  setUserRole,
+} from "@/utils/localStorageUtils";
 import adminAPI from "@/api/adminAPI";
 import CommonProgress from "../(home)/(modals)/commonLoader";
 import { useAuthUserContext } from "@/context/AuthUserProvider";
@@ -37,6 +42,7 @@ const Page: React.FC = () => {
   const [tab, setTab] = useState("RENTER");
   const router = useRouter();
   const { userRole } = useAuthUserContext();
+  const queryClient = useQueryClient();
 
   const toast = useToast();
 
@@ -55,19 +61,10 @@ const Page: React.FC = () => {
         console.log("Data===>", response?.data?.data);
         await setAccessToken(response.data.data?.accessToken);
         await setRefreshToken(response.data.data?.refreshToken);
-      }
-      if (userRole && userRole === "RENTER") {
-        router.replace("/(main)/(home)/(rental)/(tabs)");
+        // await setUserRole(userRole && userRole);
+        queryClient.resetQueries();
         toast.show("Signin Successfully ! 👋", { type: "success" });
-      } else if (userRole && userRole === "OWNER") {
-        router.replace("/(main)/(home)/(owner)/(tabs)");
-        toast.show("Signin Successfully ! 👋", { type: "success" });
-      } else {
-        toast.show("Something went wrong 👋", {
-          type: "danger",
-        });
       }
-
       setSubmitting(false);
     } catch (err) {
       toast.show("Something went wrong 👋", {
