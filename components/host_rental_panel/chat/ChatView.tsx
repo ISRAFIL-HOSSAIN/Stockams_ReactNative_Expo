@@ -70,7 +70,7 @@ const ChatView: React.FC = () => {
 
   return (
     <View className="w-full h-full bg-white">
-      <View className="mt-[70px]">
+      <View className="mt-[10px]">
         <SearchBar onSearch={handleSearch} text="Search for a store" />
         {/* {searchResults.map((result) => (
         <View key={result.id}>
@@ -81,7 +81,7 @@ const ChatView: React.FC = () => {
         <ScrollView>
           
           {users?.map((item, id) => (
-            <TouchableOpacity onPress={()=>{router.push({pathname:"/massagePage",params:{id:id, image: item.image, name: item.name}})}} key={id} >
+            <TouchableOpacity onPress={()=>{router.push({pathname:"/(main)/(home)/(modals)/massagePage",params:{id:id, image: item.image, name: item.name}})}} key={id} >
               <View className="flex flex-row p-3 mt-2 w-96 h-[75px]  justify-between" >
                 <Image
                   className="w-[50px] h-[50px] rounded-3xl"

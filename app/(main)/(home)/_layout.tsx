@@ -45,6 +45,8 @@ export default function PageLayout() {
           <Stack.Screen name="(rental)" options={{}} />
           <Stack.Screen name="(owner)" options={{}} />
 
+          {/* modals  */}
+          
           {/* profile  */}
           <Stack.Screen
             name="(modals)/profileInfo"
@@ -74,10 +76,14 @@ export default function PageLayout() {
             name="(modals)/spaceOverview"
             options={{ headerTitle: "" }}
           />
+
+          {/* Message route  */}
           <Stack.Screen
-            name="(modals)/chatPage"
+            name="(modals)/massagePage"
             options={{ headerTitle: "" }}
           />
+
+
           <Stack.Screen
             name="(modals)/commonModal"
             options={{

@@ -49,15 +49,14 @@ export default function commonModal({
   }, [isOpen]);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }} >
-      <BottomSheetModalProvider >
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
         <View style={styles.container}>{children}</View>
-        <BottomSheetModal 
+        <BottomSheetModal
           ref={bottomSheetModalRef}
           index={1}
           snapPoints={snapPoints}
-          backgroundStyle={{ borderRadius: 20 
-          }}
+          backgroundStyle={{ borderRadius: 20 }}
           onDismiss={() => setIsOpen(false)}
         >
           <View className="">{subChildren}</View>
@@ -72,13 +71,11 @@ const styles = StyleSheet.create({
     height: "100%",
     width: Dimensions.get("window").width * 1,
     marginTop: 40,
-   
   },
   contentContainer: {
     flex: 1,
     alignItems: "center",
     paddingHorizontal: 15,
-    
   },
   row: {
     width: "100%",
