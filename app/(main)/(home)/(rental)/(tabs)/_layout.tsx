@@ -89,6 +89,7 @@ const TabsLayout = () => {
             tabBarIcon: ({ color, size }) => (
               <Octicons name="person" size={18} color={color} />
             ),
+            header : ()=> null,
           }}
         />
       </Tabs>

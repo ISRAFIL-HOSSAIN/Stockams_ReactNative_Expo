@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     width: Dimensions.get("window").width * 1,
-    marginTop: 40,
   },
   contentContainer: {
     flex: 1,

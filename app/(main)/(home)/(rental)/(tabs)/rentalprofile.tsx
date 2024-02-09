@@ -20,71 +20,45 @@ const profile = () => {
             onPress={() => Alert.alert("Button clicked")}
           />
         </View>
-        <Link href={"/(app)/(modals)/profileInfo"}>
+        <Link href={"/(main)/(home)/(modals)/profileInfo"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Profile Information</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(app)/(modals)/changePassword"}>
+        <Link href={"/(main)/(home)/(modals)/changePassword"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Change Password</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(app)/(modals)/favouritePage"}>
+        <Link href={"/(main)/(home)/(modals)/favouritePage"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Favourite</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(app)/(modals)/managePayment"}>
+        <Link href={"/(main)/(home)/(modals)/managePayment"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Manage Payment</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(app)/(modals)/termsAndConditions"}>
+        <Link href={"/(main)/(home)/(modals)/termsAndConditions"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Terms And Condition</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-        <Link href={"/(app)/(modals)/privacyPolicy"}>
+        <Link href={"/(main)/(home)/(modals)/privacyPolicy"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Privacy Policy</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>
-
-        <Link href={"/"}>
-          <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
-            <Text className="text-[16px] font-medium">LogOut</Text>
-            <AntDesign name="logout" size={20} color={Colors.primary} />
-          </View>
-        </Link>
-        <Link href={"/(app)/(auth)"}>
-          <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
-            <Text className="text-[16px] font-medium">Login</Text>
-            <Image className="w-[22px] h-[22px] ml-2" source={next} />
-          </View>
-        </Link>
-        <Link href={"/(app)/(auth)/signup"}>
-          <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
-            <Text className="text-[16px] font-medium">Sign Up</Text>
-            <Image className="w-[22px] h-[22px] ml-2" source={next} />
-          </View>
-        </Link>
-        <Link href={"/(app)/(modals)/spaceOverview"}>
+        <Link href={"/(main)/(home)/(modals)/spaceOverview"}>
           <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
             <Text className="text-[16px] font-medium">Space Overview</Text>
-            <Image className="w-[22px] h-[22px] ml-2" source={next} />
-          </View>
-        </Link>
-
-        <Link href={"/(app)/(modals)/chatPage"}>
-          <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
-            <Text className="text-[16px] font-medium">Chat Page</Text>
             <Image className="w-[22px] h-[22px] ml-2" source={next} />
           </View>
         </Link>

@@ -38,6 +38,8 @@ interface CustomInputProps {
   mode?: "date" | "time";
   date?:any; 
   setDate?:any;
+  border?:any;
+  isEditable?:any,
   onChangeText?: (text: string) => void; // optional
   togglePasswordVisibility?: () => void;
   ref?: any;
@@ -63,7 +65,9 @@ const CustomInput: React.ForwardRefRenderFunction<
     type,
     date, 
     setDate,
+    isEditable,
     mode = "date",
+    border,
     ...inputProps
   },
   ref: ForwardedRef<RNTextInput>
@@ -99,7 +103,7 @@ const CustomInput: React.ForwardRefRenderFunction<
           height: 48,
           borderRadius: 8,
           borderColor: validationColor,
-          borderWidth: StyleSheet.hairlineWidth,
+          borderWidth: border ? border : StyleSheet.hairlineWidth,
           padding: 8,
           marginTop: 5,
           marginBottom: 5,
@@ -116,6 +120,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               ref={ref}
               value={value}
               onChangeText={handleChangeText}
+              editable={isEditable}
               {...inputProps}
             />
           )}

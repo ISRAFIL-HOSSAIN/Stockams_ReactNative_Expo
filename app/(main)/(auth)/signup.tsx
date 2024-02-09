@@ -243,7 +243,7 @@ const Signup: React.FC = () => {
                   <Text style={styles.noAccountText} className="pr-3 ">
                     {"Already have an account"}
                   </Text>
-                  <Link href={"/(main)/(auth)/signup"}>
+                  <Link href={"/(main)/(auth)/login"}>
                     <Text style={styles.createAccountText}>Login Here</Text>
                   </Link>
                 </View>

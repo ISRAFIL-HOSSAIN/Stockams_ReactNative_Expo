@@ -26,6 +26,7 @@ import {
 } from "react-native";
 import CommonModal from "./commonModal";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import CustomInput from "@/components/global/common/CommonInput";
 
 interface CommonModalProps {
   isOpen: boolean;
@@ -87,11 +88,15 @@ const spaceOverview: React.FC = () => {
         <View className="flex flex-row w-full items-center justify-between">
             <View className="w-[48%] rounded-xl ">
               <Text className="text-[13px]">Start Date</Text>
-              <CustomDropDown
-                title="2 Months"
-                data={options}
-                height={38}
-                marginTop={2}
+              <CustomInput
+                icon="md-calendar"
+                placeholder="Enter Date"
+                autoCapitalize="none"
+                keyboardAppearance="dark"
+                returnKeyType="next"
+                returnKeyLabel="next"
+                label="Date"
+                type="date"
               />
           </View>
           <View className=" w-[48%] rounded-xl">
