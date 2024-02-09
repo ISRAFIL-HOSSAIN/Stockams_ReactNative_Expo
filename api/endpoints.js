@@ -24,35 +24,49 @@ export const API ={
     DeleteSpaceType : '/api/SpaceType/DeleteById/{DocId}', //delete
 
     //SpaceAccess Option 
-    SpaceAccessCreate : '/api/SpaceAccessOption/Create', //post 
-    GetSpaceAccessOption : '/api/SpaceAccessOption/GetAll', // get 
-    GetSingleAccessOption : '/api/SpaceAccessOption/GetById/{DocId}', //get 
-    UpdateAccessOption : '/api/SpaceAccessOption/UpdateById/{DocId}', //update-patch 
-    DeleteAccessOption : '/api/SpaceAccessOption/DeleteById/{DocId}', //delete 
+    SpaceAccessCreate : '/api/SpaceAccessMethod/Create', //post 
+    GetAllSpaceAccess : '/api/SpaceAccessMethod/GetAll', // get 
+    GetSingleAccessOption : '/api/SpaceAccessMethod/GetById/{DocId}', //get 
+    UpdateAccessOption : '/api/SpaceAccessMethod/UpdateById/{DocId}', //update-patch 
+    DeleteAccessOption : '/api/SpaceAccessMethod/DeleteById/{DocId}', //delete 
 
     // Storage  Condition Features 
-    StorageConditionCreate : '/api/StorageConditionFeature/Create', //post 
-    GetStorageCondition : '/api/StorageConditionFeature/GetAll', // get 
-    DeleteStorageCondition : '/api/StorageConditionFeature/DeleteById', // delete 
+    StorageConditionCreate : '/api/StorageCondition/Create', //post 
+    GetStorageCondition : '/api/StorageCondition/GetAll', // get 
+    DeleteStorageCondition : '/api/StorageCondition/DeleteById', // d
+    GetAllStorageConditionDropdown: '/api/StorageCondition/GetAllForDropdown', 
 
     // Space Security Features 
-    SpaceSecurityFeatureCreate : '/api/SpaceSecurityFeature/Create', //post 
-    GetSpaceSecurityFeature : '/api/SpaceSecurityFeature/GetAll', //get 
-    DeleteSpaceSecurityFeature : '/api/SpaceSecurityFeature/DeleteById/{DocId}', //delete 
+    SpaceSecurityCreate : '/api/SpaceSecurity/Create', //post 
+    GetSpaceSecurity : '/api/SpaceSecurity/GetAll', //get 
+    DeleteSpaceSecurity : '/api/SpaceSecurity/DeleteById/{DocId}', //delete 
+    GetAllSpaceSecurityDropdown : '/api/SpaceSecurity/GetAllForDropdown', //delete 
 
     // Space Schedule Features  
-    SpaceScheduleFeatureCreate : '/api/SpaceScheduleFeature/Create', //post 
-    GetSpaceScheduleFeature : '/api/SpaceScheduleFeature/GetAll', //get 
-    DeleteSpaceScheduleFeature: '/api/SpaceScheduleFeature/DeleteById/{DocId}', //delete 
+    SpaceScheduleCreate : '/api/SpaceSchedule/Create', //post 
+    GetSpaceSchedule : '/api/SpaceSchedule/GetAll', //get 
+    DeleteSpaceSchedule: '/api/SpaceSchedule/DeleteById/{DocId}', //delete 
+    GetAllScheduleDropdown: '/api/SpaceSchedule/GetAllForDropdown', //delete 
 
+    //Unloading and Moving Feature 
+    UnloadingCreate : '/api/UnloadingAndMoving/Create',
+    GetUnloadingAll: '/api/UnloadingAndMoving/GetAll',
+    DeleteUnloading: 'api/UnloadingAndMoving/DeleteByID',
+    GetAllUnloadingDropdown: '/api/UnloadingAndMoving/GetAllForDropdown',
 
+     //Space - Reviews 
+     SpaceReviewCreate : '/api/SpaceReview/Create',
+     GetSpaceReviewAll: '/api/SpaceReview/GetAll',
+     DeleteSpaceReview: 'api/SpaceReview/DeleteByID',
+     GetSpaceReviewByID: '/api/SpaceReview/GetAllBySpaceId',
+
+     
     // Space For Rent 
     SpaceForRentCreate : '/api/SpaceForRent/Create', //post 
     GetSpaceForRent : '/api/SpaceForRent/GetAll', //get 
     GetSingleSpaceForRent: '/api/SpaceForRent/GetById/{DocId}', //get 
     UpdateSpaceForRent : '/api/SpaceForRent/UpdateById/{DocId}', //update
     DeleteSpaceForRent: '/api/SpaceForRent/DeleteById/{DocId}', //delete
-
     AddSpaceImage : '/api/SpaceForRent/AddSpaceImageById/{DocId}', //post 
     DeleteSpaceImage : '/api/SpaceForRent/DeleteSpaceImageById/{SpaceId}/{ImageId}', //delete 
 

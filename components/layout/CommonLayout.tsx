@@ -8,9 +8,9 @@ const styles = StyleSheet.create({
   container: {
     height:"100%",
     width: Dimensions.get("window").width * 1,
-    //height:Dimensions.get('window').height,
-   backgroundColor:"red",
+    // height:Dimensions.get('window').height,
     padding: 5,
+    backgroundColor:"#ffffff"
   },
 });
 export default CommonLayout;

@@ -6,7 +6,7 @@ import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
 import Colors from "@/constants/Colors";
-import CustomButton from "@/components/global/ui/Button";
+
 import { TouchableOpacity } from "react-native-gesture-handler";
 const EditStoreCard = ({ data }: any) => {
   return (

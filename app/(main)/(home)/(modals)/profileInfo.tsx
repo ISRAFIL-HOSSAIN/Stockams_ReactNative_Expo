@@ -5,8 +5,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import BackHeader from "@/components/global/header/BackHeader";
 import { Stack } from "expo-router";
 import CustomInput from "@/components/global/common/CommonInput";
-import CustomButton from "@/components/global/ui/Button";
+
 import Colors from "@/constants/Colors";
+import CustomButton from "@/components/global/common/ui/Button";
 
 const Page = () => {
   return (

@@ -1,3 +1,4 @@
+// adminAPI.js
 import axios from "axios";
 import {
   getAccessToken,
@@ -5,18 +6,35 @@ import {
   removeTokens,
   setAccessToken,
 } from "../utils/localStorageUtils";
-import adminQueryClient from "./adminQueryClient";
+import { QueryClient } from "@tanstack/react-query";
 
 const ADMIN_BASE_URL = "https://space-rental-api.vercel.app";
 
-
-
-// export const ADMIN_BASE_URL =
-//   import.meta.env.VITE_ADMIN_BASE_URL ?? PROD_ADMIN_BASE_URL;
-
 const adminAPI = axios.create({ baseURL: ADMIN_BASE_URL });
 
-//#region Refreshing process and unauthorized request queue
+// Move adminQueryClient creation here
+const defaultQueryFn = async ({ queryKey, signal }) => {
+  const { data } = await adminAPI(`${queryKey[0]}`, { signal });
+  return data;
+};
+
+const adminQueryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnmount: false,
+      refetchOnReconnect: false,
+      retry: 1,
+      staleTime: 5 * 1000,
+      queryFn: defaultQueryFn,
+    },
+  },
+});
+
+// Add adminQueryClient to adminAPI for export
+adminAPI.adminQueryClient = adminQueryClient;
+
+// #region Refreshing process and unauthorized request queue
 let isRefreshingToken = false;
 let requestQueue = [];
 
@@ -62,7 +80,7 @@ adminAPI.interceptors.response.use(undefined, async (error) => {
         .catch(async () => {
           await removeTokens();
           await processRequestQueue(false);
-          adminQueryClient.resetQueries();
+          adminAPI.adminQueryClient.resetQueries();
         })
         .finally(() => {
           isRefreshingToken = false;
@@ -84,6 +102,6 @@ adminAPI.interceptors.response.use(undefined, async (error) => {
   return Promise.reject(error);
 });
 
-//#endregion
+// #endregion
 
 export default adminAPI;

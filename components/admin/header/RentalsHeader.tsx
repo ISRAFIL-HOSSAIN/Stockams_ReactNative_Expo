@@ -1,8 +1,9 @@
 import { Alert, Dimensions, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import CustomButton from "@/components/global/ui/Button";
+
 import Colors from "@/constants/Colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import CustomButton from "@/components/global/common/ui/Button";
 
 const RentalsHeader = ({tab,setTab}:{tab:any,setTab:any}) => {
 

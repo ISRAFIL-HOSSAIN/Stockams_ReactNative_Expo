@@ -2,8 +2,9 @@ import React from "react";
 import { View, Text, Image, StyleSheet, Alert } from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import CustomButton from "./ui/Button";
+
 import Colors from "@/constants/Colors";
+import CustomButton from "./common/ui/Button";
 const StoreCard = ({ data }: any) => {
   return (
     <View className="w-[320px] h-[350px] shadow-lg shadow-gray-400 bg-white border-tertiary border  rounded-xl mt-5 relative flex justify-center items-center">

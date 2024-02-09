@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import APIQueryClient from "@/api/adminQueryClient";
-
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "react-native-toast-notifications";
 import { Redirect, Slot, SplashScreen } from "expo-router";
@@ -25,7 +24,7 @@ export const unstable_settings = {
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+export default function App() {
   const [loaded, error] = useFonts({
     mon: require("../assets/fonts/Montserrat-Regular.ttf"),
     "mon-sb": require("../assets/fonts/Montserrat-SemiBold.ttf"),
@@ -35,15 +34,15 @@ export default function RootLayout() {
   useEffect(() => {
     if (error) throw error;
   }, [error]);
-  // useEffect(() => {
-  //   if (loaded) {
-  //     SplashScreen.hideAsync();
-  //   }
-  // }, [loaded]);
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
 
-  // if (!loaded) {
-  //   return null;
-  // }
+  if (!loaded) {
+    return null;
+  }
 
   return (
     <QueryClientProvider client={APIQueryClient}>
@@ -57,9 +56,20 @@ export default function RootLayout() {
             ),
           }}
         >
-          <Slot />
+          <RootLayoutNav />
         </ToastProvider>
       </AuthUserProvider>
     </QueryClientProvider>
   );
+}
+
+function RootLayoutNav() {
+  const { userFound, userData, userLoading } = useAuthUserContext();
+  useEffect(() => {
+    if (!userFound && userLoading) {
+      <Redirect href="/(main)/(auth)/login" />;
+    }
+  }, [userFound, userLoading]);
+  
+  return <Slot />;
 }

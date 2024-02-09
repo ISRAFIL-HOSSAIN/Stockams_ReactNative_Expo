@@ -14,9 +14,10 @@ import StoreCard from "@/components/global/Card";
 import EditStoreCard from "@/components/admin/components/EditStoreCard";
 import BookedCard from "@/components/admin/components/BookedCard";
 
-import CustomButton from "@/components/global/ui/Button";
+
 import Colors from "@/constants/Colors";
 import { router } from "expo-router";
+import CustomButton from "@/components/global/common/ui/Button";
 
 const Page = () => {
   const [tab, setTab] = useState("all");
