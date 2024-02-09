@@ -2,7 +2,8 @@
 import { View, Text, Alert } from "react-native";
 import React from "react";
 import Colors from "@/constants/Colors";
-import CustomButton from "@/components/global/ui/Button";
+import CustomButton from "@/components/global/common/ui/Button";
+
 
 // Create your ExploreHeader component
 const ExploreHeader = () => {

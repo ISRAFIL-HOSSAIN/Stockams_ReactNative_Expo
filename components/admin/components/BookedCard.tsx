@@ -4,7 +4,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
 import Colors from "@/constants/Colors";
-import CustomButton from "@/components/global/ui/Button";
+
 // import HorizontalProgress from "@/components/global/progress/HorizontalProgress";
 const BookedCard = ({ data }: any) => {
   return (

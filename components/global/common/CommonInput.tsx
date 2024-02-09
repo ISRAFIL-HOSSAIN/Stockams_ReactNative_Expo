@@ -1,8 +1,8 @@
+// TextInput, Datepicker, email, password. ...
 
-// TextInput, Datepicker, email, password. ... 
-
-import React, {  ForwardedRef, useState } from "react";
+import React, { ForwardedRef, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
 import {
   TextInput as RNTextInput,
   View,
@@ -10,22 +10,24 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import Colors from "@/constants/Colors";
+import convertNumber from "@/utils/commonFunction";
+import Checkbox from "expo-checkbox";
 
 interface CustomInputProps {
   passwordIcon?: any;
-  setShowPassword?:any;
+  setShowPassword?: any;
   icon?: any;
   name?: string;
   label?: string;
   defaultValue?: string | boolean;
-  options?: string[]; // optional for select/dropdown
-  PlaceHolder?: string;
+  options?: any; // optional for select/dropdown
   rules?: any;
   placeholder: string;
   autoCapitalize?: any;
   autoCompleteType?: any;
-  keyboardType?: any;
+  keyboardType?: string;
   keyboardAppearance?: any;
   returnKeyType?: any;
   returnKeyLabel?: any;
@@ -36,10 +38,17 @@ interface CustomInputProps {
   value?: any;
   type?: string;
   mode?: "date" | "time";
-  date?:any; 
-  setDate?:any;
-  border?:any;
-  isEditable?:any,
+  date?: any;
+  setDate?: any;
+  rightIcon?: any;
+  rightText?: any;
+  height?: number;
+  setFieldValue?: any;
+  values?: any;
+  width?: any;
+  isDropdownChangeAnotherField?: any;
+  isEditable? : any;
+  border? : any;
   onChangeText?: (text: string) => void; // optional
   togglePasswordVisibility?: () => void;
   ref?: any;
@@ -58,15 +67,21 @@ const CustomInput: React.ForwardRefRenderFunction<
     defaultValue,
     options,
     onChangeText,
-    PlaceHolder,
+    placeholder,
     touched,
     error,
     value,
     type,
-    date, 
+    date,
     setDate,
     isEditable,
     mode = "date",
+    height = 48,
+    keyboardType,
+    setFieldValue,
+    width = "100%",
+    values,
+    isDropdownChangeAnotherField = false,
     border,
     ...inputProps
   },
@@ -79,48 +94,137 @@ const CustomInput: React.ForwardRefRenderFunction<
   const handleChangeText = (text: string) => {
     onChangeText?.(text);
   };
-  const onChange = (event:any, selectedDate:any) => {
+  const onChange = (event: any, selectedDate: any) => {
     setShow(false);
-    const currentDate = selectedDate.toLocaleDateString('en-GB');
+    const currentDate = selectedDate.toLocaleDateString("en-GB");
     onChangeText?.(currentDate);
     console.log("Date: ", currentDate);
   };
 
-  const showDatePicker =()=>{
+  const handleChangeDropdown = (itemValue: string) => {
+    console.log("ItemValue : ", itemValue);
+    if (isDropdownChangeAnotherField) {
+      const selectedOption = options?.find(
+        (item: any) => item?.name === itemValue
+      );
+      if (selectedOption) {
+        setFieldValue(
+          "pricePerMonth",
+          convertNumber(selectedOption?.pricePerMonth)
+        );
+      }
+    }
+    onChangeText?.(itemValue);
+  };
+
+  const showDatePicker = () => {
     setShow(true);
-  }
+  };
   const togglePasswordVisibility = () => {
-    inputProps.setShowPassword((prevState:any) => !prevState);
+    inputProps.setShowPassword((prevState: any) => !prevState);
   };
 
   return (
-    <View style={styles.inputContainer}>
+    <View
+      style={{
+        padding: 4,
+        width: width,
+      }}
+    >
       {label && <Text style={styles.label}>{label}</Text>}
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-          height: 48,
+          height: height,
           borderRadius: 8,
           borderColor: validationColor,
           borderWidth: border ? border : StyleSheet.hairlineWidth,
           padding: 8,
           marginTop: 5,
           marginBottom: 5,
+          backgroundColor: Colors.grey,
         }}
       >
         <View style={{ padding: 8 }}>
-          <Ionicons name={icon} color={validationColor} size={16} />
+          {type === "dropdown" ? (
+            <MaterialCommunityIcons
+              name={icon}
+              color={validationColor}
+              size={16}
+            />
+          ) : (
+            <Ionicons name={icon} color={validationColor} size={16} />
+          )}
         </View>
         <View style={{ flex: 1 }}>
           {type === "text" && (
             <RNTextInput
               underlineColorAndroid="transparent"
               placeholderTextColor="rgba(34, 62, 75, 0.7)"
+              placeholder={placeholder}
               ref={ref}
               value={value}
               onChangeText={handleChangeText}
               editable={isEditable}
+              {...inputProps}
+            />
+          )}
+          {type === "number" && (
+            <RNTextInput
+              underlineColorAndroid="transparent"
+              placeholderTextColor="rgba(34, 62, 75, 0.7)"
+              autoCapitalize="none"
+              keyboardAppearance="dark"
+              returnKeyType="go"
+              returnKeyLabel="go"
+              placeholder={placeholder}
+              ref={ref}
+              value={value}
+              onChangeText={handleChangeText}
+              keyboardType="numeric"
+            />
+          )}
+          {type === "richtext" && (
+            <RNTextInput
+              underlineColorAndroid="transparent"
+              placeholderTextColor="rgba(34, 62, 75, 0.7)"
+              placeholder={placeholder}
+              ref={ref}
+              value={value}
+              onChangeText={handleChangeText}
+              multiline={true}
+              numberOfLines={10}
+              style={{ height: 50, textAlignVertical: "top" }}
+              {...inputProps}
+            />
+          )}
+          {type === "number" && (
+            <RNTextInput
+              underlineColorAndroid="transparent"
+              placeholderTextColor="rgba(34, 62, 75, 0.7)"
+              autoCapitalize="none"
+              keyboardAppearance="dark"
+              returnKeyType="go"
+              returnKeyLabel="go"
+              placeholder={placeholder}
+              ref={ref}
+              value={value}
+              onChangeText={handleChangeText}
+              keyboardType="numeric"
+            />
+          )}
+          {type === "richtext" && (
+            <RNTextInput
+              underlineColorAndroid="transparent"
+              placeholderTextColor="rgba(34, 62, 75, 0.7)"
+              placeholder={placeholder}
+              ref={ref}
+              value={value}
+              onChangeText={handleChangeText}
+              multiline={true}
+              numberOfLines={10}
+              style={{ height: 50, textAlignVertical: "top" }}
               {...inputProps}
             />
           )}
@@ -129,10 +233,10 @@ const CustomInput: React.ForwardRefRenderFunction<
               <RNTextInput
                 underlineColorAndroid="transparent"
                 placeholderTextColor="rgba(34, 62, 75, 0.7)"
+                placeholder={placeholder}
                 ref={ref}
                 value={value}
                 onChangeText={handleChangeText}
-                
                 {...inputProps}
               />
               {show && (
@@ -149,9 +253,26 @@ const CustomInput: React.ForwardRefRenderFunction<
               </TouchableOpacity>
             </View>
           )}
-          { type === "dropdown" && (
-            <View >
-              
+          {type === "dropdown" && (
+            <Picker
+              selectedValue={value}
+              onValueChange={handleChangeDropdown}
+              style={{ height: 50, width: "100%" }}
+              className="text-md font-medium"
+            >
+              <Picker.Item label={placeholder} value={value} />
+              {options?.map((item: any, index: any) => (
+                <Picker.Item
+                  key={index}
+                  label={item?.name || item?.label}
+                  value={item?.name || item?.value}
+                />
+              ))}
+            </Picker>
+          )}
+          {type === "checkbox" && (
+            <View>
+              <Checkbox />
             </View>
           )}
         </View>
@@ -164,6 +285,17 @@ const CustomInput: React.ForwardRefRenderFunction<
             />
           </TouchableOpacity>
         )}
+
+        <View className="flex flex-row space-x-1">
+          {inputProps.rightIcon && (
+            <Ionicons
+              name={inputProps?.rightIcon}
+              color={validationColor}
+              size={20}
+            />
+          )}
+          {inputProps.rightText && <Text>{inputProps.rightText}</Text>}
+        </View>
       </View>
       {touched && error && (
         <Text style={{ color: "red", marginLeft: 10 }}>{error}</Text>
@@ -173,10 +305,6 @@ const CustomInput: React.ForwardRefRenderFunction<
 };
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    padding: 5,
-    width: "100%",
-  },
   label: {
     fontSize: 14,
     color: "#2D2D2A",

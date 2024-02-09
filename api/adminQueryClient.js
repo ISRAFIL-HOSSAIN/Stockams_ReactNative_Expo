@@ -1,24 +1,8 @@
-import { QueryClient } from "@tanstack/react-query";
+// adminQueryClient.js
 import adminAPI from "./adminAPI";
 
-const ON_PRODUCTION =  false;
+// Use the adminQueryClient exported from adminAPI
+const QueryClient = adminAPI.adminQueryClient;
 
-const defaultQueryFn = async ({ queryKey, signal }) => {
-  const { data } = await adminAPI(`${queryKey[0]}`, { signal });
-  return data;
-};
+export default QueryClient;
 
-const adminQueryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnmount: false,
-      refetchOnReconnect: false,
-      retry: 1,
-      staleTime: 5 * 1000,
-      queryFn: defaultQueryFn,
-    },
-  },
-});
-
-export default adminQueryClient;

@@ -2,10 +2,11 @@ import { View, Text, Image, Alert } from "react-native";
 import React from "react";
 import { Link } from "expo-router";
 import { next } from "@/assets/images";
-import CustomButton from "@/components/global/ui/Button";
+
 import Colors from "@/constants/Colors";
 import { AntDesign } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
+import CustomButton from "@/components/global/common/ui/Button";
 
 const profile = () => {
   return (

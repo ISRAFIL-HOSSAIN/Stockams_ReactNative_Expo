@@ -6,6 +6,12 @@ module.exports = {
 
 ],
   theme: {
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+      }
+    },
     extend: {
       colors: {
         primary: "#DCE102", // Replace with your primary color

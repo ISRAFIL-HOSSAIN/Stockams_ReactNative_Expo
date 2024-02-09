@@ -12,7 +12,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import BackHeader from "@/components/global/header/BackHeader";
 import { Stack, router } from "expo-router";
 import CustomInput from "@/components/global/common/CommonInput";
-import CustomButton from "@/components/global/ui/Button";
+
 import Colors from "@/constants/Colors";
 import { Formik } from "formik";
 import { useToast } from "react-native-toast-notifications";

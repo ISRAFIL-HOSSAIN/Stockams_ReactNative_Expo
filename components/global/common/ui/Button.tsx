@@ -21,6 +21,7 @@ interface CustomButtonProps extends TouchableOpacityProps {
   icon?: any;
   showIcon?: boolean;
   padding?:number;
+  diasbled?: boolean;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -31,12 +32,13 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   text,
   onPress,
   icon,
-  showIcon,
+  showIcon= false,
   padding,
+  disabled = false,
   ...otherProps
 }) => {
   const buttonStyle: StyleProp<ViewStyle> = {
-    backgroundColor: bg,
+    backgroundColor: disabled ? Colors?.gray2 : bg,
     width: size,
     height: height ? height : 40,
     borderRadius: 10,
@@ -49,14 +51,14 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   };
 
   return (
-    <TouchableOpacity style={buttonStyle} onPress={onPress} {...otherProps}>
+    <TouchableOpacity disabled={disabled}  style={buttonStyle} onPress={onPress} {...otherProps}>
       {showIcon ? (
         <View className={`flex flex-row  w-full space-x-3  items-center `}>
-          {showIcon && (
+         
             <View className="bg-white rounded-xl p-2">
               <Image source={icon} style={{ width: 17, height: 14,flex:1, resizeMode:"cover"}} />
             </View>
-          )}
+       
 
           <Text
             style={{

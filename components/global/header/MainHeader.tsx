@@ -11,27 +11,25 @@ import { StatusBar } from "expo-status-bar";
 import { useAuthUserContext } from "@/context/AuthUserProvider";
 import { removeTokens } from "@/utils/localStorageUtils";
 
-
 // Create your ExploreHeader component
 const MainHeader = () => {
   const { userFound } = useAuthUserContext();
   const router = useRouter();
-  
+
   const handleUserLogout = async () => {
-    console.log("Logout")
+    console.log("Logout");
     await removeTokens();
-    router.replace("/(main)/(auth)/login")
+    router.replace("/(main)/(auth)/login");
   };
   return (
     <SafeAreaView style={{ flex: 0 }}>
       <StatusBar style="dark" />
       <View style={styles.container}>
         <View style={styles.actionRow}>
-          <Link href="/">
-            <Text className="font-[800] font-mono-b text-lg text-black">
-              StockAms
-            </Text>
-          </Link>
+          <Text className="font-[800] font-mono-b text-lg text-black">
+            StockAms
+          </Text>
+
           <View style={styles.rightHeader}>
             <View style={[styles.Btn, { marginRight: 10 }]}>
               <TouchableOpacity>
@@ -51,13 +49,13 @@ const MainHeader = () => {
 
             <View style={styles.Btn}>
               {userFound ? (
-                <TouchableOpacity onPress={()=> handleUserLogout()}>
-                  <Ionicons name="log-in-outline" size={20} />
+                <TouchableOpacity onPress={() => handleUserLogout()}>
+                  <Ionicons name="person" size={20} />
                 </TouchableOpacity>
               ) : (
-                <TouchableOpacity onPress={()=> handleUserLogout()}>
+                <TouchableOpacity onPress={() => handleUserLogout()}>
                   {/* <Link href="/(modals)/login"> */}
-                    <AntDesign name="login" size={20} color="black" />
+                  <AntDesign name="login" size={20} color="black" />
                   {/* </Link> */}
                 </TouchableOpacity>
               )}
