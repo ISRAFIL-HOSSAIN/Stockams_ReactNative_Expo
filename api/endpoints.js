@@ -6,16 +6,16 @@ export const API ={
     Login : '/api/Authentication/SignIn', //post 
     RefreshToken : '/api/Authentication/TokenRefresh',  //post 
     RevokeToken : '/api/Authentication/TokenRevoke',  //post 
-    ChangePassword : '/api/api/Authentication/ChangePassword',  //post 
+    ChangePassword : '/api/Authentication/ChangePassword',  //post 
     GetLoginUser : '/api/Authentication/GetLoggedInUser', //get 
     GetProfile : '/api/Authentication/UpdateProfilePicture', // patch 
-
     // User...... 
     PostUser : '/api/User/Create', //post 
     GetUser : '/api/User/GetAll', //get  
     GetSingleUser : '/api/User/GetById/{DocId}' , //get 
     DeleteUser : '/api/User/DeleteById/{DocId}', // delete 
-
+    UpdateUser :'/api/ApplicationUser/UpdateOwnProfile',
+    UpdateProfile : '/api/ApplicationUser/UpdateOwnProfilePicture',
     // Space Type 
     CreateSpaceType : '/api/SpaceType/Create' , // post 
     GetSpaceType : '/api/SpaceType/GetAll', //get 
