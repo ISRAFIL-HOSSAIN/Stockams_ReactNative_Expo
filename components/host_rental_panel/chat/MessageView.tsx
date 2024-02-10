@@ -143,10 +143,10 @@ const SingleMessageView = () => {
           />
         </TouchableOpacity>
         <View className="flex flex-row justify-start space-x-2 items-center left-[90px]">
-          <Image
+          {/* <Image
             className="h-[32px] w-[32px] rounded-3xl"
             source={{ uri: params.image }}
-          />
+          /> */}
           <Text className="font-medium text-[14px]">{params.name}</Text>
         </View>
       </View>

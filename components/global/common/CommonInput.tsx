@@ -32,7 +32,7 @@ interface CustomInputProps {
   returnKeyType?: any;
   returnKeyLabel?: any;
   secureTextEntry?: boolean;
-  touched?: boolean;
+  touched?: any;
   error?: any;
   onBlur?: any;
   value?: any;
@@ -47,7 +47,8 @@ interface CustomInputProps {
   values?: any;
   width?: any;
   isDropdownChangeAnotherField?: any;
-
+  isEditable? : any;
+  border? : any;
   onChangeText?: (text: string) => void; // optional
   togglePasswordVisibility?: () => void;
   ref?: any;
@@ -73,6 +74,7 @@ const CustomInput: React.ForwardRefRenderFunction<
     type,
     date,
     setDate,
+    isEditable,
     mode = "date",
     height = 48,
     keyboardType,
@@ -80,6 +82,7 @@ const CustomInput: React.ForwardRefRenderFunction<
     width = "100%",
     values,
     isDropdownChangeAnotherField = false,
+    border,
     ...inputProps
   },
   ref: ForwardedRef<RNTextInput>
@@ -136,7 +139,7 @@ const CustomInput: React.ForwardRefRenderFunction<
           height: height,
           borderRadius: 8,
           borderColor: validationColor,
-          borderWidth: StyleSheet.hairlineWidth,
+          borderWidth: border ? border : StyleSheet.hairlineWidth,
           padding: 8,
           marginTop: 5,
           marginBottom: 5,
@@ -163,6 +166,36 @@ const CustomInput: React.ForwardRefRenderFunction<
               ref={ref}
               value={value}
               onChangeText={handleChangeText}
+              editable={isEditable}
+              {...inputProps}
+            />
+          )}
+          {type === "number" && (
+            <RNTextInput
+              underlineColorAndroid="transparent"
+              placeholderTextColor="rgba(34, 62, 75, 0.7)"
+              autoCapitalize="none"
+              keyboardAppearance="dark"
+              returnKeyType="go"
+              returnKeyLabel="go"
+              placeholder={placeholder}
+              ref={ref}
+              value={value}
+              onChangeText={handleChangeText}
+              keyboardType="numeric"
+            />
+          )}
+          {type === "richtext" && (
+            <RNTextInput
+              underlineColorAndroid="transparent"
+              placeholderTextColor="rgba(34, 62, 75, 0.7)"
+              placeholder={placeholder}
+              ref={ref}
+              value={value}
+              onChangeText={handleChangeText}
+              multiline={true}
+              numberOfLines={10}
+              style={{ height: 50, textAlignVertical: "top" }}
               {...inputProps}
             />
           )}
@@ -204,9 +237,10 @@ const CustomInput: React.ForwardRefRenderFunction<
                 ref={ref}
                 value={value}
                 onChangeText={handleChangeText}
+                editable={isEditable}
                 {...inputProps}
               />
-              {show && (
+              {show &&(
                 <DateTimePicker
                   testID="dateTimePicker"
                   mode={mode}
@@ -215,7 +249,7 @@ const CustomInput: React.ForwardRefRenderFunction<
                   is24Hour={true}
                 />
               )}
-              <TouchableOpacity onPress={showDatePicker}>
+              <TouchableOpacity disabled={!isEditable} onPress={showDatePicker}>
                 <Ionicons name="calendar" color={validationColor} size={23} />
               </TouchableOpacity>
             </View>
