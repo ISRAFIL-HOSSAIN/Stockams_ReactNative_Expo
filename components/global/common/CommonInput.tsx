@@ -32,7 +32,7 @@ interface CustomInputProps {
   returnKeyType?: any;
   returnKeyLabel?: any;
   secureTextEntry?: boolean;
-  touched?: boolean;
+  touched?: any;
   error?: any;
   onBlur?: any;
   value?: any;
@@ -95,11 +95,9 @@ const CustomInput: React.ForwardRefRenderFunction<
     setShow(false);
     const currentDate = selectedDate.toLocaleDateString("en-GB");
     onChangeText?.(currentDate);
-    console.log("Date: ", currentDate);
   };
 
   const handleChangeDropdown = (itemValue: string) => {
-    console.log("ItemValue : ", itemValue);
     if (isDropdownChangeAnotherField) {
       const selectedOption = options?.find(
         (item: any) => item?.name === itemValue
@@ -140,7 +138,7 @@ const CustomInput: React.ForwardRefRenderFunction<
           padding: 8,
           marginTop: 5,
           marginBottom: 5,
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.gray2,
         }}
       >
         <View style={{ padding: 8 }}>
@@ -227,7 +225,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               style={{ height: 50, width: "100%" }}
               className="text-md font-medium"
             >
-              <Picker.Item label={placeholder} value={value} />
+              <Picker.Item label={placeholder} value={values} />
               {options?.map((item: any, index: any) => (
                 <Picker.Item
                   key={index}

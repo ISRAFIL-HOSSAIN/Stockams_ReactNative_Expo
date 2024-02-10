@@ -2,27 +2,32 @@
 import PaymentHeader from "@/components/admin/header/PaymentHeader";
 import Colors from "@/constants/Colors";
 import { Stack } from "expo-router";
-import React, { Component, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity, PanResponder } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity,
+  PanResponder,
+} from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
 const myPayment: React.FC = () => {
   const [tab, setTab] = useState("all");
-  const [selectedData, setSelectedData] = useState<{ x: number; y: number; value: number } | null>(null);
+  const [selectedData, setSelectedData] = useState<{
+    x: number;
+    y: number;
+    value: number;
+  } | null>(null);
   // Sample data for demonstration purposes
   const data = {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-    ],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
         data: [400, 300, 250, 400, 350, 500, 450, 600, 550, 700, 650, 600],
-        color: (opacity = 1) =>`rgba(220, 225, 2, ${opacity})`, // Adjust color as needed
+        color: (opacity = 1) => `rgba(220, 225, 2, ${opacity})`, // Adjust color as needed
         strokeWidth: 2,
       },
     ],
@@ -33,17 +38,16 @@ const myPayment: React.FC = () => {
     backgroundGradientTo: "#fff",
     decimalPlaces: 2, // Number of decimal places for Y-axis labels
     color: (opacity = 1) => `rgba(220, 225, 2,${opacity})`,
-              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     style: {
       borderRadius: 16,
     },
     propsForDots: {
       r: "6",
-      strokeWidth: "2",
+      strokeWidth: "3",
       stroke: "#007BFF",
     },
     useShadowColorFromDataset: true,
-    
   };
   const panResponder = React.useMemo(
     () =>
@@ -54,7 +58,10 @@ const myPayment: React.FC = () => {
           const yCoordinate = gestureState.y0;
 
           // Find the closest data point based on the x-coordinate
-          const index = Math.round((xCoordinate / Dimensions.get("window").width) * (data.labels.length - 1));
+          const index = Math.round(
+            (xCoordinate / Dimensions.get("window").width) *
+              (data.labels.length - 1)
+          );
           const value = data.datasets[0].data[index];
 
           setSelectedData({ x: xCoordinate, y: yCoordinate, value });
@@ -77,7 +84,7 @@ const myPayment: React.FC = () => {
         <View {...panResponder.panHandlers}>
           <LineChart
             data={data}
-            width={Dimensions.get("window").width * 1}
+            width={500}
             height={200}
             chartConfig={chartConfig}
             bezier={true}
@@ -89,14 +96,18 @@ const myPayment: React.FC = () => {
             fromZero={true}
           />
           {selectedData && (
-            <View style={[styles.tooltip, { top: selectedData.y, left: selectedData.x }]}>
+            <View
+              style={[
+                styles.tooltip,
+                { top: selectedData.y, left: selectedData.x },
+              ]}
+            >
               <Text>{`${selectedData.value}`}</Text>
             </View>
           )}
-
-</View>
+        </View>
       </ScrollView>
-      </View>
+    </View>
   );
 };
 
@@ -108,12 +119,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   tooltip: {
-    position: 'absolute',
-    backgroundColor: 'white',
+    position: "absolute",
+    backgroundColor: "white",
     padding: 10,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: "black",
   },
 });
 

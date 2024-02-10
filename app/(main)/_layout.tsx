@@ -5,25 +5,30 @@ import MainHeader from "@/components/global/header/MainHeader";
 import CommonProgress from "./(home)/(modals)/commonLoader";
 
 // SplashScreen.preventAutoHideAsync();
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "/(main)",
-};
+
 export default function AppLayout() {
-  const { userFound, userLoading } = useAuthUserContext();
+  const { userFound, userLoading,userRole } = useAuthUserContext();
 
-  useEffect(() => {
-    if (userLoading) {
-      <CommonProgress />;
-    }
-  }, [userLoading]);
-
-  if (!userFound && userLoading) {
-    return null;
+  if (userLoading) {
+    return <CommonProgress />;
   }
 
+
   if (!userFound && !userLoading) {
-    <Redirect href="/(main)/(auth)/login" />;
+    router.replace("/(main)/(auth)/login")
+  }
+  useEffect(() => {
+    if (userRole === "RENTER") {
+      router.replace("/(main)/(home)/(rental)/(tabs)");
+    } else if (userRole === "OWNER") {
+      router.replace("/(main)/(home)/(owner)/(tabs)");
+    } else {
+      router.replace("/(main)/(auth)/login");
+    }
+  }, [userRole]);
+  
+  if (!userFound && userLoading) {
+    return null;
   }
 
   return (
@@ -34,18 +39,6 @@ export default function AppLayout() {
 }
 
 function AppLayoutNav() {
-  const { userRole } = useAuthUserContext();
-
-  useEffect(() => {
-    if (userRole && userRole === "RENTER") {
-      router.replace("/(main)/(home)/(rental)/(tabs)");
-    } else if (userRole && userRole === "OWNER") {
-      router.replace("/(main)/(home)/(owner)/(tabs)");
-    } else {
-      router.replace("/(main)/(auth)/login");
-    }
-  }, [userRole]);
-
   return (
     <>
       <Stack

@@ -7,6 +7,6 @@ export default {
   secondary:'#FDB3CA',
   grey:'#E7E9E2',
   akcent : '#B3FAFF',
-  gray2:'#E7E9E2',
+  gray2:'#FFFFF8',
   white:'#FFFFFF',
 };

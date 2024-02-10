@@ -51,7 +51,7 @@ const processRequestQueue = (accessToken) => {
 
 adminAPI.interceptors.request.use(async (config) => {
   config.headers.Authorization = "Bearer " + await getAccessToken();
-  console.log(config.headers.Authorization);
+  // console.log(config.headers.Authorization);
   return config;
 });
 

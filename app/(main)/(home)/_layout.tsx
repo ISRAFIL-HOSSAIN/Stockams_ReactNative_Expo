@@ -3,50 +3,24 @@ import { useAuthUserContext } from "@/context/AuthUserProvider";
 import { Redirect, Stack, router } from "expo-router";
 import MainHeader from "@/components/global/header/MainHeader";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import CommonProgress from "./(modals)/commonLoader";
 
 export default function PageLayout() {
-  const { userLoading, userFound, userData, userRole } = useAuthUserContext();
-
-  // if (userLoading) {
-  //   return <CommonProgress />;
-  // }
-
-  // console.log({userData})
-  // console.log({userFound})
-  // useEffect(()=>{
-  //   if(userFound && userData ) {
-  //     if(userData?.role === "RENTER"){
-  //       router.replace("/(main)/(app)/(rental)/(tabs)")
-  //     }
-  //     else if(userData?.role === "OWNER"){
-  //       router.replace("/(main)/(app)/(owner)/(tabs)")
-  //     }
-  //     else {
-  //       router.replace("/(main)/(auth)/login")
-  //     }
-  //   }
-  //   else {
-  //     router.replace("/(main)/(auth)/login")
-  //   }
-  // },[userFound,userLoading,userData]);
-
+  const { userRole } = useAuthUserContext();
   return (
     <>
-      {/* {!loaded && <SplashScreen />} */}
       <SafeAreaProvider>
         <Stack
           screenOptions={{
             header: () => null,
           }}
-          initialRouteName={
-            userRole && userRole === "RENTER" ? "(rental)" : "(owner)"
-          }
+          initialRouteName={userRole === "RENTER" ? "(rental)" : "(owner)"}
         >
           <Stack.Screen name="(rental)" options={{}} />
           <Stack.Screen name="(owner)" options={{}} />
 
           {/* modals  */}
-          
+
           {/* profile  */}
           <Stack.Screen
             name="(modals)/profileInfo"
@@ -82,7 +56,6 @@ export default function PageLayout() {
             name="(modals)/massagePage"
             options={{ headerTitle: "" }}
           />
-
 
           <Stack.Screen
             name="(modals)/commonModal"

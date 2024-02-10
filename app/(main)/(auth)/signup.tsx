@@ -32,14 +32,6 @@ import { API } from "@/api/endpoints";
 import { setAccessToken, setRefreshToken } from "@/utils/localStorageUtils";
 import CustomButton from "@/components/global/common/ui/Button";
 
-type FormValues = {
-  email: string;
-  password: string;
-  name: string;
-  phone: string;
-  dob: string;
-  terms: boolean;
-};
 
 const Signup: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -109,6 +101,7 @@ const Signup: React.FC = () => {
             values,
             errors,
             touched,
+            isSubmitting,
           }) => (
             <View style={styles.formContainer}>
               <Text style={styles.loginWithText}>CREATE ACCOUNT WITH </Text>
@@ -120,6 +113,7 @@ const Signup: React.FC = () => {
                   height={45}
                   icon={renter}
                   showIcon={true}
+                  type={"image"}
                   onPress={() => setTab("RENTER")}
                 />
                 <CustomButton
@@ -129,6 +123,7 @@ const Signup: React.FC = () => {
                   height={45}
                   icon={space_owner}
                   showIcon={true}
+                  type={"image"}
                   onPress={() => setTab("OWNER")}
                 />
               </View>
@@ -225,6 +220,7 @@ const Signup: React.FC = () => {
                   text="Create Account"
                   height={45}
                   onPress={() => handleSubmit()}
+                  disabled={isSubmitting}
                 />
                 <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                 <Text style={styles.continueWithText}>OR CONTINUE WITH</Text>

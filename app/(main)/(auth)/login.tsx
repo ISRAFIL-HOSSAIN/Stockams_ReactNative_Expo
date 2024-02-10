@@ -59,7 +59,6 @@ const Page: React.FC = () => {
       const response = await signInMutation({ ...values, role: tab });
 
       if (response?.data?.data) {
-        console.log("Data===>", response?.data?.data);
         await setAccessToken(response.data.data?.accessToken);
         await setRefreshToken(response.data.data?.refreshToken);
         // await setUserRole(userRole && userRole);
@@ -71,6 +70,7 @@ const Page: React.FC = () => {
       toast.show("Something went wrong 👋", {
         type: "danger",
       });
+      setErrors(err);
       setSubmitting(false);
     }
   };
@@ -102,6 +102,7 @@ const Page: React.FC = () => {
             values,
             errors,
             touched,
+            isSubmitting,
           }) => (
             <View style={styles.formContainer}>
               <Text style={styles.loginWithText}>LOGIN WITH</Text>
@@ -114,6 +115,7 @@ const Page: React.FC = () => {
                   icon={renter}
                   showIcon={true}
                   onPress={() => setTab("RENTER")}
+                  type="image"
                 />
                 <CustomButton
                   bg={tab === "OWNER" ? Colors.akcent : Colors.gray2}
@@ -123,6 +125,7 @@ const Page: React.FC = () => {
                   icon={space_owner}
                   showIcon={true}
                   onPress={() => setTab("OWNER")}
+                  type="image"
                 />
               </View>
 
@@ -171,6 +174,7 @@ const Page: React.FC = () => {
                   text="Login"
                   height={45}
                   onPress={() => handleSubmit()}
+                  disabled={isSubmitting}
                 />
                 <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                 <Text style={styles.continueWithText}>OR CONTINUE WITH</Text>
@@ -224,7 +228,7 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: "white",
     padding: 10,
-    marginTop: 100,
+    marginTop: 30,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     shadowColor: "#000",
@@ -239,7 +243,7 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     padding: 16,
-    marginTop: 20,
+    marginTop: 0,
   },
   loginWithText: {
     color: "#ABB0B6",
@@ -262,12 +266,12 @@ const styles = StyleSheet.create({
   socialIconsContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginVertical: 2,
+    marginVertical: 1,
   },
   createAccountContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 2,
+    marginBottom: 20,
   },
   noAccountText: {
     color: "#ABB0B6",
