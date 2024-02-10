@@ -32,7 +32,7 @@ interface CustomInputProps {
   returnKeyType?: any;
   returnKeyLabel?: any;
   secureTextEntry?: boolean;
-  touched?: boolean;
+  touched?: any;
   error?: any;
   onBlur?: any;
   value?: any;
@@ -237,9 +237,10 @@ const CustomInput: React.ForwardRefRenderFunction<
                 ref={ref}
                 value={value}
                 onChangeText={handleChangeText}
+                editable={isEditable}
                 {...inputProps}
               />
-              {show && (
+              {show &&(
                 <DateTimePicker
                   testID="dateTimePicker"
                   mode={mode}
@@ -248,7 +249,7 @@ const CustomInput: React.ForwardRefRenderFunction<
                   is24Hour={true}
                 />
               )}
-              <TouchableOpacity onPress={showDatePicker}>
+              <TouchableOpacity disabled={!isEditable} onPress={showDatePicker}>
                 <Ionicons name="calendar" color={validationColor} size={23} />
               </TouchableOpacity>
             </View>

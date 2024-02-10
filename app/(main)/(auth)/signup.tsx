@@ -178,6 +178,7 @@ const Signup: React.FC = () => {
                 onChangeText={handleChange("dateOfBirth")}
                 value={values.dateOfBirth}
                 type="date"
+                isEditable={true}
               />
 
               <CustomInput
