@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useAuthUserContext } from "@/context/AuthUserProvider";
 import { Redirect, Stack, SplashScreen, router } from "expo-router";
 import MainHeader from "@/components/global/header/MainHeader";
@@ -8,7 +8,14 @@ import CommonProgress from "./(home)/(modals)/commonLoader";
 
 export default function AppLayout() {
   const { userFound, userLoading, userRole } = useAuthUserContext();
+  
+  useLayoutEffect(() => {
+    if (!userFound && !userLoading) {
+      router.replace("/(main)/(auth)/login");
+    }
+  }, [userFound, userLoading]);
 
+  
   if (userLoading) {
     return <CommonProgress />;
   }

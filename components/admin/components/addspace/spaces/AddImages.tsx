@@ -43,13 +43,13 @@ const AddImages: React.FC<CustomInputProps> = ({
     }
   }, [spaceImages]);
 
-  const handleSubmit = () => {
-    console.log("SpaceImages : ", spaceImages);
+  const handleSubmit = async () => {
+   
     if (spaceImages.length <= 0) {
       setIsError(true);
       setMsgError("* You must select at least one space image");
     } else {
-      setFormData((prevFormData: any) => ({
+      await setFormData((prevFormData: any) => ({
         ...prevFormData,
         spaceImages: [...prevFormData.spaceImages, ...spaceImages],
       }));

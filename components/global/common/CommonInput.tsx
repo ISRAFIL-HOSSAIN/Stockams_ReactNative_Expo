@@ -168,35 +168,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               {...inputProps}
             />
           )}
-          {type === "number" && (
-            <RNTextInput
-              underlineColorAndroid="transparent"
-              placeholderTextColor="rgba(34, 62, 75, 0.7)"
-              autoCapitalize="none"
-              keyboardAppearance="dark"
-              returnKeyType="go"
-              returnKeyLabel="go"
-              // placeholder={placeholder}
-              // ref={ref}
-              // value={value}
-              // onChangeText={handleChangeText}
-              keyboardType="numeric"
-            />
-          )}
-          {type === "richtext" && (
-            <RNTextInput
-              underlineColorAndroid="transparent"
-              placeholderTextColor="rgba(34, 62, 75, 0.7)"
-              placeholder={placeholder}
-              ref={ref}
-              value={value}
-              onChangeText={handleChangeText}
-              multiline={true}
-              numberOfLines={10}
-              style={{ height: 50, textAlignVertical: "top" }}
-              {...inputProps}
-            />
-          )}
+
           {type === "number" && (
             <RNTextInput
               underlineColorAndroid="transparent"
@@ -212,6 +184,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               keyboardType="numeric"
             />
           )}
+
           {type === "richtext" && (
             <RNTextInput
               underlineColorAndroid="transparent"
@@ -226,6 +199,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               {...inputProps}
             />
           )}
+
           {type === "date" && (
             <View className="flex flex-row justify-between ">
               <RNTextInput
@@ -252,6 +226,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               </TouchableOpacity>
             </View>
           )}
+
           {type === "dropdown" && (
             <Picker
               selectedValue={value}
@@ -269,6 +244,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               ))}
             </Picker>
           )}
+          
           {type === "checkbox" && (
             <View>
               <Checkbox />

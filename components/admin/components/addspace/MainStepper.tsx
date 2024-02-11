@@ -8,7 +8,7 @@ import { useCreate } from "@/hooks";
 import { API } from "@/api/endpoints";
 import { useToast } from "react-native-toast-notifications";
 import { useRouter } from "expo-router";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import adminAPI from "@/api/adminAPI";
 import convertNumber from "@/utils/commonFunction";
 
@@ -41,59 +41,54 @@ const MainStepper = () => {
 
   const nextStep = () => {
     setStep(step + 1);
-    console.log("Current FormData ===> ", formData);
   };
 
   const prevStep = () => {
     setStep(step - 1);
   };
 
-  // const {mutate:spaceCreate, isLoading:spaceCreate} = useCreate({
-  //   endpoint:API.SpaceForRentCreate,
-  //   isMultiPart:true,
-  //   onSuccess:()=>{
-  //     toast.show("Space Create Successfully ! 👋",{type: "success",})
-  //     router.push("/(main)/(home)/(owner)/(tabs)")
+  const {
+    mutate: spaceCreate,
+    isLoading: spaceIsLoading,
+    isSuccess,
+    isError,
+    error,
+    data,
+  } = useCreate({
+    endpoint: API.SpaceForRentCreate,
+    isMultiPart: true, // Assuming you have file data
+    onSuccess: () => console.log("Data created successfully!"),
+    onError: (error) => console.error("Error creating data:", error),
+  });
+
+  // const { mutate: spaceCreate, isLoading: spaceIsLoading } = useCreate({
+  //   endpoint: API.SpaceForRentCreate,
+  //   isMultiPart: true,
+  //   onSuccess: () => {
+  //     toast.show("Space Create Successfully ! 👋", { type: "success" });
+  //     router.push("/(main)/(home)/(owner)/(tabs)");
   //   },
   //   onError: () => {
   //     // Handle update error, e.g., display an error message
-  //     toast.show("Something went wrong ! 👋",{type: "danger",})
+  //     toast.show("Something went wrong ! 👋", { type: "danger" });
   //   },
-  // })
+  // });
 
-  const { mutateAsync: spaceCreate, isLoading: spaceIsLoading } = useMutation(
-    (payload) => adminAPI.post(API.SpaceForRentCreate, payload)
-  );
-
-  const handleSubmit = async () => {
-    try {
-      const payload = {
-        ...formData,
-        minimumBookingDays: convertNumber(formData?.minimumBookingDays),
-        pricePerMonth: convertNumber(formData?.pricePerMonth),
-        area: convertNumber(formData?.area),
-        height: convertNumber(formData?.height),
-
-      }
-      const response = await spaceCreate(payload);
-      console.log(response)
-
-    } catch (error: any) {
-      console.log(error.response.message?.error);
-      if (error.response) {
-        console.error(
-          "Server responded with an error status:",
-          error.response.status
-        );
-        console.error("Error message:", error.response.data);
-      } else if (error.request) {
-        console.error("No response received from the server:", error.request);
-      } else {
-        console.error("Error setting up the request:", error.message);
-      }
-      throw error;
+  const handleSubmit = async (data: any) => {
+    if (spaceIsLoading) {
+      return console.log("Data creation in progress...");
     }
-    console.log("Form submitted ====> ", formData);
+
+    try {
+      await spaceCreate(data); // Trigger the mutation with form data
+      if (isSuccess) {
+        // Handle successful creation, e.g., clear form, show success message
+        console.log("Successfully created");
+      }
+    } catch (error) {
+      // Handle errors, e.g., display error messages
+      console.log({ error });
+    }
   };
 
   const displayStep = (step: any) => {

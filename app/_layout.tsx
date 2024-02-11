@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import APIQueryClient from "@/api/adminQueryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "react-native-toast-notifications";
@@ -27,7 +27,7 @@ export default function App() {
   useEffect(() => {
     if (error) throw error;
   }, [error]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
@@ -36,6 +36,7 @@ export default function App() {
   if (!loaded) {
     return null;
   }
+  
 
   return (
     <QueryClientProvider client={APIQueryClient}>
@@ -49,20 +50,10 @@ export default function App() {
             ),
           }}
         >
-          <RootLayoutNav />
+         <Slot />
         </ToastProvider>
       </AuthUserProvider>
     </QueryClientProvider>
   );
 }
 
-function RootLayoutNav() {
-  const { userFound,userLoading } = useAuthUserContext();
-  useEffect(() => {
-    if (!userFound && !userLoading) {
-      return router.replace("/(main)/(auth)/login")
-    }
-  }, [userFound, userLoading]);
-
-  return <Slot />;
-}

@@ -7,6 +7,7 @@ import Features from "./Features";
 import { Formik } from "formik";
 import CustomButton from "@/components/global/common/ui/Button";
 import { conditionValidation } from "@/validation/space/addSpaceValidation";
+import convertNumber from "@/utils/commonFunction";
 
 interface CustomInputProps {
   onSubmit?: any;
@@ -23,10 +24,17 @@ const Price_Conditions: React.FC<CustomInputProps> = ({
   setFormData,
   isLoading,
 }) => {
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     console.log("Values : ", values);
-    setFormData({...data,...values})
-    onSubmit();
+    const payload = {
+      ...values,
+      minimumBookingDays: convertNumber(values?.minimumBookingDays),
+      pricePerMonth: convertNumber(values?.pricePerMonth),
+    }
+    await setFormData({...data,...payload})
+    console.log("Submitted Data : ", data);
+    
+    await onSubmit(data);
   };
 
   return (

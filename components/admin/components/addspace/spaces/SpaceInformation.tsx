@@ -41,8 +41,13 @@ const SpaceInformation: React.FC<CustomInputProps> = ({
     );
   }
 
-  const handleSubmit = (values: any) => {
-    setFormData({ ...data, ...values });
+  const handleSubmit = async(values: any) => {
+    const payload = {
+      ...values, 
+      area: convertNumber(values?.area),
+      height: convertNumber(values?.height),
+    }
+    await setFormData({ ...data, ...payload });
     onSubmit();
   };
 
@@ -114,7 +119,7 @@ const SpaceInformation: React.FC<CustomInputProps> = ({
               </Text>
               <CustomInput
                 
-                placeholder="Type here"
+                placeholder="Input Area"
                 label="Area"
                 error={errors.area}
                 touched={touched.area}
@@ -124,7 +129,7 @@ const SpaceInformation: React.FC<CustomInputProps> = ({
                 rightText="m2"
               />
               <CustomInput
-                placeholder="Type here"
+                placeholder="Input Height"
                 label="Height"
                 onBlur={handleBlur("height")}
                 error={errors.height}
