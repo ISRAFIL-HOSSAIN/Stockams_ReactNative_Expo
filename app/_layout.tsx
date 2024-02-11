@@ -24,9 +24,10 @@ export default function App() {
     "mon-b": require("../assets/fonts/Montserrat-Bold.ttf"),
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (error) throw error;
   }, [error]);
+  
   useLayoutEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
