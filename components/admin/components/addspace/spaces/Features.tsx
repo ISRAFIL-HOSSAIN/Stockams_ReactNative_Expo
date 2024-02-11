@@ -4,6 +4,7 @@ import { useGet } from "@/hooks";
 import { API } from "@/api/endpoints";
 import CommonCheckBox from "@/components/global/common/ui/Checkbox";
 import FeatureSkeleton from "@/components/global/progress/skeleton/FeatureSkeleton";
+import { ActivityIndicator } from "react-native";
 
 const Features = ({
   values,
@@ -12,8 +13,7 @@ const Features = ({
   values: any;
   setFieldValue: any;
 }) => {
-
-  const [isLoading,setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   // SecurityFeature
   const {
     data: { data: SecurityData } = [],
@@ -79,7 +79,12 @@ const Features = ({
     StorageLoading ||
     UnloadingLoading
   ) {
-    return <FeatureSkeleton />
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#3C09BC" />
+        <FeatureSkeleton />
+      </View>
+    );
   }
 
   return (
@@ -122,13 +127,15 @@ const styles = StyleSheet.create({
     width: "100%",
     marginLeft: 5,
     gap: 6,
+    margintTop: 2,
   },
   sectionTitle: {
     fontWeight: "900",
-    color: "#4B5563",
-    fontSize: 14,
-    paddingBottom: 2,
+    color: "#3B4C63",
+    fontSize: 13,
+    paddingBottom: 3,
     paddingLeft: 2,
+    marginBottom: 3,
   },
 });
 

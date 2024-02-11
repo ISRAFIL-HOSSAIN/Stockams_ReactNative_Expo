@@ -23,6 +23,7 @@ export const API ={
     GetSingleSpaceType : '/api/SpaceType/GetById/{DocId}', //get 
     UpdateSpaceType : '/api/SpaceType/UpdateById/{DocId}', //patch 
     DeleteSpaceType : '/api/SpaceType/DeleteById/{DocId}', //delete
+    GetAllDropdownSpaceType:'/api/SpaceType/GetAllForDropdown', // get all dropdown
 
     //SpaceAccess Option 
     SpaceAccessCreate : '/api/SpaceAccessMethod/Create', //post 
@@ -30,6 +31,7 @@ export const API ={
     GetSingleAccessOption : '/api/SpaceAccessMethod/GetById/{DocId}', //get 
     UpdateAccessOption : '/api/SpaceAccessMethod/UpdateById/{DocId}', //update-patch 
     DeleteAccessOption : '/api/SpaceAccessMethod/DeleteById/{DocId}', //delete 
+    GetAllDropdownAccess:'/api/SpaceAccessMethod/GetAllForDropdown', // get all dropdown  
 
     // Storage  Condition Features 
     StorageConditionCreate : '/api/StorageCondition/Create', //post 

@@ -98,11 +98,9 @@ const CustomInput: React.ForwardRefRenderFunction<
     setShow(false);
     const currentDate = selectedDate.toLocaleDateString("en-GB");
     onChangeText?.(currentDate);
-    console.log("Date: ", currentDate);
   };
 
   const handleChangeDropdown = (itemValue: string) => {
-    console.log("ItemValue : ", itemValue);
     if (isDropdownChangeAnotherField) {
       const selectedOption = options?.find(
         (item: any) => item?.name === itemValue
@@ -143,7 +141,7 @@ const CustomInput: React.ForwardRefRenderFunction<
           padding: 8,
           marginTop: 5,
           marginBottom: 5,
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.gray2,
         }}
       >
         <View style={{ padding: 8 }}>
@@ -170,6 +168,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               {...inputProps}
             />
           )}
+
           {type === "number" && (
             <RNTextInput
               underlineColorAndroid="transparent"
@@ -185,6 +184,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               keyboardType="numeric"
             />
           )}
+
           {type === "richtext" && (
             <RNTextInput
               underlineColorAndroid="transparent"
@@ -199,35 +199,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               {...inputProps}
             />
           )}
-          {type === "number" && (
-            <RNTextInput
-              underlineColorAndroid="transparent"
-              placeholderTextColor="rgba(34, 62, 75, 0.7)"
-              autoCapitalize="none"
-              keyboardAppearance="dark"
-              returnKeyType="go"
-              returnKeyLabel="go"
-              placeholder={placeholder}
-              ref={ref}
-              value={value}
-              onChangeText={handleChangeText}
-              keyboardType="numeric"
-            />
-          )}
-          {type === "richtext" && (
-            <RNTextInput
-              underlineColorAndroid="transparent"
-              placeholderTextColor="rgba(34, 62, 75, 0.7)"
-              placeholder={placeholder}
-              ref={ref}
-              value={value}
-              onChangeText={handleChangeText}
-              multiline={true}
-              numberOfLines={10}
-              style={{ height: 50, textAlignVertical: "top" }}
-              {...inputProps}
-            />
-          )}
+
           {type === "date" && (
             <View className="flex flex-row justify-between ">
               <RNTextInput
@@ -254,6 +226,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               </TouchableOpacity>
             </View>
           )}
+
           {type === "dropdown" && (
             <Picker
               selectedValue={value}
@@ -261,7 +234,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               style={{ height: 50, width: "100%" }}
               className="text-md font-medium"
             >
-              <Picker.Item label={placeholder} value={value} />
+              <Picker.Item label={placeholder} value={values} />
               {options?.map((item: any, index: any) => (
                 <Picker.Item
                   key={index}
@@ -271,6 +244,7 @@ const CustomInput: React.ForwardRefRenderFunction<
               ))}
             </Picker>
           )}
+          
           {type === "checkbox" && (
             <View>
               <Checkbox />

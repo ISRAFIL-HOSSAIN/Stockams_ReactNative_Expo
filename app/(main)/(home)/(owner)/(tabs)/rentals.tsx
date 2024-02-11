@@ -5,6 +5,8 @@ import {
   Dimensions,
   Alert,
   Pressable,
+  FlatList,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
@@ -14,16 +16,30 @@ import StoreCard from "@/components/global/Card";
 import EditStoreCard from "@/components/admin/components/EditStoreCard";
 import BookedCard from "@/components/admin/components/BookedCard";
 
-
 import Colors from "@/constants/Colors";
 import { router } from "expo-router";
 import CustomButton from "@/components/global/common/ui/Button";
+import { API } from "@/api/endpoints";
+import { useGet } from "@/hooks";
 
 const Page = () => {
   const [tab, setTab] = useState("all");
-  const addnewSpace = () => {
-    router.push("/createNewspace");
-  };
+  const spaceRentEndpoint = `${API.GetSpaceForRent}`;
+
+  const {
+    data: { data: spaceRentData } = {},
+    isLoading: spaceRentLoading = true,
+  } = useGet({ endpoint: spaceRentEndpoint });
+
+  console.log("SpaceRent Data : ", spaceRentData);
+  if (spaceRentLoading) {
+    return (
+      <View className="flex h-full flex-col justify-center items-center">
+        <ActivityIndicator size={50} color="#3C09BC" />
+      </View>
+    );
+  }
+
   return (
     <View style={{}}>
       <Stack.Screen
@@ -31,13 +47,24 @@ const Page = () => {
           header: () => <RentalsHeader tab={tab} setTab={setTab} />,
         }}
       />
+      <View style={styles.container}>
+        <FlatList
+          // Key extractor for efficient rendering
+          keyExtractor={(item) => item._id} // Replace with your ID property
+          data={spaceRentData?.data}
+          renderItem={({ item }) => {
+            return (
+              // Render the appropriate card based on tab
+              <View className="justify-center items-center">
+                {tab === "all" && <EditStoreCard rentData={item} />}
+                {tab === "booked" && <BookedCard item={item} />}
+              </View>
+            );
+          }}
+        />
+      </View>
 
-      {/* <Listings /> */}
-      {/* <Link href={'/(modals)/login'}>Login</Link>
-      <Link href={'/(modals)/booking'}>Booking</Link>
-      <Link href={'/listing/120'}>Listing details</Link> */}
-      {/* <CommonLoader /> */}
-      <ScrollView className="">
+      {/* <ScrollView className="">
         <View style={styles.container}>
           <View className="justify-center items-center  ">
             {tab === "all" && <EditStoreCard />}
@@ -53,7 +80,7 @@ const Page = () => {
             />
           </View>
         </View>
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 };

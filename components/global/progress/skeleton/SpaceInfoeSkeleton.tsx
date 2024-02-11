@@ -13,7 +13,7 @@ const SpaceInfoSkeleton = () => {
       animate={{ backgroundColor: "#FFFFFA" }}
     >
       {/* <Skeleton radius="round" colorMode={'light'} height={75} width={75} /> */}
-      
+      <Spacer />
       <Skeleton  colorMode={'light'} width={"100%"} height={55} />
       <Spacer height={25} />
       <Skeleton  colorMode={'light'} width={"100%"} height={55}/>

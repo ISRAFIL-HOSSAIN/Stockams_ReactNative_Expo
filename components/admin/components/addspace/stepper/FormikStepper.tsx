@@ -30,10 +30,17 @@ export function FormikStepper({
   function isLastStep() {
     return currentStep === steps.length - 1;
   }
-  console.log("islaststep : ", isLastStep());
 
-  const handleNext = () => {
-    setCurrentStep((prevStep) => Math.min(prevStep + 1, steps.length - 1));
+  const handleNext = async (formikProps: any) => {
+    const isLastStep = currentStep === steps.length - 1;
+    const isValid = await formikProps.validateForm();
+
+    if (isValid && !isLastStep) {
+      setCurrentStep((prevStep) => prevStep + 1);
+    } else if (isValid && isLastStep) {
+      await onSubmit(formikProps.values);
+      setCompleted(true);
+    }
   };
 
   const handlePrev = () => {
@@ -54,7 +61,7 @@ export function FormikStepper({
       validationSchema={steps[currentStep].props.validationSchema}
     >
       {(formikProps) => (
-        <View className="relative h-[100%] w-[100%]">
+        <ScrollView className="relative  w-[100%]">
           {/* <Text>"isSubmitting':{formikProps?.isSubmitting} </Text> */}
           {/* <Text>isSubmitting:{JSON.stringify(formikProps?.isSubmitting)}</Text> */}
           <View className="w-[100%] px-4 flex flex-row justify-center items-center">
@@ -63,12 +70,14 @@ export function FormikStepper({
               steps={steps.map((step: any) => step.props.label)}
             />
           </View>
-
-          <View className="h-[500px] w-[100%] ">
+          <View className="h-full mb-20 w-[100%] ">
             {steps.map((step: any, index: any) => (
               <View
                 key={index}
-                style={{ display: index === currentStep ? "flex" : "none" , flexDirection: "column"}}
+                style={{
+                  display: index === currentStep ? "flex" : "none",
+                  flexDirection: "column",
+                }}
               >
                 {React.cloneElement(step, formikProps)}
               </View>
@@ -92,13 +101,15 @@ export function FormikStepper({
                 size={120}
                 text={currentStep === steps.length - 1 ? "Submit" : "Next"}
                 height={45}
-                disabled={formikProps.isSubmitting}
-                onPress={() => handleNext()}
+                onPress={() => handleNext(formikProps)}
                 showIcon={false}
               />
             </View>
           </View>
-        </View>
+          <View>
+            
+          </View>
+        </ScrollView>
       )}
     </Formik>
   );

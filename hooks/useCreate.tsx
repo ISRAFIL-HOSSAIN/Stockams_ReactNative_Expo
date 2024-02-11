@@ -1,13 +1,12 @@
 import adminAPI from "@/api/adminAPI";
 import { useMutation, MutationFunction } from "@tanstack/react-query";
 
-
 interface UseCreateOptions {
-  endpoint?: string;
-  isMultiPart?: boolean;
-  onSuccess?: () => void;
-  onError?: () => void;
-  onSettled?: () => void;
+  endpoint?: string; // Optional API endpoint URL (defaults to "")
+  isMultiPart?: boolean; // Optional flag indicating multipart/form-data (defaults to false)
+  onSuccess?: () => void; // Optional success callback
+  onError?: (error: Error) => void; // Optional error callback
+  onSettled?: () => void; // Optional callback for both success and error
 }
 
 const useCreate = ({
@@ -17,15 +16,16 @@ const useCreate = ({
   onError = () => {},
   onSettled = () => {},
 }: UseCreateOptions) => {
-  const mutation = useMutation<void, Error, unknown, MutationFunction<void>>(
-    (data) =>
-      adminAPI.post(endpoint, data, {
+  const mutation = useMutation<any, Error, any, MutationFunction<any>>(
+    (data) => {
+      const contentType = isMultiPart ? "multipart/form-data" : "application/json";
+
+      return adminAPI.post(endpoint, data, {
         headers: {
-          "Content-Type": isMultiPart
-            ? "multipart/form-data"
-            : "application/json",
+          "Content-Type": contentType,
         },
-      }),
+      });
+    },
     {
       onSuccess,
       onError,

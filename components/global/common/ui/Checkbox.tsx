@@ -24,13 +24,13 @@ const CommonCheckBox: React.FC<CheckBoxProps> = ({
   return (
     <TouchableOpacity
       key={index}
-      className="border rounded-lg p-1 py-2 border-gray-100 items-center flex flex-row "
+      className="border rounded-lg p-1 py-2 border-gray-200 items-center flex flex-row "
     >
       <Checkbox
         value={values?.includes(items?.value)}
         onValueChange={() => handleCheckedChange(items?.value)}
         className="rounded-md w-5 h-5 mr-1 ml-1"
-        color={values && values.includes(items?.value) ? Colors.primary : Colors.gray2}
+        color={values && values.includes(items?.value) ? Colors.primary : Colors.grey}
       />
       <Text className="text-md font-[700] text-gray-600 px-2">
         {label}

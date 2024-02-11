@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import APIQueryClient from "@/api/adminQueryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "react-native-toast-notifications";
-import { Redirect, Slot, SplashScreen } from "expo-router";
+import { Redirect, Slot, SplashScreen, router } from "expo-router";
 import { Text, View } from "react-native";
 
 import AuthUserProvider, {
@@ -14,13 +14,6 @@ export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router";
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "/(main)",
-};
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,7 +27,7 @@ export default function App() {
   useEffect(() => {
     if (error) throw error;
   }, [error]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
@@ -43,6 +36,7 @@ export default function App() {
   if (!loaded) {
     return null;
   }
+  
 
   return (
     <QueryClientProvider client={APIQueryClient}>
@@ -56,20 +50,10 @@ export default function App() {
             ),
           }}
         >
-          <RootLayoutNav />
+         <Slot />
         </ToastProvider>
       </AuthUserProvider>
     </QueryClientProvider>
   );
 }
 
-function RootLayoutNav() {
-  const { userFound, userData, userLoading } = useAuthUserContext();
-  useEffect(() => {
-    if (!userFound && userLoading) {
-      <Redirect href="/(main)/(auth)/login" />;
-    }
-  }, [userFound, userLoading]);
-  
-  return <Slot />;
-}
