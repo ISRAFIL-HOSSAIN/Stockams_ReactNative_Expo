@@ -24,8 +24,7 @@ import { useMutation } from "@tanstack/react-query";
 import adminAPI from "@/api/adminAPI";
 import { API } from "@/api/endpoints";
 import { useAuthUserContext } from "@/context/AuthUserProvider";
-import { useCreate } from "@/hooks";
-import usePatchUpdate from "@/hooks/usePatchUpdate";
+import usePatchUpdateProfile from "@/hooks/usePatchUpdateProfile";
 const Page = () => {
   const toast = useToast();
   const router = useRouter();
@@ -40,20 +39,6 @@ const Page = () => {
 
   const { mutateAsync: changePassMutation, isLoading: isChangePassLoading } =
     useMutation((payload) => adminAPI.patch(API.UpdateUser, payload));
-
-  const { mutate: changeProfile, isLoading: isChangeProfile, isError } = usePatchUpdate({
-    isMultiPart: true,
-    endpoint: API.UpdateProfile,
-    onSuccess: ()=> {
-      userRefetch()
-    },
-
-
-  });
-
-  if(isError){
-    console.log("Profile Uploade Failed")
-  }
 
   const handleSubmit = async (
     values: any,
@@ -84,6 +69,28 @@ const Page = () => {
       }
     })();
   }, []);
+  
+  const { mutate: changeProfile } = usePatchUpdateProfile({
+    isMultiPart: true,
+    endpoint: API.UpdateProfile,
+    onSuccess: () => {
+      userRefetch();
+      toast.show("Profile updated successfully!", { type: "success" });
+    },
+    onError: (error) => {
+      console.error("Failed to update profile:", error);
+      toast.show("Something went wrong while updating the profile.", { type: "danger" });
+    },
+  });
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        alert("Sorry, we need media library permissions to make this work.");
+      }
+    })();
+  }, []);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -91,21 +98,28 @@ const Page = () => {
       allowsEditing: true,
       quality: 1,
     });
-
+  
     if (!result.canceled) {
-      //setImage(result.assets[0].uri);
-      uploadImage(result.assets[0].uri);
+      if (result.assets && result.assets.length > 0) {
+        const uri = result.assets[0].uri; 
+        uploadImage(uri);
+      } else {
+        console.error("No assets found in the result object");
+      }
     }
   };
 
-  const uploadImage = async (uri: string) => {
+  const uploadImage = async (uri: any) => {
     try {
-       changeProfile(uri)
+      await changeProfile({ profilePicture: uri }); 
       console.log("Image uploaded successfully:", uri);
     } catch (error) {
       console.error("Error uploading image:", error);
+      toast.show("Something went wrong while uploading the image.", { type: "danger" });
     }
   };
+
+  
 
   return (
     <CommonLayout>
