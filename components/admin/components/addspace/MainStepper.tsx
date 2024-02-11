@@ -48,7 +48,7 @@ const MainStepper = () => {
   };
 
   const {
-    mutate: spaceCreate,
+    mutateAsync: spaceCreate,
     isLoading: spaceIsLoading,
     isSuccess,
     isError,
@@ -80,7 +80,41 @@ const MainStepper = () => {
     }
 
     try {
-      await spaceCreate(data); // Trigger the mutation with form data
+      const payload = new FormData();
+      payload.append("name", data.name);
+      payload.append("description", data.description);
+      payload.append("location", data.location);
+      payload.append("area", data.area);
+      payload.append("height", data.height);
+      payload.append("pricePerMonth", data.pricePerMonth);
+      payload.append("minimumBookingDays", data.minimumBookingDays);
+      payload.append("type", data.type);
+      payload.append("accessMethod", data.accessMethod);
+      
+      data?.spaceImages?.forEach((image:any) => {
+        console.log("Type of image", typeof image)
+        payload.append("spaceImages", image);
+      });
+  
+      data?.storageConditions?.forEach((item:any) => {
+        payload.append("storageConditions", item);
+      });
+  
+      data?.unloadingMovings?.forEach((item:any) => {
+        payload.append("unloadingMovings", item);
+      });
+  
+      data?.spaceSecurities?.forEach((item:any) => {
+        payload.append("spaceSecurities", item);
+      });
+  
+      data?.spaceSchedules?.forEach((item:any) => {
+        payload.append("spaceSchedules", item);
+      });
+      
+      
+      await spaceCreate(payload); // Trigger the mutation with form data
+      
       if (isSuccess) {
         // Handle successful creation, e.g., clear form, show success message
         console.log("Successfully created");

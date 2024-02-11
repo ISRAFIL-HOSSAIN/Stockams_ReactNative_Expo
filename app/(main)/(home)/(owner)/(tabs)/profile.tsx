@@ -41,7 +41,7 @@ const profile = () => {
         </Link>
       </View>
       <TouchableOpacity onPress={() => handleUserLogout()} className="mb-5 px-5">
-        <View className="w-[330px] bg-white shadow-md shadow-black rounded-xl px-5 py-4 flex flex-row justify-between">
+        <View className="w-[330px] bg-white shadow-md shadow-gray-700 rounded-xl px-5 py-4 flex flex-row justify-between">
           <Text className="text-[16px] font-medium">LogOut</Text>
           <AntDesign name="logout" size={20} color={Colors.primary} />
         </View>
