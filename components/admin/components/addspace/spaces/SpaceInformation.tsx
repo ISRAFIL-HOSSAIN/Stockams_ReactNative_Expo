@@ -113,6 +113,7 @@ const SpaceInformation: React.FC<CustomInputProps> = ({
                 INDICATE THE SIZE OF YOUR SPACE
               </Text>
               <CustomInput
+                
                 placeholder="Type here"
                 label="Area"
                 error={errors.area}

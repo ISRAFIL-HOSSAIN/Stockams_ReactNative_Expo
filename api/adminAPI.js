@@ -75,11 +75,11 @@ adminAPI.interceptors.response.use(undefined, async (error) => {
         })
         .then(async ({ data = {} }) => {
           await setAccessToken(data?.data?.accessToken);
-          await processRequestQueue(data?.data?.accessToken);
+           processRequestQueue(data?.data?.accessToken);
         })
         .catch(async () => {
           await removeTokens();
-          await processRequestQueue(false);
+           processRequestQueue(false);
           adminAPI.adminQueryClient.resetQueries();
         })
         .finally(() => {

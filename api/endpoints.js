@@ -22,7 +22,7 @@ export const API ={
     GetSingleSpaceType : '/api/SpaceType/GetById/{DocId}', //get 
     UpdateSpaceType : '/api/SpaceType/UpdateById/{DocId}', //patch 
     DeleteSpaceType : '/api/SpaceType/DeleteById/{DocId}', //delete
-    GetAllDropdownSpaceType:'/api/SpaceType/GetAllDropdown', // get all dropdown
+    GetAllDropdownSpaceType:'/api/SpaceType/GetAllForDropdown', // get all dropdown
 
     //SpaceAccess Option 
     SpaceAccessCreate : '/api/SpaceAccessMethod/Create', //post 

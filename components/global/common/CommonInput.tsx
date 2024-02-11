@@ -176,10 +176,10 @@ const CustomInput: React.ForwardRefRenderFunction<
               keyboardAppearance="dark"
               returnKeyType="go"
               returnKeyLabel="go"
-              placeholder={placeholder}
-              ref={ref}
-              value={value}
-              onChangeText={handleChangeText}
+              // placeholder={placeholder}
+              // ref={ref}
+              // value={value}
+              // onChangeText={handleChangeText}
               keyboardType="numeric"
             />
           )}

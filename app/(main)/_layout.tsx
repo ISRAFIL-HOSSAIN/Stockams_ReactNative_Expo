@@ -7,26 +7,16 @@ import CommonProgress from "./(home)/(modals)/commonLoader";
 // SplashScreen.preventAutoHideAsync();
 
 export default function AppLayout() {
-  const { userFound, userLoading,userRole } = useAuthUserContext();
+  const { userFound, userLoading, userRole } = useAuthUserContext();
 
   if (userLoading) {
     return <CommonProgress />;
   }
 
-
   if (!userFound && !userLoading) {
-    router.replace("/(main)/(auth)/login")
+    router.replace("/(main)/(auth)/login");
   }
-  useEffect(() => {
-    if (userRole === "RENTER") {
-      router.replace("/(main)/(home)/(rental)/(tabs)");
-    } else if (userRole === "OWNER") {
-      router.replace("/(main)/(home)/(owner)/(tabs)");
-    } else {
-      router.replace("/(main)/(auth)/login");
-    }
-  }, [userRole]);
-  
+
   if (!userFound && userLoading) {
     return null;
   }
@@ -39,6 +29,17 @@ export default function AppLayout() {
 }
 
 function AppLayoutNav() {
+  const { userRole } = useAuthUserContext();
+  useEffect(() => {
+    if (userRole === "RENTER") {
+      router.replace("/(main)/(home)/(rental)/(tabs)");
+    } else if (userRole === "OWNER") {
+      router.replace("/(main)/(home)/(owner)/(tabs)");
+    } else {
+      router.replace("/(main)/(auth)/login");
+    }
+  }, [userRole]);
+  
   return (
     <>
       <Stack
