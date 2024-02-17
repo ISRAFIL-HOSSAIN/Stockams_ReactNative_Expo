@@ -10,7 +10,6 @@ import { useAuthUserContext } from "@/context/AuthUserProvider";
 
 const TabsLayout = () => {
   const { userFound, userLoading, userData } = useAuthUserContext();
-  console.log("User Data ", userData);
   return (
     <>
       <Tabs

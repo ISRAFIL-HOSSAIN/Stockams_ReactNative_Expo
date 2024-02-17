@@ -47,7 +47,12 @@ const SpaceInformation: React.FC<CustomInputProps> = ({
       area: convertNumber(values?.area),
       height: convertNumber(values?.height),
     }
-    await setFormData({ ...data, ...payload });
+  
+    await setFormData((prevFormData: any) => ({
+      ...prevFormData,
+      ...payload,
+    }));
+    console.log('object :>> ', data);
     onSubmit();
   };
 
@@ -58,7 +63,7 @@ const SpaceInformation: React.FC<CustomInputProps> = ({
         type: data?.type || "",
         area: data?.area || "",
         height: data?.height || "",
-        pricePerMonth: data?.pricePerMonth || "",
+        showpricePerMonth: data?.pricePerMonth || "",
         accessMethod: data?.accessMethod || "",
         location: data?.location || "",
         description: data?.description || "",
@@ -144,7 +149,7 @@ const SpaceInformation: React.FC<CustomInputProps> = ({
                   PRICE{" "}
                 </Text>
                 <Text className="text-sm text-center font-medium text-gray-800 px-2">
-                  ${values?.pricePerMonth}
+                  ${values?.showpricePerMonth}
                 </Text>
                 <Text className="text-sm text-center font-medium text-gray-300">
                   PER M

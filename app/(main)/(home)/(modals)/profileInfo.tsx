@@ -1,16 +1,9 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  BackHandler,
-  Alert,
-} from "react-native";
+import { StyleSheet, Text, View, Image, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import CommonLayout from "@/components/layout/CommonLayout";
 import { ScrollView } from "react-native-gesture-handler";
 import BackHeader from "@/components/global/header/BackHeader";
-import { Stack, router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import CustomInput from "@/components/global/common/CommonInput";
 import * as ImagePicker from "expo-image-picker";
 import Colors from "@/constants/Colors";
@@ -24,37 +17,45 @@ import { useMutation } from "@tanstack/react-query";
 import adminAPI from "@/api/adminAPI";
 import { API } from "@/api/endpoints";
 import { useAuthUserContext } from "@/context/AuthUserProvider";
-import { useCreate } from "@/hooks";
 import usePatchUpdate from "@/hooks/usePatchUpdate";
+import { getImageFileData } from "@/utils/getFileType";
+
 const Page = () => {
   const toast = useToast();
   const router = useRouter();
   const [isEditable, setIsEditable] = useState(false);
-  const { userData, userRefetch } = useAuthUserContext();
-  const [image, setImage] = useState<string | null>(
-    userData?.profilePicture || null
-  );
+  const { userData, userRefetch, userLoading } = useAuthUserContext();
+
+  //For Editable icon ...
   const handleEdit = () => {
     setIsEditable(!isEditable);
   };
 
+  // Mutation for Change Password ...
   const { mutateAsync: changePassMutation, isLoading: isChangePassLoading } =
     useMutation((payload) => adminAPI.patch(API.UpdateUser, payload));
 
-  const { mutate: changeProfile, isLoading: isChangeProfile, isError } = usePatchUpdate({
+  // Mutation for Profile Picture changes ...
+  const {
+    mutateAsync: changeProfile,
+    isLoading: changeProfileLoading,
+    isError,
+  } = usePatchUpdate({
     isMultiPart: true,
     endpoint: API.UpdateProfile,
-    onSuccess: ()=> {
-      userRefetch()
+
+    onSuccess: () => {
+      toast.show("Profile Update Successfully ! 👋", { type: "success" });
     },
 
-
+    onError: () => console.error("Error creating data:"),
   });
 
-  if(isError){
-    console.log("Profile Uploade Failed")
+  if (isError) {
+    console.log("Profile Uploade Failed");
   }
 
+  // For Change Personal Info Submit
   const handleSubmit = async (
     values: any,
     { setSubmitting, setErrors }: { setSubmitting: any; setErrors: any }
@@ -75,6 +76,7 @@ const Page = () => {
       setErrors(err);
     }
   };
+
   useEffect(() => {
     (async () => {
       const { status } =
@@ -90,6 +92,7 @@ const Page = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 1,
+      aspect: [5, 6],
     });
 
     if (!result.canceled) {
@@ -98,10 +101,20 @@ const Page = () => {
     }
   };
 
-  const uploadImage = async (uri: string) => {
+  const uploadImage = async (uri: any) => {
     try {
-       changeProfile(uri)
-      console.log("Image uploaded successfully:", uri);
+      const { type, name, size } = await getImageFileData(uri);
+
+      let payload = new FormData();
+      payload?.append("profilePicture", {
+        uri: uri,
+        type: type,
+        name: name,
+        size: size,
+      });
+
+      // Assuming changeProfile function takes the blob as parameter
+      const submitresponse = await changeProfile(payload);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -127,10 +140,17 @@ const Page = () => {
         </View>
         <View className="items-center">
           <View className="w-[92%] h-44 items-center justify-center bg-white rounded-3xl shadow">
-            {image ? (
+            {(changeProfileLoading || userLoading) && (
+              <View className="z-50 blur-xl w-[100%] flex flex-col justify-center items-center shadow-lg border-rounded rounded-3xl h-44 bg-gray-100 ">
+                <ActivityIndicator size={30} color={"blue"} />
+              </View>
+            )}
+
+            {userData?.profilePicture ? (
               <Image
-                className="w-full h-full  absolute rounded-3xl"
-                source={{ uri: image }}
+                className="w-full h-full  absolute rounded-3xl "
+                source={{ uri: userData?.profilePicture }}
+                resizeMode="cover"
               />
             ) : (
               <Image
@@ -279,5 +299,3 @@ const Page = () => {
 };
 
 export default Page;
-
-const styles = StyleSheet.create({});

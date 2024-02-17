@@ -103,11 +103,12 @@ const CustomInput: React.ForwardRefRenderFunction<
   const handleChangeDropdown = (itemValue: string) => {
     if (isDropdownChangeAnotherField) {
       const selectedOption = options?.find(
-        (item: any) => item?.name === itemValue
+        (item: any) => item?.value === itemValue
       );
+      
       if (selectedOption) {
         setFieldValue(
-          "pricePerMonth",
+          "showpricePerMonth",
           convertNumber(selectedOption?.pricePerMonth)
         );
       }

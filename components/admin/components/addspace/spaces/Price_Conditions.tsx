@@ -1,5 +1,5 @@
-import {  Text, View, ScrollView } from "react-native";
-import React from "react";
+import { Text, View, ScrollView } from "react-native";
+import React, { useState } from "react";
 import CustomInput from "@/components/global/common/CommonInput";
 
 import Colors from "@/constants/Colors";
@@ -13,8 +13,8 @@ interface CustomInputProps {
   onSubmit?: any;
   prevStep?: any;
   data?: any;
-  setFormData?:any;
-  isLoading?:any;
+  setFormData?: any;
+  isLoading?: any;
 }
 
 const Price_Conditions: React.FC<CustomInputProps> = ({
@@ -24,24 +24,33 @@ const Price_Conditions: React.FC<CustomInputProps> = ({
   setFormData,
   isLoading,
 }) => {
+  const [isSubmit, setIsSubmit] = useState(false);
+
   const handleSubmit = async (values: any) => {
-    console.log("Values : ", values);
-    const payload = {
-      ...values,
-      minimumBookingDays: convertNumber(values?.minimumBookingDays),
-      pricePerMonth: convertNumber(values?.pricePerMonth),
+    try {
+      setIsSubmit(!isSubmit);
+      
+      const payload = {
+        ...values, 
+        pricePerMonth:convertNumber(values?.pricePerMonth),
+        minimumBookingDays:convertNumber(values?.minimumBookingDays)
+      }
+      await setFormData((prevFormData: any) => ({
+        ...prevFormData,
+        ...payload,
+      }));
+
+    } catch (error) {
+      setIsSubmit(false);
+      console.log(error);
     }
-    await setFormData({...data,...payload})
-    console.log("Submitted Data : ", data);
-    
-    await onSubmit(data);
   };
 
   return (
     <Formik
       initialValues={{
-        minimumBookingDays: data?.minimumBookingDays || "",
-        pricePerMonth: data?.pricePerMonth || "",
+        minimumBookingDays: convertNumber(data?.minimumBookingDays) || "",
+        pricePerMonth: convertNumber(data?.pricePerMonth) || "",
         spaceSchedules: data?.spaceSchedules || [],
         storageConditions: data?.storageConditions || [],
         spaceSecurities: data?.spaceSecurities || [],
@@ -83,6 +92,7 @@ const Price_Conditions: React.FC<CustomInputProps> = ({
                 touched={touched.minimumBookingDays}
                 onChangeText={handleChange("minimumBookingDays")}
                 value={values.minimumBookingDays}
+                values={values}
                 type="dropdown"
                 options={options}
               />
@@ -123,21 +133,37 @@ const Price_Conditions: React.FC<CustomInputProps> = ({
                   size={120}
                   text={"Prev"}
                   height={40}
-                  onPress={() => prevStep()}
+                  onPress={() => {
+                    prevStep();
+                    setIsSubmit(false);
+                  }}
                   showIcon={true}
                   icon={"arrow-back-circle-sharp"}
-              
                 />
-                <CustomButton
-                  bg={Colors.primary}
-                  size={120}
-                  text={"Submit"}
-                  height={40}
-                  onPress={() => handleSubmit()}
-                  showIcon={false}
-                  isLoading={isLoading}
-                  disabled={isLoading}
-                />
+                {!isSubmit && (
+                  <CustomButton
+                    bg={Colors.primary}
+                    size={120}
+                    text={"Next"}
+                    height={40}
+                    onPress={() => handleSubmit()}
+                    showIcon={false}
+                    disabled={isLoading}
+                  />
+                )}
+
+                {isSubmit && (
+                  <CustomButton
+                    bg={Colors.primary}
+                    size={120}
+                    text={"Submit"}
+                    height={40}
+                    onPress={() => onSubmit()}
+                    showIcon={false}
+                    isLoading={isLoading}
+                    disabled={isLoading}
+                  />
+                )}
               </View>
             </View>
           </ScrollView>

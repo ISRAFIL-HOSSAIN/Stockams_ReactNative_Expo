@@ -8,6 +8,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import CustomButton from "@/components/global/common/ui/Button";
 import Colors from "@/constants/Colors";
+import { getImageFileData } from "@/utils/getFileType";
 
 interface CustomInputProps {
   onSubmit?: any;
@@ -22,17 +23,16 @@ const AddImages: React.FC<CustomInputProps> = ({
   data,
   setFormData,
 }) => {
-  const [spaceImages, setSpaceImages] = useState<string[]>(
-    data?.spaceImages || []
-  );
+  // const [imagelist, setSpaceImages] = useState<any>([]); // State to store both URI and file type
   const [isError, setIsError] = useState(false);
   const [msgerror, setMsgError] = useState("");
+  console.log("Data images : ", data?.spaceImages)
 
   useEffect(() => {
-    if (spaceImages.length <= 0) {
+    if (data?.spaceImages?.length <= 0) {
       setIsError(true);
       setMsgError("* You must select at least one space image");
-    } else if (spaceImages.length > 5) {
+    } else if (data?.spaceImages?.length > 5) {
       setIsError(true);
       setMsgError(
         "* Maximum number of spaceImages is reached. You can select maximum 5 images."
@@ -41,28 +41,25 @@ const AddImages: React.FC<CustomInputProps> = ({
       setIsError(false);
       setMsgError("");
     }
-  }, [spaceImages]);
+  }, [data?.spaceImages]);
 
   const handleSubmit = async () => {
-   
-    if (spaceImages.length <= 0) {
+    if (data?.spaceImages?.length <= 0) {
       setIsError(true);
       setMsgError("* You must select at least one space image");
     } else {
-      await setFormData((prevFormData: any) => ({
-        ...prevFormData,
-        spaceImages: [...prevFormData.spaceImages, ...spaceImages],
-      }));
+      
       onSubmit();
+     
     }
   };
 
   const pickImage = async () => {
-    if (spaceImages.length === 5) {
+    if (data?.spaceImages?.length === 5) {
       return;
     }
 
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [5, 6],
@@ -70,13 +67,20 @@ const AddImages: React.FC<CustomInputProps> = ({
     });
 
     if (!result.canceled) {
-      setSpaceImages((prevImages) => [...prevImages, result.assets[0].uri]);
+      const uri = result?.assets[0]?.uri;
+
+      setFormData((prevFormData: any) => ({
+        ...prevFormData,
+        spaceImages: [...prevFormData.spaceImages, uri],
+      }));
     }
   };
 
   const removeImage = (index: number) => {
-    const updatedSpaceImages = spaceImages.filter((_, i) => i !== index);
-    setSpaceImages(updatedSpaceImages);
+    const updatedSpaceImages = data?.spaceImages.filter(
+      (_: any, i: any) => i !== index
+    );
+    setFormData("spaceImages", updatedSpaceImages);
   };
 
   return (
@@ -100,14 +104,15 @@ const AddImages: React.FC<CustomInputProps> = ({
         </TouchableOpacity>
 
         <FlatList
-          data={spaceImages}
+          data={data?.spaceImages}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
             <View className="rounded-lg relative my-3 w-full mt-2 px-2">
               <Image
                 source={{ uri: item }}
-                style={{ width: 300, height: 220 }}
+                style={{ width: 300, height: 250 }}
                 className="rounded-lg"
+                resizeMode="cover"
               />
 
               <View className="absolute top-2 right-4">
