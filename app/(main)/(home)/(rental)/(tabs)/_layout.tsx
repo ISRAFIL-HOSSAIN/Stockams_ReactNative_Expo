@@ -64,9 +64,11 @@ const TabsLayout = () => {
                   name="search"
                   size={30}
                   color={Colors.black}
+                  
                 />
               </View>
             ),
+            header : ()=> null,
           }}
         />
         <Tabs.Screen

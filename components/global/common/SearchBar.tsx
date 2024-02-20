@@ -3,8 +3,8 @@ import React, { useState, FC } from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';// Replace 'your-icon-library' with the actual library you're using for icons
 
 interface SearchBarProps {
-  onSearch: (query: string) => void;
-  text:string;
+  onSearch: (query: any) => void;
+  text?:any;
 }
 
 const SearchBar: FC<SearchBarProps> = ({ onSearch, text }) => {
