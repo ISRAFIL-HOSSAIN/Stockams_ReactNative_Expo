@@ -1,5 +1,5 @@
 import { Text, View, ScrollView, ActivityIndicator } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import CustomInput from "@/components/global/common/CommonInput";
 
 import { API } from "@/api/endpoints";
@@ -10,6 +10,7 @@ import convertNumber from "@/utils/commonFunction";
 import CustomButton from "@/components/global/common/ui/Button";
 import Colors from "@/constants/Colors";
 import { addSpaceValidation } from "@/validation/space/addSpaceValidation";
+import Location from "@/components/global/common/Location";
 
 interface CustomInputProps {
   onSubmit?: any;
@@ -22,6 +23,7 @@ const SpaceInformation: React.FC<CustomInputProps> = ({
   data,
   setFormData,
 }) => {
+  const [locationData, setLocationData] = useState([]); // State to store location results
   const spaceTypeEndpoint = `${API.GetAllDropdownSpaceType}`;
   const spaceAccessEndpoint = `${API.GetAllDropdownAccess}`;
 
@@ -41,18 +43,18 @@ const SpaceInformation: React.FC<CustomInputProps> = ({
     );
   }
 
-  const handleSubmit = async(values: any) => {
+  const handleSubmit = async (values: any) => {
     const payload = {
-      ...values, 
+      ...values,
       area: convertNumber(values?.area),
       height: convertNumber(values?.height),
-    }
-  
+    };
+
     await setFormData((prevFormData: any) => ({
       ...prevFormData,
       ...payload,
     }));
-    console.log('object :>> ', data);
+    console.log("object :>> ", data);
     onSubmit();
   };
 
@@ -123,7 +125,6 @@ const SpaceInformation: React.FC<CustomInputProps> = ({
                 INDICATE THE SIZE OF YOUR SPACE
               </Text>
               <CustomInput
-                
                 placeholder="Input Area"
                 label="Area"
                 error={errors.area}
@@ -188,9 +189,11 @@ const SpaceInformation: React.FC<CustomInputProps> = ({
               touched={touched.location}
               onChangeText={handleChange("location")}
               value={values.location}
-              type="text"
-              rightIcon="location"
+              type="location"
+             
             />
+            
+
             <CustomInput
               placeholder="Type Here"
               label="Description"
