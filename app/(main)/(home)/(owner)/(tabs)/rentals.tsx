@@ -18,6 +18,7 @@ import BookedCard from "@/components/admin/components/BookedCard";
 
 import { API } from "@/api/endpoints";
 import { useGet } from "@/hooks";
+import CommonProgress from "../../(modals)/commonLoader";
 
 const Page = () => {
   const [tab, setTab] = useState("all");
@@ -26,13 +27,16 @@ const Page = () => {
   const {
     data: { data: spaceRentData } = {},
     isLoading: spaceRentLoading = true,
+    refetch:rentRefetch,
   } = useGet({ endpoint: spaceRentEndpoint });
 
   console.log("SpaceRent Data : ", spaceRentData);
+
   if (spaceRentLoading) {
     return (
       <View className="flex h-full flex-col justify-center items-center">
-        <ActivityIndicator size={50} color="#3C09BC" />
+        {/* <ActivityIndicator size={50} color="#3C09BC" /> */}
+        <CommonProgress />
       </View>
     );
   }
@@ -54,7 +58,7 @@ const Page = () => {
               return (
                 // Render the appropriate card based on tab
                 <View className="justify-center items-center">
-                  {tab === "all" && <EditStoreCard rentData={item} />}
+                  {tab === "all" && <EditStoreCard rentData={item} refetch={rentRefetch}/>}
                 </View>
               );
             }}

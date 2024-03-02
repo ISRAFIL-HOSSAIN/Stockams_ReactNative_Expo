@@ -19,6 +19,12 @@ const Location: FC<LocationProps> = ({
     useState<Geolocation.GeoPosition | null>(null);
   const [hasLocationPermission, setHasLocationPermission] =
     useState<boolean>(false);
+    const [mapRegion, setMapRegion] = useState({
+      latitude: 24.842865,
+      longitude: 67.044405,
+      latitudeDelta: 0.1,
+      longitudeDelta: 0.1,
+    });
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
@@ -62,15 +68,16 @@ const Location: FC<LocationProps> = ({
   }, [hasLocationPermission, requestLocation]);
 
   const handleLocationSelection = (data: any, details: any) => {
-    // setFieldValue("location", data.description); // Update the field here
-    onLocationChange(data?.description); // Call the onLocationChange callback
-    console.log(data);
-    console.log(details);
+    onLocationChange(data?.description); // Call the callback
+    const { latitude, longitude } = details?.geometry?.location;
+    if (latitude && longitude) {
+      setMapRegion({ ...mapRegion, latitude, longitude }); // Update map region
+    }
   };
 
   return (
-    <View className="h-full ">
-      <View className=" px-2  w-[320px] h-full">
+    <View className="h-full relative ">
+      <View className=" px-2  w-[320px] absolute top-0 z-10 ">
         <GooglePlacesAutocomplete
           placeholder="Search Location"
           minLength={2}
@@ -79,7 +86,6 @@ const Location: FC<LocationProps> = ({
           listViewDisplayed={false}
           keepResultsAfterBlur={true}
           onPress={(data, details = null) =>{
-            console.log
             handleLocationSelection(data, details)
           }  
           } // Corrected onPress prop
@@ -91,6 +97,7 @@ const Location: FC<LocationProps> = ({
             textInputContainer: {
               backgroundColor: "white",
               marginBottom: 5,
+              borderRadius:10,
             },
             textInput: {
               height: 38,
@@ -105,28 +112,26 @@ const Location: FC<LocationProps> = ({
         />
       </View>
 
-      {/* <View className="h-full">
+      {/* <View className="h-full mt-[55px] rounded-lg ">
           <MapView
             style={{
               width: "100%",
-              height: "100%",
+              height: "90%",
               marginTop: 10,
               borderRadius: 10,
             }}
             provider={PROVIDER_GOOGLE}
-            region={{
-              latitude: 24.842865,
-              longitude: 67.044405,
-              latitudeDelta: 0.1,
-              longitudeDelta: 0.1,
-            }}
+            initialRegion={mapRegion}
           >
-            <Marker
-              coordinate={{
-                latitude: 24.759833,
-                longitude: 67.079526,
-              }}
-            ></Marker>
+            {currentLocation && ( // Conditionally render marker based on current location
+              <Marker
+                coordinate={{
+                  latitude: currentLocation.coords.latitude,
+                  longitude: currentLocation.coords.longitude,
+                }}
+                title="Your Location"
+              />
+            )}
           </MapView>
         </View> */}
     </View>

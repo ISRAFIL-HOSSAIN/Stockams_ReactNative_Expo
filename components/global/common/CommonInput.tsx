@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
-import convertNumber from "@/utils/commonFunction";
+import {convertNumber} from "@/utils/commonFunction";
 import Checkbox from "expo-checkbox";
 import Location from "./Location";
 import PopUpModal from "@/app/(main)/(home)/(modals)/PopUpModal";
@@ -278,9 +278,10 @@ const CustomInput: React.ForwardRefRenderFunction<
                 onChangeText={onLocationChange}
                 editable={isEditable}
                 {...inputProps}
+                className="w-[90%] text-start  text-[14px]  font-medium"
               />
 
-              <TouchableOpacity onPress={handleOpenModal}>
+              <TouchableOpacity onPress={handleOpenModal} className="w-6">
                 <Ionicons name="location" color={validationColor} size={23} />
               </TouchableOpacity>
               {isModalVisible && (

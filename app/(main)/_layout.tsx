@@ -3,19 +3,19 @@ import { useAuthUserContext } from "@/context/AuthUserProvider";
 import { Redirect, Stack, SplashScreen, router } from "expo-router";
 import MainHeader from "@/components/global/header/MainHeader";
 import CommonProgress from "./(home)/(modals)/commonLoader";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // SplashScreen.preventAutoHideAsync();
 
 export default function AppLayout() {
   const { userFound, userLoading, userRole } = useAuthUserContext();
-  
+
   useLayoutEffect(() => {
     if (!userFound && !userLoading) {
       router.replace("/(main)/(auth)/login");
     }
   }, [userFound, userLoading]);
 
-  
   if (userLoading) {
     return <CommonProgress />;
   }
@@ -46,19 +46,21 @@ function AppLayoutNav() {
       router.replace("/(main)/(auth)/login");
     }
   }, [userRole]);
-  
+
   return (
     <>
-      <Stack
-        screenOptions={{
-          header: () => <MainHeader />,
-        }}
-        initialRouteName="(home)"
-      >
-        <Stack.Screen name="(home)" options={{}} />
-        <Stack.Screen name="(auth)/login" options={{}} />
-        <Stack.Screen name="(auth)/signup" options={{}} />
-      </Stack>
+      <SafeAreaProvider>
+        <Stack
+          screenOptions={{
+            header: () => <MainHeader />,
+          }}
+          initialRouteName="(home)"
+        >
+          <Stack.Screen name="(home)" options={{}} />
+          <Stack.Screen name="(auth)/login" options={{}} />
+          <Stack.Screen name="(auth)/signup" options={{}} />
+        </Stack>
+      </SafeAreaProvider>
     </>
   );
 }

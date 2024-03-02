@@ -11,6 +11,7 @@ import space_owner from './space-owner.png';
 import renter from './rental.png';
 import favourite from './favourite.jpg';
 import Loader from './Loader.gif';
+import noimage from './noimage.png'; 
 
 export {
     back,
@@ -26,6 +27,7 @@ export {
     renter,
     favourite,
     Loader,
+    noimage,
     
 
 }
