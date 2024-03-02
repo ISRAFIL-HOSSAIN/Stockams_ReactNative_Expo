@@ -16,9 +16,6 @@ import StoreCard from "@/components/global/Card";
 import EditStoreCard from "@/components/admin/components/EditStoreCard";
 import BookedCard from "@/components/admin/components/BookedCard";
 
-import Colors from "@/constants/Colors";
-import { router } from "expo-router";
-import CustomButton from "@/components/global/common/ui/Button";
 import { API } from "@/api/endpoints";
 import { useGet } from "@/hooks";
 
@@ -48,20 +45,22 @@ const Page = () => {
         }}
       />
       <View style={styles.container}>
-        <FlatList
-          // Key extractor for efficient rendering
-          keyExtractor={(item) => item._id} // Replace with your ID property
-          data={spaceRentData?.data}
-          renderItem={({ item }) => {
-            return (
-              // Render the appropriate card based on tab
-              <View className="justify-center items-center">
-                {tab === "all" && <EditStoreCard rentData={item} />}
-                {tab === "booked" && <BookedCard item={item} />}
-              </View>
-            );
-          }}
-        />
+        {tab === "all" && (
+          <FlatList
+            // Key extractor for efficient rendering
+            keyExtractor={(item) => item._id} // Replace with your ID property
+            data={spaceRentData?.data}
+            renderItem={({ item }) => {
+              return (
+                // Render the appropriate card based on tab
+                <View className="justify-center items-center">
+                  {tab === "all" && <EditStoreCard rentData={item} />}
+                </View>
+              );
+            }}
+          />
+        )}
+        {tab === "booked" && <BookedCard />}
       </View>
 
       {/* <ScrollView className="">

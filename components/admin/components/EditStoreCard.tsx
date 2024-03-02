@@ -83,7 +83,7 @@ const EditStoreCard = ({rentData}:{rentData:any}) => {
         <View className="flex flex-row justify-between">
           <Text className="text-[12px] font-[700]">{data?.accessMethod}</Text>
           <View className="flex flex-row">
-            <Text className="font-bold text-[16px]">$74</Text>
+            <Text className="font-bold text-[16px]">${data?.pricePerMonth}</Text>
             <Text className="text-sm text-gray-500">/month</Text>
           </View>
         </View>

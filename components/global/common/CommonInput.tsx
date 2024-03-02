@@ -1,6 +1,6 @@
 // TextInput, Datepicker, email, password. ...
 
-import React, { ForwardedRef, useState } from "react";
+import React, { ForwardedRef, useState, useRef } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import {
@@ -14,6 +14,8 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import convertNumber from "@/utils/commonFunction";
 import Checkbox from "expo-checkbox";
+import Location from "./Location";
+import PopUpModal from "@/app/(main)/(home)/(modals)/PopUpModal";
 
 interface CustomInputProps {
   passwordIcon?: any;
@@ -47,8 +49,8 @@ interface CustomInputProps {
   values?: any;
   width?: any;
   isDropdownChangeAnotherField?: any;
-  isEditable? : any;
-  border? : any;
+  isEditable?: any;
+  border?: any;
   onChangeText?: (text: string) => void; // optional
   togglePasswordVisibility?: () => void;
   ref?: any;
@@ -88,8 +90,9 @@ const CustomInput: React.ForwardRefRenderFunction<
   ref: ForwardedRef<RNTextInput>
 ) => {
   const validationColor = !touched ? "#223e4b" : error ? "#FF5A5F" : "#223e4b";
-
   const [show, setShow] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [address,setAddress ] = useState(""); 
 
   const handleChangeText = (text: string) => {
     onChangeText?.(text);
@@ -100,14 +103,20 @@ const CustomInput: React.ForwardRefRenderFunction<
     onChangeText?.(currentDate);
   };
 
+  const onLocationChange = (text: any,) => {
+    setIsModalVisible(false);
+    onChangeText?.(address ? address : text);
+  };
+
   const handleChangeDropdown = (itemValue: string) => {
     if (isDropdownChangeAnotherField) {
       const selectedOption = options?.find(
-        (item: any) => item?.name === itemValue
+        (item: any) => item?.value === itemValue
       );
+
       if (selectedOption) {
         setFieldValue(
-          "pricePerMonth",
+          "showpricePerMonth",
           convertNumber(selectedOption?.pricePerMonth)
         );
       }
@@ -120,6 +129,13 @@ const CustomInput: React.ForwardRefRenderFunction<
   };
   const togglePasswordVisibility = () => {
     inputProps.setShowPassword((prevState: any) => !prevState);
+  };
+
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -212,7 +228,7 @@ const CustomInput: React.ForwardRefRenderFunction<
                 editable={isEditable}
                 {...inputProps}
               />
-              {show &&(
+              {show && (
                 <DateTimePicker
                   testID="dateTimePicker"
                   mode={mode}
@@ -244,10 +260,42 @@ const CustomInput: React.ForwardRefRenderFunction<
               ))}
             </Picker>
           )}
-          
+
           {type === "checkbox" && (
             <View>
               <Checkbox />
+            </View>
+          )}
+
+          {type === "location" && (
+            <View className="flex flex-row justify-between ">
+              <RNTextInput
+                underlineColorAndroid="transparent"
+                placeholderTextColor="rgba(34, 62, 75, 0.7)"
+                placeholder={placeholder}
+                ref={ref}
+                value={value}
+                onChangeText={onLocationChange}
+                editable={isEditable}
+                {...inputProps}
+              />
+
+              <TouchableOpacity onPress={handleOpenModal}>
+                <Ionicons name="location" color={validationColor} size={23} />
+              </TouchableOpacity>
+              {isModalVisible && (
+                <PopUpModal
+                  visible={isModalVisible}
+                  onRequestClose={handleCloseModal}
+                >
+                  <View className="w-[320px] pt-4 shadow-lg rounded-xl bg-gray-200" style={{height:"92%"}}>
+                    <Location
+                      values={value} // Adjust based on your data structure
+                      onLocationChange={onLocationChange}
+                    />
+                  </View>
+                </PopUpModal>
+              )}
             </View>
           )}
         </View>

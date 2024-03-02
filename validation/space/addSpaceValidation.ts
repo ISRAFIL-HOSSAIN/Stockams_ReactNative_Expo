@@ -12,9 +12,7 @@ export const addSpaceValidation = Yup.object().shape({
   accessMethod: Yup.string().required("Access Method is required"),
   location: Yup.string().required("Location is required"),
   description: Yup.string().required("Description is required"),
-//   pricePerMonth: Yup.number()
-//     .positive("Price must be a positive number")
-//     .required("Price is required"),
+//  
 
   // spaceSchedules: Yup.array().of(
   //     // Define your schema for each element in the spaceSchedules array
@@ -41,6 +39,9 @@ export const imagesValidation = Yup.object().shape({
 });
 
 export const conditionValidation = Yup.object().shape({
+  pricePerMonth: Yup.number()
+      .positive("Price must be a positive number")
+      .required("Price is required"),
   minimumBookingDays: Yup.number()
     .integer("Minimum Booking Days must be an integer")
     .positive("Minimum Booking Days must be a positive number")

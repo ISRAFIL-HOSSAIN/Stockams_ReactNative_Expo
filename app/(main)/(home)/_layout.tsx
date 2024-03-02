@@ -58,6 +58,15 @@ export default function PageLayout() {
           />
 
           <Stack.Screen
+            name="(modals)/PopUpModal"
+            options={{
+              presentation:"modal",
+              animation: "slide_from_bottom",
+              header: () => null,
+            }}
+          />
+
+          <Stack.Screen
             name="(modals)/commonModal"
             options={{
               presentation: "transparentModal",

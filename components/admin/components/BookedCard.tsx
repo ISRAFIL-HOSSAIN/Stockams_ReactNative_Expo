@@ -36,20 +36,29 @@ const BookedCard = ({ data }: any) => {
           </View>
           <View className="h-[22px] flex flex-row w-[40%] absolute right-0">
             <Image
-              className="w-[22px] h-[22px] left-[36px] rounded-full border-gray-700 border"
+              className="left-[36px] rounded-full border-gray-700 border"
               source={{ uri: "https://via.placeholder.com/22x22" }}
+              style={{height:22, width:22,borderRadius:10}}
+              resizeMode="cover"
+              
             />
             <Image
-              className="w-[22px] h-[22px] rounded-full border-white left-[28px]"
-              source={{ uri: "https://via.placeholder.com/22x22" }}
+               className="left-[36px] rounded-full border-gray-700 border"
+               source={{ uri: "https://via.placeholder.com/22x22" }}
+               style={{height:22, width:22,borderRadius:10}}
+               resizeMode="cover"
             />
             <Image
-              className="w-[22px] h-[22px] rounded-full border-white left-[20px]"
-              source={{ uri: "https://via.placeholder.com/22x22" }}
+               className="left-[36px] rounded-full border-gray-700 border"
+               source={{ uri: "https://via.placeholder.com/22x22" }}
+               style={{height:22, width:22,borderRadius:10}}
+               resizeMode="cover"
             />
             <Image
-              className="w-[22px] h-[22px] rounded-full border-white left-[16px]"
+              className="left-[36px] rounded-full border-gray-700 border"
               source={{ uri: "https://via.placeholder.com/22x22" }}
+              style={{height:22, width:22,borderRadius:10}}
+              resizeMode="cover"
             />
           </View>
         </View>
@@ -79,7 +88,7 @@ const BookedCard = ({ data }: any) => {
           </View>
           <View className="flex flex-col justify-around">
             <Text className="text-slate-400 text-[12px] font-semibold ">
-              Start date
+              End date
             </Text>
             <Text className="text-slate-800 text-[14px] font-bold">
               12 Mar 2023
@@ -87,10 +96,10 @@ const BookedCard = ({ data }: any) => {
           </View>
           <View className="flex flex-col justify-around">
             <Text className="text-slate-400 text-[12px] font-semibold ">
-              Start date
+              Duration
             </Text>
             <Text className="text-slate-800 text-[14px] font-bold">
-              12 Mar 2023
+              2 Months
             </Text>
           </View>
         </View>
