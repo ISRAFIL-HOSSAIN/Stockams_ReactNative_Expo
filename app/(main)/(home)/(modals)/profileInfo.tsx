@@ -19,7 +19,7 @@ import { API } from "@/api/endpoints";
 import { useAuthUserContext } from "@/context/AuthUserProvider";
 import usePatchUpdate from "@/hooks/usePatchUpdate";
 import { getImageFileData } from "@/utils/getFileType";
-import usePatchUpdateProfile from "@/hooks/usePatchUpdateProfile";
+import { formatDate } from "@/utils/formatDate";
 
 const Page = () => {
   const toast = useToast();
@@ -274,7 +274,7 @@ const Page = () => {
                   error={errors.dateOfBirth}
                   touched={touched.dateOfBirth}
                   onChangeText={handleChange("dateOfBirth")}
-                  value={values.dateOfBirth}
+                  value={formatDate(values.dateOfBirth)}
                   type="date"
                   isEditable={isEditable}
                 />

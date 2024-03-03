@@ -67,9 +67,9 @@ export const API ={
     // Space For Rent 
     SpaceForRentCreate : '/api/SpaceForRent/Create', //post 
     GetSpaceForRent : '/api/SpaceForRent/GetAll', //get 
-    GetSingleSpaceForRent: '/api/SpaceForRent/GetById/{DocId}', //get 
-    UpdateSpaceForRent : '/api/SpaceForRent/UpdateById/{DocId}', //update
-    DeleteSpaceForRent: '/api/SpaceForRent/DeleteById/{DocId}', //delete
+    GetSingleSpaceForRent: '/api/SpaceForRent/GetById/', //get 
+    UpdateSpaceForRent : '/api/SpaceForRent/UpdateById/', //update
+    DeleteSpaceForRent: '/api/SpaceForRent/DeleteById/', //delete
     AddSpaceImage : '/api/SpaceForRent/AddSpaceImageById/{DocId}', //post 
     DeleteSpaceImage : '/api/SpaceForRent/DeleteSpaceImageById/{SpaceId}/{ImageId}', //delete 
 
