@@ -87,28 +87,6 @@ const Page = () => {
       }
     })();
   }, []);
-  
-  const { mutate: changeProfile } = usePatchUpdateProfile({
-    isMultiPart: true,
-    endpoint: API.UpdateProfile,
-    onSuccess: () => {
-      userRefetch();
-      toast.show("Profile updated successfully!", { type: "success" });
-    },
-    onError: (error) => {
-      console.error("Failed to update profile:", error);
-      toast.show("Something went wrong while updating the profile.", { type: "danger" });
-    },
-  });
-
-  useEffect(() => {
-    (async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        alert("Sorry, we need media library permissions to make this work.");
-      }
-    })();
-  }, []);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -129,23 +107,23 @@ const Page = () => {
   };
 
   const uploadImage = async (uri: any) => {
-    try {
-      const { type, name, size } = await getImageFileData(uri);
+    // try {
+    //   const { type, name, size } = await getImageFileData(uri);
 
-      let payload = new FormData();
-      payload?.append("profilePicture", {
-        uri: uri,
-        type: type,
-        name: name,
-        size: size,
-      });
+    //   let payload = new FormData();
+    //   payload?.append("profilePicture", {
+    //     uri: uri,
+    //     type: type,
+    //     name: name,
+    //     size: size,
+    //   });
 
-      // Assuming changeProfile function takes the blob as parameter
-      const submitresponse = await changeProfile(payload);
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      toast.show("Something went wrong while uploading the image.", { type: "danger" });
-    }
+    //   // Assuming changeProfile function takes the blob as parameter
+    //   const submitresponse = await changeProfile(payload);
+    // } catch (error) {
+    //   console.error("Error uploading image:", error);
+    //   toast.show("Something went wrong while uploading the image.", { type: "danger" });
+    // }
   };
 
   
